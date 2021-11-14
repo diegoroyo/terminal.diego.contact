@@ -9,7 +9,7 @@ class TerminalApp extends StatelessWidget {
   Widget build(BuildContext context) {
     WidgetsFlutterBinding.ensureInitialized();
     return MaterialApp(
-      title: 'Diego Royo\'s personal website B)',
+      title: 'Diego Royo Meneses',
       initialRoute: '/',
       onGenerateRoute: Routes.getRoute,
       debugShowCheckedModeBanner: false,
