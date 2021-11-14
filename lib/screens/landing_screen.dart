@@ -8,7 +8,6 @@ import 'package:terminal/widgets/floating_window.dart';
 import 'package:terminal/widgets/terminal.dart';
 import 'dart:math';
 
-/// Pantalla de carga inicial con el logo de Miora
 class LandingScreen extends StatefulWidget {
   LandingScreen();
 
@@ -19,28 +18,43 @@ class LandingScreen extends StatefulWidget {
 class _LandingScreenState extends State<LandingScreen> {
   static const HOME_COLOR = Color(0xFF1D1F28);
 
+  Random random = Random();
+
   List<FloatingWindow> windows = [];
-  List<int> windowIndex = [];
+  List<int> windowIndex = []; // z-ordering
 
   @override
   void initState() {
     super.initState();
 
-    openWindow(
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      openWindow(
+        terminal(
+            title: 'About me',
+            initialCommands: ['neofetch', 'head news.txt -n 2']),
+      );
+    });
+  }
+
+  FloatingWindow terminal(
+          {required String title, required List<String> initialCommands}) =>
       FloatingWindow(
           key: GlobalKey(),
-          title: 'About me',
-          width: 600,
-          height: 500,
-          initialPosX: 0,
-          initialPosY: 0,
+          title: title,
+          width: TerminalStyle.IS_VERTICAL ? 350 : 600,
+          height: TerminalStyle.IS_VERTICAL
+              ? (TerminalStyle.IS_MOBILE ? 400 : 500)
+              : 500,
+          initialPosX:
+              TerminalStyle.IS_VERTICAL ? 0 : random.nextInt(300) - 150,
+          initialPosY: TerminalStyle.IS_VERTICAL
+              ? (TerminalStyle.IS_MOBILE ? -120 : 0)
+              : random.nextInt(300) - 150,
           child: Terminal(
-            initialCommands: ['neofetch', 'head news.txt -n 2'],
+            initialCommands: initialCommands,
           ),
           requestFocus: requestFocus,
-          onClosed: closeWindow),
-    );
-  }
+          onClosed: closeWindow);
 
   void requestFocus(FloatingWindow window) {
     var index = windows.indexOf(window);
@@ -89,7 +103,7 @@ class _LandingScreenState extends State<LandingScreen> {
         ),
         child: Column(children: [
           SvgPicture.asset(image, height: 60.0, width: 60.0),
-          Container(height: 5.0),
+          Container(width: 0.0, height: 5.0),
           Text(label,
               style: TerminalStyle.monospaced(
                   fontSize: 16.0, fontWeight: FontWeight.bold))
@@ -101,8 +115,9 @@ class _LandingScreenState extends State<LandingScreen> {
       elevation: 15.0,
       borderRadius: BorderRadius.circular(20.0),
       child: Container(
-          width: 550,
-          height: 300,
+          width: TerminalStyle.IS_VERTICAL ? 330 : 550,
+          height: TerminalStyle.IS_VERTICAL ? 420 : 300,
+          padding: EdgeInsets.all(20.0),
           decoration: BoxDecoration(
               color: HOME_COLOR, borderRadius: BorderRadius.circular(20.0)),
           child: Column(
@@ -117,73 +132,32 @@ class _LandingScreenState extends State<LandingScreen> {
               Container(height: 10.0),
               Text('Welcome!', style: TerminalStyle.monospaced(fontSize: 36.0)),
               Container(height: 20.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+              Wrap(
+                alignment: WrapAlignment.center,
+                spacing: 15.0,
+                runSpacing: 15.0,
                 children: [
                   _buildLaunchButton(
                       image: TerminalAssets.ICON_PROJECTS,
                       label: 'Projects',
-                      onTap: () => setState(() => openWindow(FloatingWindow(
-                          key: GlobalKey(),
+                      onTap: () => setState(() => openWindow(terminal(
                           title: 'Projects',
-                          width: 600,
-                          height: 500,
-                          initialPosX: 0,
-                          initialPosY: 0,
-                          child: Terminal(
-                            initialCommands: [
-                              'cat projects.txt',
-                            ],
-                          ),
-                          requestFocus: requestFocus,
-                          onClosed: closeWindow)))),
+                          initialCommands: ['cat projects.txt'])))),
                   _buildLaunchButton(
                       image: TerminalAssets.ICON_NEWS,
                       label: 'News',
-                      onTap: () => setState(() => openWindow(FloatingWindow(
-                          key: GlobalKey(),
-                          title: 'News',
-                          width: 600,
-                          height: 500,
-                          initialPosX: 0,
-                          initialPosY: 0,
-                          child: Terminal(
-                            initialCommands: [
-                              'cat news.txt',
-                            ],
-                          ),
-                          requestFocus: requestFocus,
-                          onClosed: closeWindow)))),
+                      onTap: () => setState(() => openWindow(terminal(
+                          title: 'News', initialCommands: ['cat news.txt'])))),
                   _buildLaunchButton(
                       image: TerminalAssets.ICON_TERMINAL,
                       label: 'Terminal',
-                      onTap: () => setState(() => openWindow(FloatingWindow(
-                          key: GlobalKey(),
-                          title: 'Terminal',
-                          width: 600,
-                          height: 500,
-                          initialPosX: 0,
-                          initialPosY: 0,
-                          child: Terminal(
-                            initialCommands: [],
-                          ),
-                          requestFocus: requestFocus,
-                          onClosed: closeWindow)))),
+                      onTap: () => setState(() => openWindow(terminal(
+                          title: 'Terminal', initialCommands: ['help'])))),
                   _buildLaunchButton(
                       image: TerminalAssets.ICON_CONTACT,
                       label: 'Contact',
-                      onTap: () => setState(() => openWindow(FloatingWindow(
-                          key: GlobalKey(),
-                          title: 'Contact',
-                          width: 600,
-                          height: 500,
-                          initialPosX: 0,
-                          initialPosY: 0,
-                          child: Terminal(
-                            initialCommands: ['neofetch'],
-                          ),
-                          requestFocus: requestFocus,
-                          onClosed: closeWindow)))),
+                      onTap: () => setState(() => openWindow(terminal(
+                          title: 'Contact', initialCommands: ['neofetch'])))),
                 ],
               )
             ],
@@ -191,6 +165,10 @@ class _LandingScreenState extends State<LandingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // FIXME(diego): IS_VERTICAL is updated in each build. There should be
+    // better ways to do this e.g. didChangeMetrics as seen in
+    // https://github.com/flutter/flutter/issues/56832
+    TerminalStyle.IS_VERTICAL = MediaQuery.of(context).size.aspectRatio < 1;
     return Material(
         type: MaterialType.transparency,
         child: Container(

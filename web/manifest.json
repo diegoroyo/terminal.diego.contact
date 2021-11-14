@@ -1,11 +1,11 @@
 {
-    "name": "Diego Royo - Homepage",
-    "short_name": "Diego Royo - Homepage",
+    "name": "Diego Royo Meneses",
+    "short_name": "Diego Royo Meneses",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "Diego's personal website B)",
+    "description": "ssh diego@terminal",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

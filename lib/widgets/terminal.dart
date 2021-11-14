@@ -5,17 +5,31 @@ import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:terminal/include/cat_files.dart';
 import 'package:terminal/include/style.dart';
+import 'package:terminal/util/first_disabled_focus_node.dart';
+// ignore: avoid_web_libraries_in_flutter
 import 'dart:html' as html;
+import 'dart:collection' show Queue;
+
+import 'package:terminal/util/scroll_behavior_no_glow.dart';
 
 /// Prompt ///
+
+class ArrowUpIntent extends Intent {
+  const ArrowUpIntent();
+}
+
+class ArrowDownIntent extends Intent {
+  const ArrowDownIntent();
+}
 
 class CommandPrompt extends StatefulWidget {
   final String text;
   final void Function(String) onSubmit;
-  final FocusNode _focusNode;
+  final FocusNode _textFocusNode;
+  final String? Function(int) requestCommandHistory;
 
   void focus() {
-    _focusNode.requestFocus();
+    _textFocusNode.requestFocus();
   }
 
   /// note: initial value, current value is stored in the state
@@ -25,8 +39,10 @@ class CommandPrompt extends StatefulWidget {
       {Key? key,
       required this.text,
       required this.onSubmit,
+      required this.requestCommandHistory,
       this.active = true})
-      : _focusNode = FocusNode(),
+      : _textFocusNode =
+            TerminalStyle.IS_MOBILE ? FirstDisabledFocusNode() : FocusNode(),
         super(key: key);
 
   @override
@@ -37,16 +53,23 @@ class CommandPrompt extends StatefulWidget {
 class _CommandPromptState extends State<CommandPrompt> {
   bool active;
   TextEditingController textController;
+  Queue<String> lastCommandsQueue;
 
   _CommandPromptState({required this.active, required String text})
-      : textController = TextEditingController(text: text);
+      : textController = TextEditingController(text: text),
+        lastCommandsQueue = Queue();
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance!.addPostFrameCallback((_) {
-      FocusScope.of(context).requestFocus(widget._focusNode);
+      FocusScope.of(context).requestFocus(widget._textFocusNode);
     });
+  }
+
+  void onSubmitted(String result) {
+    setState(() => active = false);
+    widget.onSubmit(textController.text);
   }
 
   @override
@@ -55,30 +78,73 @@ class _CommandPromptState extends State<CommandPrompt> {
       Text('~\$', style: TerminalStyle.monospaced()),
       Container(width: 5.0),
       Expanded(
-          child: TextField(
-        autocorrect: false,
-        style: TerminalStyle.monospaced(),
-        keyboardType: TextInputType.text,
-        focusNode: widget._focusNode,
-        readOnly: !active,
-        controller: textController,
-        maxLines: 1,
-        maxLength: 40,
-        enabled: active,
-        onSubmitted: (String text) {
-          setState(() => active = false);
-          widget.onSubmit(text);
-        },
-        maxLengthEnforcement: MaxLengthEnforcement.enforced,
-        cursorColor: Colors.white60,
-        showCursor: true,
-        cursorWidth: 8.0,
-        decoration: InputDecoration(
-            border: InputBorder.none,
-            isDense: true,
-            contentPadding: EdgeInsets.symmetric(vertical: 5.0),
-            counterText: ''),
-      ))
+          child: Shortcuts(
+              shortcuts: <ShortcutActivator, Intent>{
+            SingleActivator(LogicalKeyboardKey.arrowUp): ArrowUpIntent(),
+            SingleActivator(LogicalKeyboardKey.arrowDown): ArrowDownIntent(),
+          },
+              child: Actions(
+                  actions: <Type, Action<Intent>>{
+                    ArrowUpIntent: CallbackAction<ArrowUpIntent>(onInvoke: (_) {
+                      int idToRequest = lastCommandsQueue.length;
+                      String? replaceCommand =
+                          widget.requestCommandHistory(idToRequest);
+                      if (replaceCommand == null) {
+                        // we have reached the history limit, no more commands
+                        return;
+                      }
+                      if (idToRequest > 0) {
+                        // we need to request an old command already inputted
+                        // user could have edited textController, ask history
+                        // for a clean version
+                        lastCommandsQueue.addLast(
+                            widget.requestCommandHistory(idToRequest - 1)!);
+                      } else {
+                        // we store whatever the user has written,
+                        // an incomplete command
+                        lastCommandsQueue.addLast(textController.text);
+                      }
+                      setState(() {
+                        textController.text = replaceCommand;
+                        textController.selection = TextSelection.fromPosition(
+                            TextPosition(offset: textController.text.length));
+                      });
+                    }),
+                    ArrowDownIntent:
+                        CallbackAction<ArrowDownIntent>(onInvoke: (_) {
+                      if (lastCommandsQueue.isNotEmpty) {
+                        String lastCommand = lastCommandsQueue.removeLast();
+                        setState(() {
+                          textController.text = lastCommand;
+                          textController.selection = TextSelection.fromPosition(
+                              TextPosition(offset: textController.text.length));
+                        });
+                      }
+                    }),
+                  },
+                  child: TextField(
+                    enableSuggestions: false,
+                    autocorrect: false,
+                    style: TerminalStyle.monospaced(),
+                    keyboardType: TextInputType.emailAddress,
+                    focusNode: widget._textFocusNode,
+                    readOnly: !active,
+                    controller: textController,
+                    maxLines: 1,
+                    maxLength: 40,
+                    enabled: active,
+                    textInputAction: TextInputAction.done,
+                    maxLengthEnforcement: MaxLengthEnforcement.enforced,
+                    cursorColor: Colors.white60,
+                    onSubmitted: onSubmitted,
+                    showCursor: true,
+                    cursorWidth: 8.0,
+                    decoration: InputDecoration(
+                        border: InputBorder.none,
+                        isDense: true,
+                        contentPadding: EdgeInsets.symmetric(vertical: 5.0),
+                        counterText: ''),
+                  ))))
     ]);
   }
 }
@@ -131,22 +197,24 @@ abstract class Command extends StatefulWidget {
   const Command._({Key? key, required this.args}) : super(key: key);
 }
 
-class LsCommand extends Command {
-  const LsCommand._({Key? key, required List<String> args})
+class TextCommand extends Command {
+  final String text;
+
+  const TextCommand._(
+      {Key? key, required List<String> args, required this.text})
       : super._(key: key, args: args);
 
-  static LsCommand create(List<String> args) => LsCommand._(args: args);
+  static TextCommand create(List<String> args, {required String text}) =>
+      TextCommand._(args: args, text: text);
 
   @override
-  _LsCommandState createState() => _LsCommandState();
+  _TextCommandState createState() => _TextCommandState();
 }
 
-class _LsCommandState extends State<LsCommand> {
+class _TextCommandState extends State<TextCommand> {
   @override
   Widget build(BuildContext context) {
-    List<String> filenames = CatFiles.FILENAME_MAPS.keys.toList();
-    filenames.sort();
-    return Text(filenames.join('  '), style: TerminalStyle.monospaced());
+    return Text(widget.text, style: TerminalStyle.monospaced());
   }
 }
 
@@ -241,11 +309,21 @@ class _CatCommandState extends State<CatCommand> {
 
 class Terminal extends StatefulWidget {
   // ignore: non_constant_identifier_names
-  static final Map<String, Command Function(List<String>)> _COMMAND_MAP = {
-    'ls': (args) => LsCommand.create(args),
+  static final Map<String, Command Function(List<String>)> COMMAND_MAP = {
+    'ls': (args) {
+      List<String> filenames = CatFiles.FILENAME_MAPS.keys.toList();
+      filenames.sort();
+      return TextCommand.create(args, text: filenames.join('  '));
+    },
     'cat': (args) => CatCommand.create(args),
     'neofetch': (args) => CatCommand.create(['cat', 'neofetch.txt']),
     'head': (args) => CatCommand.create(args),
+    'help': (args) {
+      List<String> commands = Terminal.COMMAND_MAP.keys.toList();
+      commands.sort();
+      return TextCommand.create(args,
+          text: 'available commands: ${commands.join("  ")}');
+    }
   };
   final List<String>? initialCommands;
 
@@ -257,10 +335,13 @@ class Terminal extends StatefulWidget {
 
 class _TerminalState extends State<Terminal> {
   List<Widget>? _widgets;
+  Queue<String> commandHistory;
   int _knownWidgets = 0;
   ScrollController _scrollController;
 
-  _TerminalState() : _scrollController = ScrollController();
+  _TerminalState()
+      : commandHistory = Queue(),
+        _scrollController = ScrollController();
 
   void _addWidget(Widget widget) {
     setState(() => _widgets!.add(widget));
@@ -273,6 +354,9 @@ class _TerminalState extends State<Terminal> {
           _addCommandResult(result);
           _addCommandPrompt();
         },
+        requestCommandHistory: (index) => index < commandHistory.length
+            ? commandHistory.elementAt(index)
+            : null,
         active: command == null);
     _addWidget(prompt);
     if (command != null) {
@@ -281,15 +365,16 @@ class _TerminalState extends State<Terminal> {
   }
 
   void _addCommandResult(String command) {
+    commandHistory.addFirst(command);
     command = command.replaceAll(' +', ' ').trim().toLowerCase();
     var arguments = command.split(' ');
     var firstArg = arguments.first;
-    if (arguments.length > 0 && Terminal._COMMAND_MAP.containsKey(firstArg)) {
-      var commandCreate = Terminal._COMMAND_MAP[firstArg]!;
+    if (arguments.length > 0 && Terminal.COMMAND_MAP.containsKey(firstArg)) {
+      var commandCreate = Terminal.COMMAND_MAP[firstArg]!;
       _addWidget(commandCreate(arguments));
     } else if (firstArg.isNotEmpty) {
       setState(() => _widgets!.add(Text(
-          'terminal: $firstArg: command not found',
+          'terminal: $firstArg: command not found, type \'help\' to see available commands',
           style: TerminalStyle.monospaced())));
     }
   }
@@ -338,19 +423,21 @@ class _TerminalState extends State<Terminal> {
                 child: ScrollConfiguration(
                     behavior: ScrollConfiguration.of(context)
                         .copyWith(scrollbars: false),
-                    child: SingleChildScrollView(
-                      clipBehavior: Clip.none,
-                      // reverse: true,
-                      padding: EdgeInsets.only(left: 5.0, right: 15.0),
-                      controller: _scrollController,
-                      dragStartBehavior: DragStartBehavior.down,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: (_widgets ?? [])
-                            .map((e) =>
-                                SizedBox(width: double.infinity, child: e))
-                            .toList(),
-                      ),
-                    )))));
+                    child: ScrollConfiguration(
+                        behavior: ScrollBehaviorNoGlow(),
+                        child: SingleChildScrollView(
+                          clipBehavior: Clip.none,
+                          // reverse: true,
+                          padding: EdgeInsets.only(left: 5.0, right: 15.0),
+                          controller: _scrollController,
+                          dragStartBehavior: DragStartBehavior.down,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: (_widgets ?? [])
+                                .map((e) =>
+                                    SizedBox(width: double.infinity, child: e))
+                                .toList(),
+                          ),
+                        ))))));
   }
 }

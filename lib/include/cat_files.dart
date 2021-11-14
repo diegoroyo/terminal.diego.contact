@@ -1,5 +1,6 @@
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:terminal/include/assets.dart';
+import 'package:terminal/include/style.dart';
 
 class CatFiles {
   static final textDir = TerminalAssets.TEXT_ROOT;
@@ -7,6 +8,7 @@ class CatFiles {
   static final Map<String, Future<String> Function()> FILENAME_MAPS = {
     'neofetch.txt': () => _neofetch(),
     'mewo.txt': () => _mewo(),
+    'credits.txt': () => _assetFile('$textDir/credits.txt'),
     'news.txt': () => _assetFile('$textDir/news.txt'),
     'projects.txt': () => _assetFile('$textDir/projects.txt'),
     'publications.txt': () => _assetFile('$textDir/publications.txt'),
@@ -41,8 +43,28 @@ class CatFiles {
   }
 
   static Future<String> _mewo() {
-    return Future.value(
-        '''<pre>                                 ██              ██    
+    if (TerminalStyle.IS_VERTICAL) {
+      // smol cat
+      return Future.value('''<pre>
+
+  Meow? (Waiting for
+  something to happen?)
+
+
+                  ▒██       ▒██ 
+                ▒██▒▒▓    ▒██▒█▒
+              ▒██▒  ▒█▒▒▒███  █▒
+           ▒▒▒██▒▒▒██████████▒█▒
+         ▒▓████████████████████▒
+ ▒▒▒▒▒▒▒ ██████████████████████▓
+████████████████████████████████
+████▒▒▒▒██████████    ████    ██
+           ████████████████████
+''');
+    } else {
+      // large cat
+      return Future.value(
+          '''<pre>                                 ██              ██    
  Meow? (Waiting for           ██████          ██████  
  something to happen?)      ████  ██        ████  ██  
                           ████    ████    ████    ██  
@@ -58,6 +80,7 @@ class CatFiles {
                     ████████████████████████████████  
                         ██████████████████████████</pre>
 ''');
+    }
   }
 
   static Future<String> _neofetch() {
@@ -71,11 +94,12 @@ class CatFiles {
         .inDays;
     // just in case so it does not say -1 days on my birthday
     lifeDays = lifeDays < 0 ? 0 : lifeDays;
+    var photoWidth = TerminalStyle.IS_VERTICAL ? 100 : 160;
     return Future.value('''
 <table>
   <tr>
     <td>
-      <img src="asset:assets/images/diego-neofetch.png" width="160"/>
+      <img src="asset:assets/images/diego-neofetch.png" width="$photoWidth"/>
     </td>
     <td>
       <pre>  </pre>

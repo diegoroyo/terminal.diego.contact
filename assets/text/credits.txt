@@ -1,0 +1,10 @@
+<pre><br> * Icon theme: candy icons -> <selectable>https://github.com/EliverLara/candy-icons</selectable>
+<br> * Background: sweet-space -> <selectable>https://store.kde.org/p/1309907</selectable>
+<br> * Font: JuliaMono typeface -> <selectable>https://juliamono.netlify.app</selectable>
+<br> * Built with Flutter -> <selectable>https://flutter.dev</selectable>
+<br><br> <(0_0<) <(0_0)> (>0_0)><br></pre>
+<!--
+NOTE: only the last entry needs a <br> at the end
+to add a new entry, add it after the <pre> with no <br> at the end
+(but adding a newline)
+-->

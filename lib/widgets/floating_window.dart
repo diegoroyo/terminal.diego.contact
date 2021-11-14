@@ -42,30 +42,43 @@ class _FloatingWindowState extends State<FloatingWindow> {
 
   Vector3 speed = Vector3(0.0, 0.0, 0.0);
   double posX, posY;
-  bool closed = false;
+  bool closed = true;
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      setState(() => closed = false);
+    });
+  }
 
   Widget _buildTopBarIcon(
       {required String image,
       required double iconScale,
+      required EdgeInsets padding,
       required void Function() onTap}) {
     return GestureDetector(
         onTap: onTap,
-        child: HoverCrossFadeWidget(
-            duration: Duration(milliseconds: 300),
-            firstChild: Image.asset(
-              image,
-              height: 25.6 * iconScale,
-              width: 30.0 * iconScale,
-              filterQuality: FilterQuality.medium,
-            ),
-            secondChild: Image.asset(
-              image,
-              height: 25.6 * iconScale,
-              width: 30.0 * iconScale,
-              filterQuality: FilterQuality.medium,
-              color: Colors.white70,
-              colorBlendMode: BlendMode.modulate,
-            )));
+        behavior: HitTestBehavior.opaque,
+        child: Container(
+            padding: padding,
+            child: HoverCrossFadeWidget(
+                duration: Duration(milliseconds: 300),
+                firstChild: Image.asset(
+                  image,
+                  height: 25.6 * iconScale,
+                  width: 30.0 * iconScale,
+                  filterQuality: FilterQuality.medium,
+                ),
+                secondChild: Image.asset(
+                  image,
+                  height: 25.6 * iconScale,
+                  width: 30.0 * iconScale,
+                  filterQuality: FilterQuality.medium,
+                  color: Colors.white70,
+                  colorBlendMode: BlendMode.modulate,
+                ))));
   }
 
   Widget _buildTopBar() {
@@ -88,16 +101,17 @@ class _FloatingWindowState extends State<FloatingWindow> {
                     Spacer(),
                     _buildTopBarIcon(
                         image: TerminalAssets.ICON_MIMINIZE,
+                        padding: EdgeInsets.fromLTRB(0.0, 5.0, 4.0, 5.0),
                         iconScale: iconScale,
                         onTap: () => setState(() => closed = true)),
-                    Container(width: 8.0),
                     _buildTopBarIcon(
                         image: TerminalAssets.ICON_MAXIMIZE,
+                        padding: EdgeInsets.fromLTRB(4.0, 5.0, 4.0, 5.0),
                         iconScale: iconScale,
                         onTap: () => setState(() => closed = true)),
-                    Container(width: 8.0),
                     _buildTopBarIcon(
                         image: TerminalAssets.ICON_CLOSE,
+                        padding: EdgeInsets.fromLTRB(4.0, 5.0, 0.0, 5.0),
                         iconScale: iconScale,
                         onTap: () => setState(() => closed = true)),
                   ],
@@ -154,8 +168,13 @@ class _FloatingWindowState extends State<FloatingWindow> {
                                       sigmaY: 10.0,
                                       tileMode: TileMode.repeated),
                                   child: AnimatedContainer(
-                                      duration: Duration(milliseconds: 100),
-                                      onEnd: () => widget.onClosed(widget),
+                                      duration: Duration(milliseconds: 200),
+                                      curve: Curves.easeInOut,
+                                      onEnd: () {
+                                        if (closed) {
+                                          widget.onClosed(widget);
+                                        }
+                                      },
                                       width: closed ? 0 : widget.width,
                                       height: closed ? 0 : widget.height,
                                       child: widget.child))),

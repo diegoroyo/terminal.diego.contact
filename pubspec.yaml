@@ -1,5 +1,5 @@
 name: terminal
-description: Diego Royo's personal website B)
+description: ssh diego@terminal
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
