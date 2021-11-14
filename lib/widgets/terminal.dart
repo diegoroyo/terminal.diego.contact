@@ -14,6 +14,10 @@ import 'package:terminal/util/scroll_behavior_no_glow.dart';
 
 /// Prompt ///
 
+class TabIntent extends Intent {
+  const TabIntent();
+}
+
 class ArrowUpIntent extends Intent {
   const ArrowUpIntent();
 }
@@ -24,8 +28,10 @@ class ArrowDownIntent extends Intent {
 
 class CommandPrompt extends StatefulWidget {
   final String text;
+  final int cursorPos;
   final void Function(String) onSubmit;
   final FocusNode _textFocusNode;
+  final void Function(String, int, List<String>) onShowAutocompleteResults;
   final String? Function(int) requestCommandHistory;
 
   void focus() {
@@ -38,7 +44,9 @@ class CommandPrompt extends StatefulWidget {
   CommandPrompt(
       {Key? key,
       required this.text,
+      required this.cursorPos,
       required this.onSubmit,
+      required this.onShowAutocompleteResults,
       required this.requestCommandHistory,
       this.active = true})
       : _textFocusNode =
@@ -46,16 +54,20 @@ class CommandPrompt extends StatefulWidget {
         super(key: key);
 
   @override
-  _CommandPromptState createState() =>
-      _CommandPromptState(active: active, text: text);
+  _CommandPromptState createState() => _CommandPromptState(
+      active: active, text: text, initialCursorPos: cursorPos);
 }
 
 class _CommandPromptState extends State<CommandPrompt> {
+  int initialCursorPos;
   bool active;
   TextEditingController textController;
   Queue<String> lastCommandsQueue;
 
-  _CommandPromptState({required this.active, required String text})
+  _CommandPromptState(
+      {required this.active,
+      required String text,
+      required this.initialCursorPos})
       : textController = TextEditingController(text: text),
         lastCommandsQueue = Queue();
 
@@ -64,12 +76,30 @@ class _CommandPromptState extends State<CommandPrompt> {
     super.initState();
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       FocusScope.of(context).requestFocus(widget._textFocusNode);
+      setState(() {
+        textController.selection =
+            TextSelection.fromPosition(TextPosition(offset: initialCursorPos));
+      });
     });
   }
 
   void onSubmitted(String result) {
     setState(() => active = false);
     widget.onSubmit(textController.text);
+  }
+
+  List<String> autocomplete(
+      {required String partial, required List<String> autocompletes}) {
+    List<String> candidates = List.from(autocompletes);
+    for (int i = 0; i < partial.length; i++) {
+      if (candidates.isEmpty) {
+        break;
+      }
+      // letter-by-letter equality check
+      candidates = candidates.where((c) => c[i] == partial[i]).toList();
+    }
+    candidates.sort();
+    return candidates;
   }
 
   @override
@@ -80,11 +110,58 @@ class _CommandPromptState extends State<CommandPrompt> {
       Expanded(
           child: Shortcuts(
               shortcuts: <ShortcutActivator, Intent>{
+            SingleActivator(LogicalKeyboardKey.tab): TabIntent(),
             SingleActivator(LogicalKeyboardKey.arrowUp): ArrowUpIntent(),
             SingleActivator(LogicalKeyboardKey.arrowDown): ArrowDownIntent(),
           },
               child: Actions(
                   actions: <Type, Action<Intent>>{
+                    TabIntent: CallbackAction<TabIntent>(onInvoke: (_) {
+                      String text = textController.text;
+                      if (text.isEmpty) {
+                        return;
+                      }
+                      int pos = textController.selection.start;
+                      bool recommendCommands =
+                          !text.substring(0, pos).contains(' ');
+                      String partial = '';
+                      List<String> autocompletes;
+                      if (recommendCommands) {
+                        partial = text.substring(0, pos).trim();
+                        autocompletes = Terminal.COMMAND_MAP.keys.toList();
+                      } else {
+                        // recommend text files
+                        int lastSpace = text.substring(0, pos).lastIndexOf(' ');
+                        if (lastSpace == -1) {
+                          print('Terminal autocompletion assertion error: '
+                              'trying to autocomplete a text file when the cursor '
+                              'is on the start on the line (a command should be recommended instead?)');
+                          return;
+                        }
+                        partial = text.substring(lastSpace + 1, pos);
+                        autocompletes = CatFiles.FILENAME_MAP.keys.toList();
+                      }
+                      List<String> filteredAutocompletes = autocomplete(
+                          partial: partial, autocompletes: autocompletes);
+                      if (filteredAutocompletes.isEmpty) {
+                        return;
+                      } else if (filteredAutocompletes.length == 1) {
+                        String result =
+                            filteredAutocompletes[0].substring(partial.length);
+                        String modifiedText = text.substring(0, pos) +
+                            result +
+                            text.substring(pos);
+                        setState(() {
+                          textController.text = modifiedText;
+                          textController.selection = TextSelection.fromPosition(
+                              TextPosition(offset: pos + result.length));
+                        });
+                      } else {
+                        setState(() => active = false);
+                        widget.onShowAutocompleteResults(
+                            text, pos, filteredAutocompletes);
+                      }
+                    }),
                     ArrowUpIntent: CallbackAction<ArrowUpIntent>(onInvoke: (_) {
                       int idToRequest = lastCommandsQueue.length;
                       String? replaceCommand =
@@ -310,6 +387,11 @@ class _CatCommandState extends State<CatCommand> {
       style: TerminalStyle.HTML_MONOSPACED,
       data: htmlData,
       tagsList: Html.tags..addAll(customRender.keys),
+      onLinkTap: (url, context, attributes, element) {
+        if (url != null) {
+          html.window.open(url, '_blank');
+        }
+      },
     );
   }
 }
@@ -320,19 +402,14 @@ class Terminal extends StatefulWidget {
   // ignore: non_constant_identifier_names
   static final Map<String, Command Function(List<String>)> COMMAND_MAP = {
     'ls': (args) {
-      List<String> filenames = CatFiles.FILENAME_MAPS.keys.toList();
+      List<String> filenames = CatFiles.FILENAME_MAP.keys.toList();
       filenames.sort();
       return TextCommand.create(args, text: filenames.join('  '));
     },
     'cat': (args) => CatCommand.create(args),
     'neofetch': (args) => CatCommand.create(['cat', 'neofetch.txt']),
     'head': (args) => CatCommand.create(args),
-    'help': (args) {
-      List<String> commands = Terminal.COMMAND_MAP.keys.toList();
-      commands.sort();
-      return TextCommand.create(args,
-          text: 'available commands: ${commands.join("  ")}');
-    }
+    'help': (args) => CatCommand.create(['cat', 'help.txt']),
   };
   final List<String>? initialCommands;
 
@@ -356,20 +433,32 @@ class _TerminalState extends State<Terminal> {
     setState(() => _widgets!.add(widget));
   }
 
-  void _addCommandPrompt([String? command]) {
+  void _addCommandPrompt(
+      {required bool autoSubmit, String? command, int? cursorPos}) {
     var prompt = CommandPrompt(
         text: command ?? '',
+        cursorPos: cursorPos ?? 0,
         onSubmit: (result) {
           _addCommandResult(result);
-          _addCommandPrompt();
+          _addCommandPrompt(autoSubmit: false);
+        },
+        onShowAutocompleteResults: (prompt, cursorPos, suggestions) {
+          _addWidget(TextCommand.create([], text: suggestions.join('  ')));
+          _addCommandPrompt(
+              command: prompt, cursorPos: cursorPos, autoSubmit: false);
         },
         requestCommandHistory: (index) => index < commandHistory.length
             ? commandHistory.elementAt(index)
             : null,
-        active: command == null);
+        active: !autoSubmit);
     _addWidget(prompt);
-    if (command != null) {
-      _addCommandResult(command);
+    if (autoSubmit) {
+      if (command == null || command.isEmpty) {
+        print('Terminal prompt assertion error: trying to autoSubmit '
+            'a command prompt when the command is empty/null?');
+      } else {
+        _addCommandResult(command);
+      }
     }
   }
 
@@ -394,9 +483,10 @@ class _TerminalState extends State<Terminal> {
     if (_widgets == null) {
       _widgets = <Widget>[];
       if (widget.initialCommands != null) {
-        widget.initialCommands!.forEach(_addCommandPrompt);
+        widget.initialCommands!
+            .forEach((c) => _addCommandPrompt(command: c, autoSubmit: true));
       }
-      _addCommandPrompt();
+      _addCommandPrompt(autoSubmit: false);
     }
   }
 

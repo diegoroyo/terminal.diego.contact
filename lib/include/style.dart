@@ -3,6 +3,8 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter/foundation.dart';
 
 class TerminalStyle {
+  /// different from IS_VERTICAL, is is needed for different behaviours
+  /// (mostly: mobile devices have on-screen keyboard which takes up space)
   // ignore: non_constant_identifier_names
   static final IS_MOBILE = kIsWeb &&
       (defaultTargetPlatform == TargetPlatform.iOS ||
@@ -45,7 +47,8 @@ class TerminalStyle {
   static final Map<String, Style> HTML_MONOSPACED = {
     'body': Style(margin: EdgeInsets.zero, padding: EdgeInsets.zero),
     'p': htmlMonospaced(),
+    'a': htmlMonospaced(color: Colors.lightBlue[100]!),
     'pre': htmlMonospaced(),
-    'span': htmlMonospaced(color: Colors.red)
+    'span': htmlMonospaced(color: Color(0xFFFD3762))
   };
 }

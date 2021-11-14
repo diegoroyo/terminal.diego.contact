@@ -36,6 +36,9 @@ class _LandingScreenState extends State<LandingScreen> {
     });
   }
 
+  double mobileTerminalHeight() => MediaQuery.of(context).size.height / 2.0;
+  double mobileTerminalYOffset() => -(mobileTerminalHeight() / 2.0) + 45.0;
+
   FloatingWindow terminal(
           {required String title, required List<String> initialCommands}) =>
       FloatingWindow(
@@ -43,12 +46,12 @@ class _LandingScreenState extends State<LandingScreen> {
           title: title,
           width: TerminalStyle.IS_VERTICAL ? 350 : 600,
           height: TerminalStyle.IS_VERTICAL
-              ? (TerminalStyle.IS_MOBILE ? 400 : 500)
+              ? (TerminalStyle.IS_MOBILE ? mobileTerminalHeight() : 500)
               : 500,
           initialPosX:
               TerminalStyle.IS_VERTICAL ? 0 : random.nextInt(300) - 150,
           initialPosY: TerminalStyle.IS_VERTICAL
-              ? (TerminalStyle.IS_MOBILE ? -120 : 0)
+              ? (TerminalStyle.IS_MOBILE ? mobileTerminalYOffset() : 0)
               : random.nextInt(300) - 150,
           child: Terminal(
             initialCommands: initialCommands,
@@ -100,6 +103,8 @@ class _LandingScreenState extends State<LandingScreen> {
           overlayColor: MaterialStateProperty.all(Colors.black12),
           foregroundColor: MaterialStateProperty.all(Colors.black12),
           padding: MaterialStateProperty.all(EdgeInsets.all(15.0)),
+          shape: MaterialStateProperty.all(RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0))),
         ),
         child: Column(children: [
           SvgPicture.asset(image, height: 60.0, width: 60.0),

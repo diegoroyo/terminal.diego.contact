@@ -1,13 +1,15 @@
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:terminal/include/assets.dart';
 import 'package:terminal/include/style.dart';
+import 'package:terminal/widgets/terminal.dart' show Terminal;
 
 class CatFiles {
   static final textDir = TerminalAssets.TEXT_ROOT;
   // ignore: non_constant_identifier_names
-  static final Map<String, Future<String> Function()> FILENAME_MAPS = {
+  static final Map<String, Future<String> Function()> FILENAME_MAP = {
     'neofetch.txt': () => _neofetch(),
     'mewo.txt': () => _mewo(),
+    'help.txt': () => _help(),
     'credits.txt': () => _assetFile('$textDir/credits.txt'),
     'news.txt': () => _assetFile('$textDir/news.txt'),
     'projects.txt': () => _assetFile('$textDir/projects.txt'),
@@ -25,8 +27,8 @@ class CatFiles {
       } else {
         readString = Future.value('''<p>$command: no file specified</p>''');
       }
-    } else if (FILENAME_MAPS.containsKey(filename)) {
-      readString = FILENAME_MAPS[filename]!();
+    } else if (FILENAME_MAP.containsKey(filename)) {
+      readString = FILENAME_MAP[filename]!();
     } else {
       readString = Future.value(
           '''<p>$command: $filename: no such file or directory</p>''');
@@ -40,6 +42,15 @@ class CatFiles {
 
   static Future<String> _assetFile(String filename) async {
     return rootBundle.loadString(filename);
+  }
+
+  static Future<String> _help() {
+    List<String> commands = Terminal.COMMAND_MAP.keys.toList();
+    commands.sort();
+    return Future.value('''
+<p>terminal page by Diego Royo: <a href="https:github.com/diegoroyo">https://github.com/diegoroyo</a>
+available commands: ${commands.join("  ")}</p>
+''');
   }
 
   static Future<String> _mewo() {
@@ -59,7 +70,7 @@ class CatFiles {
  ▒▒▒▒▒▒▒ ██████████████████████▓
 ████████████████████████████████
 ████▒▒▒▒██████████    ████    ██
-           ████████████████████
+           ████████████████████</pre>
 ''');
     } else {
       // large cat
