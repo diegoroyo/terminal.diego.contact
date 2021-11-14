@@ -3,12 +3,7 @@ import 'package:terminal/screens/landing_screen.dart';
 
 class Routes {
   static final routes = <String, dynamic>{
-    /// LOADING SCREEN ///
-    'landing': (settings) => _buildRoute(settings, LandingScreen()),
-    // 'landing': (settings) => _buildRoute(
-    //     settings, LandingScreen(emailSuggestion: settings.arguments)),
-    // 'register-options': (settings) =>
-    //     _buildRoute(settings, RegisterOptionsScreen()),
+    '/': (settings) => _buildRoute(settings, LandingScreen()),
   };
 
   static Route<dynamic> getRoute(RouteSettings settings) {

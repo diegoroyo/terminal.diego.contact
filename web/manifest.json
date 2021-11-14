@@ -1,11 +1,11 @@
 {
-    "name": "terminal",
-    "short_name": "terminal",
+    "name": "Diego Royo - Homepage",
+    "short_name": "Diego Royo - Homepage",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "Diego's personal website B)",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

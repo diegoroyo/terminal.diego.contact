@@ -9,17 +9,24 @@ class FloatingWindow extends StatefulWidget {
   final String title;
   final double width, height;
   final Widget child;
+  final void Function(FloatingWindow) onClosed, requestFocus;
+  final double initialPosX, initialPosY;
 
-  const FloatingWindow(
+  FloatingWindow(
       {Key? key,
       this.title = '',
       required this.child,
       required this.width,
-      required this.height})
+      required this.height,
+      required this.initialPosX,
+      required this.initialPosY,
+      required this.requestFocus,
+      required this.onClosed})
       : super(key: key);
 
   @override
-  _FloatingWindowState createState() => _FloatingWindowState();
+  _FloatingWindowState createState() =>
+      _FloatingWindowState(initialPosX, initialPosY);
 }
 
 class _FloatingWindowState extends State<FloatingWindow> {
@@ -31,8 +38,11 @@ class _FloatingWindowState extends State<FloatingWindow> {
       fontWeight: FontWeight.bold,
       fontFamily: 'JuliaMono');
 
+  _FloatingWindowState(this.posX, this.posY);
+
   Vector3 speed = Vector3(0.0, 0.0, 0.0);
-  double posX = 200, posY = 200;
+  double posX, posY;
+  bool closed = false;
 
   Widget _buildTopBarIcon(
       {required String image,
@@ -66,9 +76,9 @@ class _FloatingWindowState extends State<FloatingWindow> {
         child: Container(
             color: TOPBAR_COLOR,
             padding: EdgeInsets.symmetric(
-                horizontal: topBarHorizontalPadding, vertical: 4.0),
+                horizontal: topBarHorizontalPadding, vertical: 6.0),
             child: SizedBox(
-                width: widget.width - 2 * topBarHorizontalPadding,
+                width: closed ? 0 : widget.width - 2 * topBarHorizontalPadding,
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -79,17 +89,17 @@ class _FloatingWindowState extends State<FloatingWindow> {
                     _buildTopBarIcon(
                         image: TerminalAssets.ICON_MIMINIZE,
                         iconScale: iconScale,
-                        onTap: () => print('Clicked minimize')),
+                        onTap: () => setState(() => closed = true)),
                     Container(width: 8.0),
                     _buildTopBarIcon(
                         image: TerminalAssets.ICON_MAXIMIZE,
                         iconScale: iconScale,
-                        onTap: () => print('Clicked maximize')),
+                        onTap: () => setState(() => closed = true)),
                     Container(width: 8.0),
                     _buildTopBarIcon(
                         image: TerminalAssets.ICON_CLOSE,
                         iconScale: iconScale,
-                        onTap: () => print('Clicked close')),
+                        onTap: () => setState(() => closed = true)),
                   ],
                 ))));
   }
@@ -105,19 +115,8 @@ class _FloatingWindowState extends State<FloatingWindow> {
         child: Container(
             transform: Matrix4.translationValues(posX, posY, 0.0),
             child: GestureDetector(
-                onPanUpdate: (dragDetails) => setState(() {
-                      var delta = Vector3(
-                          dragDetails.delta.dx, dragDetails.delta.dy, 0.0);
-                      posX += delta.x;
-                      posY += delta.y;
-                      speed += delta * 0.4;
-                      speed.clamp(
-                          Vector3(-15.0, -15.0, 0.0), Vector3(15.0, 15.0, 0.0));
-                      speed *= 0.9;
-                    }),
-                onPanEnd: (dragDetails) => setState(() {
-                      speed = Vector3(0.0, 0.0, 0.0);
-                    }),
+                behavior: HitTestBehavior.translucent,
+                onPanDown: (_) => widget.requestFocus(widget),
                 child: Container(
                     transform: deformMatrix,
                     decoration: BoxDecoration(
@@ -133,16 +132,32 @@ class _FloatingWindowState extends State<FloatingWindow> {
                     child: ClipRRect(
                         borderRadius: BorderRadius.circular(borderRadius),
                         child: Column(children: [
-                          _buildTopBar(),
-                          SizedBox(
-                              width: widget.width,
-                              height: widget.height,
-                              child: ClipRRect(
-                                  child: BackdropFilter(
-                                      filter: ImageFilter.blur(
-                                          sigmaX: 10.0,
-                                          sigmaY: 10.0,
-                                          tileMode: TileMode.repeated),
+                          GestureDetector(
+                              onPanUpdate: (dragDetails) => setState(() {
+                                    var delta = Vector3(dragDetails.delta.dx,
+                                        dragDetails.delta.dy, 0.0);
+                                    posX += delta.x;
+                                    posY += delta.y;
+                                    speed += delta * 0.4;
+                                    speed.clamp(Vector3(-15.0, -15.0, 0.0),
+                                        Vector3(15.0, 15.0, 0.0));
+                                    speed *= 0.9;
+                                  }),
+                              onPanEnd: (dragDetails) => setState(() {
+                                    speed = Vector3(0.0, 0.0, 0.0);
+                                  }),
+                              child: _buildTopBar()),
+                          ClipRRect(
+                              child: BackdropFilter(
+                                  filter: ImageFilter.blur(
+                                      sigmaX: 10.0,
+                                      sigmaY: 10.0,
+                                      tileMode: TileMode.repeated),
+                                  child: AnimatedContainer(
+                                      duration: Duration(milliseconds: 100),
+                                      onEnd: () => widget.onClosed(widget),
+                                      width: closed ? 0 : widget.width,
+                                      height: closed ? 0 : widget.height,
                                       child: widget.child))),
                         ]))))));
   }
