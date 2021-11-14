@@ -126,6 +126,15 @@ class _CommandPromptState extends State<CommandPrompt> {
                     enableSuggestions: false,
                     autocorrect: false,
                     style: TerminalStyle.monospaced(),
+                    // NOTE(diego): on android, google keyboard's suggestions
+                    // prevent the onSubmitted event from being triggered
+                    // (i guess the enter press is consumed by the suggestion
+                    // system and does not reach this textfield)
+                    // setting keyboardtype to emailAddress serves as a
+                    // workaround as it disables suggestions, something that
+                    // "enableSuggestions: false" and "autocorrect: false"
+                    // both failed to do
+                    // so this is actually really important please dont remove
                     keyboardType: TextInputType.emailAddress,
                     focusNode: widget._textFocusNode,
                     readOnly: !active,
