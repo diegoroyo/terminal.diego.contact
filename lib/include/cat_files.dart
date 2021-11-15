@@ -48,7 +48,7 @@ class CatFiles {
     List<String> commands = Terminal.COMMAND_MAP.keys.toList();
     commands.sort();
     return Future.value('''
-<p>terminal page by Diego Royo: <a href="https:github.com/diegoroyo">https://github.com/diegoroyo</a>
+<p>terminal page by Diego Royo: <a href="https://github.com/diegoroyo">https://github.com/diegoroyo</a>
 available commands: ${commands.join("  ")}</p>
 ''');
   }
@@ -63,11 +63,11 @@ available commands: ${commands.join("  ")}</p>
 
 
                   ▒██       ▒██ 
-                ▒██▒▒▓    ▒██▒█▒
+                ▒██▒▒█    ▒██▒█▒
               ▒██▒  ▒█▒▒▒███  █▒
            ▒▒▒██▒▒▒██████████▒█▒
-         ▒▓████████████████████▒
- ▒▒▒▒▒▒▒ ██████████████████████▓
+         ▒█████████████████████▒
+ ▒▒▒▒▒▒▒ ███████████████████████
 ████████████████████████████████
 ████▒▒▒▒██████████    ████    ██
            ████████████████████</pre>

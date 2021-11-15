@@ -422,7 +422,6 @@ class Terminal extends StatefulWidget {
 class _TerminalState extends State<Terminal> {
   List<Widget>? _widgets;
   Queue<String> commandHistory;
-  int _knownWidgets = 0;
   ScrollController _scrollController;
 
   _TerminalState()
@@ -492,11 +491,6 @@ class _TerminalState extends State<Terminal> {
 
   @override
   Widget build(BuildContext context) {
-    if (_widgets != null &&
-        _scrollController.hasClients &&
-        _knownWidgets != _widgets!.length) {
-      _knownWidgets = _widgets!.length;
-    }
     return GestureDetector(
         behavior: HitTestBehavior.translucent,
         onTap: () {
