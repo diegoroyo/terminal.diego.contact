@@ -15,4 +15,8 @@ class TerminalAssets {
   static const ICON_CONTACT = '$_ICONS_ROOT/contact.svg';
 
   static const TEXT_ROOT = '$ASSETS_ROOT/text';
+
+  static const URL_TWITTER = 'https://www.twitter.com/disti150';
+  static const URL_GITHUB = 'https://www.github.com/diegoroyo';
+  static const URL_LINKEDIN = 'https://www.linkedin.com/in/diegorm';
 }

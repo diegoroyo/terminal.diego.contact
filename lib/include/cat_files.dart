@@ -1,7 +1,7 @@
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:terminal/include/assets.dart';
 import 'package:terminal/include/style.dart';
-import 'package:terminal/widgets/terminal.dart' show Terminal;
+import 'package:terminal/widgets/terminal/terminal.dart' show Terminal;
 
 class CatFiles {
   static final textDir = TerminalAssets.TEXT_ROOT;

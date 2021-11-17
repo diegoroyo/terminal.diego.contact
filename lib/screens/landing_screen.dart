@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:terminal/include/assets.dart';
 import 'package:terminal/include/style.dart';
 import 'package:terminal/widgets/floating_window.dart';
-import 'package:terminal/widgets/terminal.dart';
+import 'package:terminal/widgets/terminal/terminal.dart';
 import 'dart:math';
 
 class LandingScreen extends StatefulWidget {
