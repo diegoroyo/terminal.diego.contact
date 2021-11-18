@@ -15,7 +15,8 @@ class LandingScreen extends StatefulWidget {
   _LandingScreenState createState() => new _LandingScreenState();
 }
 
-class _LandingScreenState extends State<LandingScreen> {
+class _LandingScreenState extends State<LandingScreen>
+    with WidgetsBindingObserver {
   static const HOME_COLOR = Color(0xFF1D1F28);
 
   Random random = Random();
@@ -27,6 +28,7 @@ class _LandingScreenState extends State<LandingScreen> {
   void initState() {
     super.initState();
 
+    WidgetsBinding.instance!.addObserver(this);
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       openWindow(
         terminal(
@@ -36,28 +38,65 @@ class _LandingScreenState extends State<LandingScreen> {
     });
   }
 
-  double mobileTerminalHeight() => MediaQuery.of(context).size.height / 2.0;
-  double mobileTerminalYOffset() => -(mobileTerminalHeight() / 2.0) + 45.0;
+  @override
+  void dispose() {
+    WidgetsBinding.instance!.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeMetrics() {
+    setState(() {
+      TerminalStyle.IS_VERTICAL = MediaQuery.of(context).size.aspectRatio < 1;
+    });
+  }
+
+  static const VERTICAL_PADDING = 40.0;
+
+  double getTerminalSizeYMobile() {
+    final viewInsets = EdgeInsets.fromWindowPadding(
+        WidgetsBinding.instance!.window.viewInsets,
+        WidgetsBinding.instance!.window.devicePixelRatio);
+    return MediaQuery.of(context).size.height - // full height
+        MediaQuery.of(context).padding.top - // top navigator bar
+        MediaQuery.of(context).padding.bottom - // bottom navigator bar
+        viewInsets.bottom - // keyboard height
+        2 * VERTICAL_PADDING; // a bit of spacing
+  }
+
+  Size getTerminalSize() {
+    double width = TerminalStyle.IS_VERTICAL ? 350.0 : 600.0;
+    double height = TerminalStyle.IS_MOBILE ? getTerminalSizeYMobile() : 500.0;
+    return Size(width, height);
+  }
+
+  Point<double> getTerminalPosition([Point<double>? original]) {
+    if (original != null) {
+      return original;
+    }
+    double posX = TerminalStyle.IS_VERTICAL || TerminalStyle.IS_MOBILE
+        ? 0.0
+        : random.nextInt(300) - 150;
+    double posY = TerminalStyle.IS_VERTICAL || TerminalStyle.IS_MOBILE
+        ? 0.0
+        : random.nextInt(300) - 150;
+    return Point(posX, posY);
+  }
+
+  bool getMovable() => !TerminalStyle.IS_MOBILE;
 
   FloatingWindow terminal(
-          {required String title, required List<String> initialCommands}) =>
-      FloatingWindow(
-          key: GlobalKey(),
-          title: title,
-          width: TerminalStyle.IS_VERTICAL ? 350 : 600,
-          height: TerminalStyle.IS_VERTICAL
-              ? (TerminalStyle.IS_MOBILE ? mobileTerminalHeight() : 500)
-              : 500,
-          initialPosX:
-              TerminalStyle.IS_VERTICAL ? 0 : random.nextInt(300) - 150,
-          initialPosY: TerminalStyle.IS_VERTICAL
-              ? (TerminalStyle.IS_MOBILE ? mobileTerminalYOffset() : 0)
-              : random.nextInt(300) - 150,
-          child: Terminal(
-            initialCommands: initialCommands,
-          ),
-          requestFocus: requestFocus,
-          onClosed: closeWindow);
+      {required String title, required List<String> initialCommands}) {
+    return FloatingWindow(
+        key: GlobalKey(),
+        title: title,
+        getSize: getTerminalSize,
+        getPosition: getTerminalPosition,
+        movable: getMovable(),
+        child: Terminal(initialCommands: initialCommands),
+        requestFocus: requestFocus,
+        onClosed: closeWindow);
+  }
 
   void requestFocus(FloatingWindow window) {
     var index = windows.indexOf(window);
@@ -170,13 +209,9 @@ class _LandingScreenState extends State<LandingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // FIXME(diego): IS_VERTICAL is updated in each build. There should be
-    // better ways to do this e.g. didChangeMetrics as seen in
-    // https://github.com/flutter/flutter/issues/56832
-    TerminalStyle.IS_VERTICAL = MediaQuery.of(context).size.aspectRatio < 1;
-    return Material(
-        type: MaterialType.transparency,
-        child: Container(
+    return Scaffold(
+        resizeToAvoidBottomInset: true,
+        body: Container(
           decoration: BoxDecoration(
               image: DecorationImage(
             image: AssetImage(TerminalAssets.BACKGROUND_IMAGE),

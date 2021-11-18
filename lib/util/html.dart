@@ -1,6 +1,9 @@
-// ignore: avoid_web_libraries_in_flutter
-import 'dart:html' as html;
+import 'package:url_launcher/url_launcher.dart';
 
-void openUrl(String url) {
-  html.window.open(url, '_blank');
+void openUrl(String url) async {
+  canLaunch(url).then((valid) {
+    if (valid) {
+      launch(url);
+    }
+  });
 }

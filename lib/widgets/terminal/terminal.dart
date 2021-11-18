@@ -28,7 +28,7 @@ class Terminal extends StatefulWidget {
   _TerminalState createState() => _TerminalState();
 }
 
-class _TerminalState extends State<Terminal> {
+class _TerminalState extends State<Terminal> with WidgetsBindingObserver {
   List<Widget>? _widgets;
   Queue<String> commandHistory;
   ScrollController _scrollController;
@@ -96,6 +96,23 @@ class _TerminalState extends State<Terminal> {
       }
       _addCommandPrompt(autoSubmit: false);
     }
+    WidgetsBinding.instance!.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance!.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeMetrics() {
+    setState(() {
+      Future.delayed(Duration(milliseconds: 250)).then((_) {
+        _scrollController.animateTo(_scrollController.position.maxScrollExtent,
+            duration: Duration(milliseconds: 100), curve: Curves.linear);
+      });
+    });
   }
 
   @override
