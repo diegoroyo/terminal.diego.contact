@@ -30,6 +30,14 @@ class _ScreenshotImageState extends State<ScreenshotImage> {
   ImageProvider? image;
   bool imageIsLoading = false;
 
+  void setDefaultImage() {
+    // idk why screenshot does not work on mobile, lets just put a
+    // placeholder there for now
+    setState(() => image = AssetImage(TerminalStyle.IS_VERTICAL
+        ? TerminalAssets.projectImage('terminal/backup-vertical.png')
+        : TerminalAssets.projectImage('terminal/backup-horizontal.png')));
+  }
+
   @override
   Widget build(BuildContext context) {
     if (!imageIsLoading) {
@@ -42,12 +50,10 @@ class _ScreenshotImageState extends State<ScreenshotImage> {
         if (capturedImage != null) {
           setState(() => image = MemoryImage(capturedImage));
         } else {
-          // idk why screenshot does not work on mobile, lets just put a
-          // placeholder there for now
-          setState(() => image = AssetImage(TerminalStyle.IS_MOBILE
-              ? TerminalAssets.projectImage('terminal/backup-vertical.png')
-              : TerminalAssets.projectImage('terminal/backup-horizontal.png')));
+          setDefaultImage();
         }
+      }).onError((_, __) {
+        setDefaultImage();
       });
     }
     return SizedBox(
