@@ -1,0 +1,48 @@
+<cover title="Path tracing & photon mapping from scratch" image="graphics-course.png"></cover>
+<div style="padding: 0px 20px 20px 20px">
+<h1>Path tracing & photon mapping from scratch</h1>
+<hr>
+<p>Course work for Informática Gráfica (Computer Graphics), a course I took on the last year of my CS degree. It implements the Monte Carlo Path Tracing and Photon Mapping algorithms. Both produce high dynamic range (HDR) images which are then converted to low dynamic range (LDR) for display i.e. PPM or PNG files.<br><br>
+Every part was implemented in C++11 only making use of standard library, including the logic for reading OBJ (3D model) files and writing PNG files.<br></p>
+
+<wrap>
+<icaption caption="Cornell Box at Y=11" image="graphics-course/path-minecraft.png"></icaption>
+<icaption caption="Thinking with portals" image="graphics-course/path-portals.png"></icaption>
+</wrap>
+
+<p><br>Both rendering algorithms implement highly customizable materials (e.g. diffuse albedo or specular roughness based on texture data). It also implements a portal BSDF because it seemed cool.<br></p>
+
+<wrap>
+<icaption caption="Cornell Box" image="graphics-course/path-cornell.png"></icaption>
+<icaption caption="Depth of field" image="graphics-course/path-dof.png"></icaption>
+<icaption caption="Spaceships" image="graphics-course/path-spaceships.png"></icaption>
+<icaption caption="Portal loop" image="graphics-course/path-loop.png"></icaption>
+</wrap>
+
+<p><br>The Photon Mapping algorithm can render more complex light phenomena, like caustics and participative media.<br></p>
+
+<wrap>
+<icaption caption="Caustics" image="graphics-course/photon-caustics.png"></icaption>
+<icaption caption="Homogeneous medium" image="graphics-course/photon-fog.png"></icaption>
+</wrap>
+
+<p><br>This image is not physically correct, but the ghost teapot is still pretty funny.<br></p>
+
+<wrap>
+<icaption width-x="1.5" height-x="1.5" caption="\(ô_ô)/" image="graphics-course/photon-teapot.png"></icaption>
+</wrap>
+
+<p><br>The course features a render contest at the end. My entry was inspired by the game Portal 2. It was generated using Photon Mapping to add a bit of fog and emission details near the portal edges.<br></p>
+
+<wrap>
+<icaption width-x="2" caption="Render contest entry" image="graphics-course.png"></icaption>
+</wrap>
+
+<p><br>The code is open-source, available under GPLv3 license. Below you can find the models used for the final render.</p>
+<ul>
+<p><span>* Source code:</span> <github link="https://github.com/diegoroyo/graphics-course"></github></p>
+<p><span>* Portal 2:</span> <link download="false" text="Game" link="https://store.steampowered.com/app/620/Portal_2/"></link></p>
+<p><span>* Portal 2:</span> <link download="false" text="Models" link="https://www.models-resource.com/pc_computer/portal2/"></link> <link download="false" text="Sign" link="https://www.thinking.withportals.com/view-download/?id=514"></link></p>
+<p><span>* Utah teapot:</span> <link download="false" text="Model" link="https://casual-effects.com/g3d/data10/index.html"></link></p>
+</ul>
+</div>

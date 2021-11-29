@@ -1,0 +1,30 @@
+<cover title="Futbuteo" image="futbuteo.png"></cover>
+<div style="padding: 0px 20px 20px 20px">
+<h1>Futbuteo</h1>
+<hr>
+<p>Futbuteo is a penny football (fútbol chapas) game made in Unity for PC. You can play against a friend or against one of the three AI difficulties (Windows only).</p>
+<ul>
+<p><span>* Download:</span> <link download="true" text="Game" link="https://pypi.org/project/flowvid/"></link></p>
+</ul>
+<p><br></p>
+<wrap>
+<icaption width-x="2" caption="Main menu" image="futbuteo/gameplay-3.png"></icaption>
+<icaption width-x="2" caption="Team options" image="futbuteo/gameplay-4.png"></icaption>
+<icaption width-x="2" caption="Match start" image="futbuteo/gameplay-2.png"></icaption>
+<icaption width-x="2" caption="Replay" image="futbuteo/gameplay-1.png"></icaption>
+</wrap>
+
+<p><br>Below you can find some pictures I took during its development. Credits to Knyron (<a href="https://okblogger.herokuapp.com">okblogger</a>, <a href="http://knyron.royalwebhosting.net/curriculum.htm">CV</a>), a cool friend of mine which made the cool player 3D model :^)<br></p>
+
+<wrap>
+<icaption width-x="2" caption="What is a 'physics'?" image="futbuteo/1-howdophysicswork.gif"></icaption>
+<icaption width-x="2" caption="No really, what is it" image="futbuteo/2-howdophysicswork2.gif"></icaption>
+<icaption width-x="2" caption="Match start" image="futbuteo/3-waitwhat.gif"></icaption>
+<icaption width-x="2" caption="Replay" image="futbuteo/4-replay.gif"></icaption>
+<icaption width-x="2" caption="The cooler replay" image="futbuteo/5-replay2.gif"></icaption>
+<icaption width-x="2" caption="AI logic" image="futbuteo/6-ai.gif"></icaption>
+<icaption width-x="2" caption="Match starts again" image="futbuteo/7-waitwhat.gif"></icaption>
+<icaption width-x="2" caption="Final gameplay" image="futbuteo/8-final.gif"></icaption>
+</wrap>
+
+</div>

@@ -1,0 +1,20 @@
+<cover title="flowvid" image="flowvid.png"></cover>
+<div style="padding: 0px 20px 20px 20px">
+<h1>flowvid</h1>
+<hr>
+<p>For a given pair of images, optical flow is a 2D vector field that represents the apparent motion of each pixel between the two images (e.g. "this object has moved three pixels up and two pixels to the right").<br><br>
+I built flowvid is a toolkit for common operations that deal with optical flow during my research on this field. It comes with many visualization and data manipulation presets.<br></p>
+
+<wrap>
+<icaption width-x="2" caption="Arrows represent motion" image="flowvid/flow-arrows.png"></icaption>
+<icaption width-x="2" caption="Point motion between frames" image="flowvid/track-points.png"></icaption>
+</wrap>
+
+<p><br>It has been built with Python, and is available for download on the Python Package Index (PyPI). The code is open-source, available under GPLv3 license.</p>
+<ul>
+<p><span>* Download:</span> <pypi download="false" link="https://pypi.org/project/flowvid/"></pypi></p>
+<p><span>* Documentation:</span> <github link="https://github.com/diegoroyo/flowvid/tree/master/examples"></github></p>
+<p><span>* Source code:</span> <github link="https://github.com/diegoroyo/flowvid"></github></p>
+<p><span>* Example used:</span> <youtube link="https://www.youtube.com/watch?v=eRsGyueVLvQ"></youtube></p>
+</ul>
+</div>

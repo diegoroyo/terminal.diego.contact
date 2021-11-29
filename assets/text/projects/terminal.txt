@@ -1,0 +1,10 @@
+<cover title="terminal.diego.contact" image="terminal.png"></cover>
+<div style="padding: 0px 20px 20px 20px">
+<h1>terminal.diego.contact</h1>
+<hr>
+<p>You are looking at this website! What, did you expect something else?<br><br>
+terminal is made using Flutter web.<br></p>
+<wrap>
+<screenshot width-x="2" height-x="1.5" caption="Figure 1: The website you are looking at."></screenshot>
+</wrap>
+</div>
