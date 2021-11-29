@@ -57,8 +57,8 @@ class TextCommand extends Command {
       {Key? key, required List<String> args, required this.text})
       : super._(key: key, args: args);
 
-  static TextCommand create(List<String> args, {required String text}) =>
-      TextCommand._(args: args, text: text);
+  const TextCommand.create(List<String> args, {required String text})
+      : this._(args: args, text: text);
 
   @override
   _TextCommandState createState() => _TextCommandState();
@@ -73,42 +73,36 @@ class _TextCommandState extends State<TextCommand> {
 
 class CatCommand extends Command {
   final WindowCallbacks windowCallbacks;
+  final Future<String> htmlData;
 
-  const CatCommand._(
-      {Key? key, required List<String> args, required this.windowCallbacks})
-      : super._(key: key, args: args);
+  CatCommand._(
+      {Key? key,
+      required String command,
+      required String filename,
+      required int numLines,
+      required List<String> args,
+      required this.windowCallbacks})
+      : htmlData = CatFiles.read(
+            command: command, filename: filename, numLines: numLines),
+        super._(key: key, args: args);
 
-  static CatCommand create(
-          List<String> args, WindowCallbacks windowCallbacks) =>
-      CatCommand._(args: args, windowCallbacks: windowCallbacks);
+  CatCommand.create(List<String> args, WindowCallbacks windowCallbacks)
+      : this._(
+            command: _getPositionalArg(
+                args: args, pos: 0, parse: (e) => e, defaultValue: null),
+            filename: _getPositionalArg(
+                args: args, pos: 1, parse: (e) => e, defaultValue: null),
+            numLines: _getNamedArg(
+                args: args, name: '-n', parse: int.parse, defaultValue: -1),
+            args: args,
+            windowCallbacks: windowCallbacks);
 
   @override
-  _CatCommandState createState() => _CatCommandState(args);
+  _CatCommandState createState() => _CatCommandState();
 }
 
 class _CatCommandState extends State<CatCommand> {
-  final String? command, filename;
-  final int numLines;
-  String htmlData = '';
-
-  _CatCommandState(List<String> args)
-      : command = _getPositionalArg(
-            args: args, pos: 0, parse: (e) => e, defaultValue: null),
-        filename = _getPositionalArg(
-            args: args, pos: 1, parse: (e) => e, defaultValue: null),
-        numLines = _getNamedArg(
-            args: args, name: '-n', parse: int.parse, defaultValue: -1);
-
   @override
-  void initState() {
-    super.initState();
-    CatFiles.read(command: command, filename: filename, numLines: numLines)
-        .then((data) {
-      setState(() => htmlData = data);
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) =>
-      HtmlViewer(data: htmlData, windowCallbacks: widget.windowCallbacks);
+  Widget build(BuildContext context) => HtmlViewer(
+      data: widget.htmlData, windowCallbacks: widget.windowCallbacks);
 }

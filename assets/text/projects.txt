@@ -1,20 +1,12 @@
 <elevated text="University"></elevated>
-<project name="Süper Mario Kart" color="168,248,128" image="super-mario-kart.png" text="super-mario-kart.txt" desc="C++ implementation of the original SNES game, download and play!"><p>hola</p></project>
-<project name="flowvid" color="43,39,55" image="flowvid.png" text="flowvid.txt" desc="Python library to generate customized visualizations related to optical flow"></project>
-<project name="Path tracing & photon mapping from scratch" color="62,66,78" image="graphics-course.png" text="graphics-course.txt" desc="Both algorithms implemented in C++ with no external libraries"></project>
+<project id="super-mario-kart" color="168,248,128" image="super-mario-kart.png" desc="C++ implementation of the original SNES game, download and play!"><p>hola</p></project>
+<project id="flowvid" color="43,39,55" image="flowvid.png" desc="Python library to generate customized visualizations related to optical flow"></project>
+<project id="path-tracing-and-photon-mapping" color="62,66,78" image="graphics-course.png" desc="Both algorithms implemented in C++ with no external libraries"></project>
 <elevated text="Personal"></elevated>
-<project name="Miora - reserva donde quieras" color="24,44,76" image="miora.png" text="miora.txt" desc="Bookings/appointments management app made for any business, book at any place in just three clicks!"></project>
-<project name="Futbuteo" color="80,141,65" image="futbuteo.png" text="futbuteo.txt" desc="Penny football game made in Unity with a focus on strategic AI opponents"></project>
-<project name="Cookie Clicker clone" color="255,255,255" image="cookie-clicker.png" text="cookie-clicker.txt" desc="A clone of the famous idle game I made on ROBLOX during 2013-2015 that was played over 700.000 times"></project>
-<project name="terminal.diego.contact" color="29,31,40" image="terminal.png" text="terminal.txt" desc="The website you're looking at :-)"></project>
+<project id="miora" color="24,44,76" image="miora.png" desc="Bookings/appointments management app made for any business, book at any place in just three clicks!"></project>
+<project id="futbuteo" color="80,141,65" image="futbuteo.png" desc="Penny football game made in Unity with a focus on strategic AI opponents"></project>
+<project id="cookie-clicker-clone" color="255,255,255" image="cookie-clicker.png" desc="A clone of the famous idle game I made on ROBLOX during 2013-2015 that was played over 700.000 times"></project>
+<project id="terminal" color="29,31,40" image="terminal.png" desc="The website you're looking at :-)"></project>
 <elevated text="Hackathons"></elevated>
-<project name="View my satellites" color="1,3,2" image="view-my-satellites.png" text="view-my-satellites.txt" desc="Satellite tracking app that made us world finalists for NASA's Space Apps 2019"></project>
-<project name="Move my banana" color="255,255,255" image="move-my-banana.png" text="move-my-banana.txt" desc="Optimized management of a fruit warehouse with voice commands made for UNIZAR's ImagineCode 2019"></project>
-<!--
-<p>This part is still in development :^)<br>
-Meanwhile, you can check:<br><br>
-* My GitHub page: <github/><br><br>
-* Need Another Seven Astronauts, a team I formed with some uni friends, where we got especially well placed in a hackathon making a satellite tracking app: <a href="https://2019.spaceappschallenge.org/challenges/living-our-world/set-your-sights-high/teams/need-another-seven-astronauts/project">https://2019.spaceappschallenge.org/challenges/living-our-world/set-your-sights-high/teams/need-another-seven-astronauts/project</a><br><br>
-* This website, actually: <a href="https://github.com/diegoroyo/terminal.diego.contact">https://github.com/diegoroyo/terminal.diego.contact</a><br><br>
-Come back later!</p>
--->
+<project id="view-my-satellites" color="1,3,2" image="view-my-satellites.png" desc="Satellite tracking app that made us world finalists for NASA's Space Apps 2019"></project>
+<project id="move-my-banana" color="255,255,255" image="move-my-banana.png" desc="Optimized management of a fruit warehouse with voice commands made for UNIZAR's ImagineCode 2019"></project>

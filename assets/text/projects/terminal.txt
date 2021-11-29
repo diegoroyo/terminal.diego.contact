@@ -1,6 +1,6 @@
 <cover title="terminal.diego.contact" image="terminal.png"></cover>
 <div style="padding: 0px 20px 20px 20px">
-<h1>terminal.diego.contact</h1>
+<jumplink href="/projects/terminal" text="terminal.diego.contact"></jumplink>
 <hr>
 <p>You are looking at this website! What, did you expect something else?<br><br>
 terminal is made using Flutter web.<br></p>

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:screenshot/screenshot.dart';
+import 'package:terminal/include/assets.dart';
 import 'package:terminal/include/style.dart';
 
 class ScreenshotImage extends StatefulWidget {
@@ -26,7 +27,7 @@ class ScreenshotImage extends StatefulWidget {
 
 class _ScreenshotImageState extends State<ScreenshotImage> {
   static const SIZE = 250.0;
-  MemoryImage? image;
+  ImageProvider? image;
   bool imageIsLoading = false;
 
   @override
@@ -38,7 +39,15 @@ class _ScreenshotImageState extends State<ScreenshotImage> {
       screenshot.controller
           .capture(pixelRatio: 0.3, delay: Duration(seconds: 1))
           .then((capturedImage) async {
-        setState(() => image = MemoryImage(capturedImage!));
+        if (capturedImage != null) {
+          setState(() => image = MemoryImage(capturedImage));
+        } else {
+          // idk why screenshot does not work on mobile, lets just put a
+          // placeholder there for now
+          setState(() => image = AssetImage(TerminalStyle.IS_MOBILE
+              ? TerminalAssets.projectImage('terminal/backup-vertical.png')
+              : TerminalAssets.projectImage('terminal/backup-horizontal.png')));
+        }
       });
     }
     return SizedBox(

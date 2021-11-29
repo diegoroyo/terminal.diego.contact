@@ -1,6 +1,6 @@
 <cover title="flowvid" image="flowvid.png"></cover>
 <div style="padding: 0px 20px 20px 20px">
-<h1>flowvid</h1>
+<jumplink href="/projects/flowvid" text="flowvid"></jumplink>
 <hr>
 <p>For a given pair of images, optical flow is a 2D vector field that represents the apparent motion of each pixel between the two images (e.g. "this object has moved three pixels up and two pixels to the right").<br><br>
 I built flowvid is a toolkit for common operations that deal with optical flow during my research on this field. It comes with many visualization and data manipulation presets.<br></p>

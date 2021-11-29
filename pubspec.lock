@@ -268,6 +268,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.2"
+  popover:
+    dependency: "direct main"
+    description:
+      name: popover
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.6+3"
   provider:
     dependency: transitive
     description:
@@ -337,7 +344,7 @@ packages:
     source: hosted
     version: "0.4.2"
   tuple:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: tuple
       url: "https://pub.dartlang.org"
@@ -399,6 +406,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.2"
+  url_strategy:
+    dependency: "direct main"
+    description:
+      name: url_strategy
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.0"
   vector_math:
     dependency: transitive
     description:

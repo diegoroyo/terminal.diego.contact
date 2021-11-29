@@ -2,25 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:terminal/include/assets.dart';
 import 'package:terminal/include/style.dart';
-import 'package:terminal/util/terminal_scroll_view.dart';
 import 'package:terminal/util/window_callbacks.dart';
 import 'package:terminal/widgets/buttons/animated_elevated_button.dart';
-import 'package:terminal/widgets/html_viewer.dart';
 
 class ProjectButton extends StatefulWidget {
   final WindowCallbacks windowCallbacks;
-  final String title;
+  final String id;
   final ImageProvider image;
   final String description;
   final Color color;
-  final String detailsFilename;
 
   ProjectButton(
       {Key? key,
       required this.windowCallbacks,
-      required this.title,
+      required this.id,
       required String imageString,
-      required this.detailsFilename,
       required this.description,
       required List<int> color})
       : image = AssetImage(TerminalAssets.projectImage(imageString)),
@@ -34,30 +30,24 @@ class ProjectButton extends StatefulWidget {
       : this(
             key: key,
             windowCallbacks: windowCallbacks,
-            title: context.tree.element!.attributes['name']!,
+            id: context.tree.element!.attributes['id']!,
             imageString: context.tree.element!.attributes['image']!,
             description: context.tree.element!.attributes['desc']!,
-            detailsFilename: context.tree.element!.attributes['text']!,
             color: context.tree.element!.attributes['color']!
                 .split(',')
                 .map(int.parse)
                 .toList());
 
   @override
-  _ProjectButtonState createState() => _ProjectButtonState();
+  _ProjectButtonState createState() => _ProjectButtonState(id);
 }
 
 class _ProjectButtonState extends State<ProjectButton> {
-  String? htmlData;
+  String title, detailsFilename;
 
-  @override
-  void initState() {
-    super.initState();
-    TerminalAssets.readText(TerminalAssets.projectText(widget.detailsFilename))
-        .then((data) {
-      setState(() => htmlData = data);
-    });
-  }
+  _ProjectButtonState(String id)
+      : title = TerminalAssets.PROJECT_MAP[id]!.item1,
+        detailsFilename = TerminalAssets.PROJECT_MAP[id]!.item2;
 
   Widget buildBubbleText(
           {required String text,
@@ -94,13 +84,8 @@ class _ProjectButtonState extends State<ProjectButton> {
           duration: Duration(milliseconds: 300),
           curve: Curves.easeOut,
           onPressed: () => widget.windowCallbacks.openWindow(
-              widget.windowCallbacks.buildWindow(
-                  widget.title,
-                  TerminalScrollView(
-                      child: HtmlViewer(
-                          color: Color(0xFF333541),
-                          data: htmlData!,
-                          windowCallbacks: widget.windowCallbacks)))),
+              widget.windowCallbacks.buildWindow(WindowData.html(
+                  title: title, htmlFilename: detailsFilename))),
           child: ConstrainedBox(
               constraints: BoxConstraints(minHeight: 100.0),
               child: Container(
@@ -117,7 +102,7 @@ class _ProjectButtonState extends State<ProjectButton> {
                   child: Center(
                       child: Column(children: [
                     buildBubbleText(
-                        text: widget.title,
+                        text: title,
                         color: Colors.black.withAlpha(180),
                         fontWeight: FontWeight.bold),
                     Container(height: 5.0),

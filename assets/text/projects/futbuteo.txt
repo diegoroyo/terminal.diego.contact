@@ -1,10 +1,10 @@
 <cover title="Futbuteo" image="futbuteo.png"></cover>
 <div style="padding: 0px 20px 20px 20px">
-<h1>Futbuteo</h1>
+<jumplink href="/projects/futbuteo" text="Futbuteo"></jumplink>
 <hr>
 <p>Futbuteo is a penny football (fútbol chapas) game made in Unity for PC. You can play against a friend or against one of the three AI difficulties (Windows only).</p>
 <ul>
-<p><span>* Download:</span> <link download="true" text="Game" link="https://pypi.org/project/flowvid/"></link></p>
+<p><span>* Download:</span> <link download="true" text="Game" link="https://mega.nz/file/y9BVEIBY#yg5EsZV_0mOEVu8rJuVfK-TJPh_NwY30PNxHbCKTTyk"></link></p>
 </ul>
 <p><br></p>
 <wrap>
@@ -24,7 +24,8 @@
 <icaption width-x="2" caption="The cooler replay" image="futbuteo/5-replay2.gif"></icaption>
 <icaption width-x="2" caption="AI logic" image="futbuteo/6-ai.gif"></icaption>
 <icaption width-x="2" caption="Match starts again" image="futbuteo/7-waitwhat.gif"></icaption>
-<icaption width-x="2" caption="Final gameplay" image="futbuteo/8-final.gif"></icaption>
+<icaption width-x="2" caption="(Almost) final gameplay" image="futbuteo/8-final.gif"></icaption>
+<icaption width-x="2" caption="Final gameplay 100% real no fake" image="futbuteo/final-er.png"></icaption>
 </wrap>
 
 </div>

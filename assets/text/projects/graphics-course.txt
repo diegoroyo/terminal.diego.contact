@@ -1,9 +1,9 @@
 <cover title="Path tracing & photon mapping from scratch" image="graphics-course.png"></cover>
 <div style="padding: 0px 20px 20px 20px">
-<h1>Path tracing & photon mapping from scratch</h1>
+<jumplink href="/projects/path-tracing-and-photon-mapping" text="Path tracing & photon mapping from scratch"></jumplink>
 <hr>
 <p>Course work for Informática Gráfica (Computer Graphics), a course I took on the last year of my CS degree. It implements the Monte Carlo Path Tracing and Photon Mapping algorithms. Both produce high dynamic range (HDR) images which are then converted to low dynamic range (LDR) for display i.e. PPM or PNG files.<br><br>
-Every part was implemented in C++11 only making use of standard library, including the logic for reading OBJ (3D model) files and writing PNG files.<br></p>
+Every part was implemented in C++11 only making use of the standard library, including the logic for reading OBJ (3D model) files and writing PNG files.<br></p>
 
 <wrap>
 <icaption caption="Cornell Box at Y=11" image="graphics-course/path-minecraft.png"></icaption>

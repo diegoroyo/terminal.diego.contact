@@ -1,4 +1,5 @@
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:tuple/tuple.dart';
 
 class TerminalAssets {
   static const ASSETS_ROOT = 'assets';
@@ -21,6 +22,31 @@ class TerminalAssets {
   static const TEXT_ROOT = '$ASSETS_ROOT/text';
   static const _PROJECT_TEXT_ROOT = '$TEXT_ROOT/projects';
   static projectText(String filename) => '$_PROJECT_TEXT_ROOT/$filename';
+
+  // ignore: non_constant_identifier_names
+  static final Map<String, Tuple2<String, String>> PROJECT_MAP = {
+    'super-mario-kart': //
+        Tuple2('Süper Mario Kart', projectText('super-mario-kart.txt')),
+    'flowvid': //
+        Tuple2('flowvid', projectText('flowvid.txt')),
+    'path-tracing-and-photon-mapping': //
+        Tuple2('Path tracing & photon mapping',
+            projectText('graphics-course.txt')),
+    'miora': //
+        Tuple2('Miora - reserva donde quieras', projectText('miora.txt')),
+    'futbuteo': //
+        Tuple2('Futbuteo', projectText('futbuteo.txt')),
+    'cookie-clicker-clone': //
+        Tuple2('Cookie Clicker clone', projectText('cookie-clicker.txt')),
+    'terminal': //
+        Tuple2('terminal.diego.contact', projectText('terminal.txt')),
+    'view-my-satellites': //
+        Tuple2('View my satellites', projectText('view-my-satellites.txt')),
+    'move-my-banana': //
+        Tuple2('Move my banana', projectText('move-my-banana.txt')),
+  };
+  static Tuple2<String, String>? projectFromRoute(String route) =>
+      PROJECT_MAP[route];
 
   static Future<String> readText(String filename) async =>
       rootBundle.loadString(filename);

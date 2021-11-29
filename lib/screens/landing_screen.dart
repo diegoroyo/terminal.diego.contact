@@ -2,16 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:indexed/indexed.dart';
 import 'package:intl/intl.dart';
-import 'package:screenshot/screenshot.dart';
 import 'package:terminal/include/assets.dart';
 import 'package:terminal/include/style.dart';
+import 'package:terminal/util/terminal_scroll_view.dart';
 import 'package:terminal/util/window_callbacks.dart';
 import 'package:terminal/widgets/floating_window.dart';
+import 'package:terminal/widgets/html_viewer.dart';
 import 'package:terminal/widgets/terminal/terminal.dart';
 import 'dart:math';
 
 class LandingScreen extends StatefulWidget {
-  LandingScreen();
+  final List<WindowData> initialWindows;
+
+  LandingScreen({required this.initialWindows});
 
   @override
   _LandingScreenState createState() => new _LandingScreenState();
@@ -35,16 +38,15 @@ class _LandingScreenState extends State<LandingScreen>
       requestFocus: requestFocus,
       openWindow: openWindow,
       closeWindow: closeWindow,
-      buildWindow: floatingWindow,
+      buildWindow: buildWindowData,
     );
 
     WidgetsBinding.instance!.addObserver(this);
     WidgetsBinding.instance!.addPostFrameCallback((_) {
-      openWindow(
-        terminal(
-            title: 'About me',
-            initialCommands: ['neofetch', 'head news.txt -n 2']),
-      );
+      if (widget.initialWindows.isNotEmpty) {
+        widget.initialWindows
+            .forEach((data) => openWindow(buildWindowData(data)));
+      }
     });
   }
 
@@ -116,6 +118,25 @@ class _LandingScreenState extends State<LandingScreen>
           Terminal(
               initialCommands: initialCommands,
               windowCallbacks: windowCallbacks!));
+
+  FloatingWindow htmlViewer(
+          {required String title, required String htmlFilename}) =>
+      floatingWindow(
+          title,
+          TerminalScrollView(
+              child: HtmlViewer(
+                  color: Color(0xFF333541),
+                  data: TerminalAssets.readText(htmlFilename),
+                  windowCallbacks: windowCallbacks!)));
+
+  FloatingWindow buildWindowData(WindowData data) {
+    switch (data.type) {
+      case WindowType.TERMINAL:
+        return terminal(title: data.title, initialCommands: data.commands!);
+      case WindowType.HTML_VIEWER:
+        return htmlViewer(title: data.title, htmlFilename: data.htmlFilename!);
+    }
+  }
 
   void requestFocus(FloatingWindow window) {
     var index = windows.indexOf(window);
@@ -226,33 +247,28 @@ class _LandingScreenState extends State<LandingScreen>
             ],
           )));
 
-  ScreenshotController controller = ScreenshotController();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomInset: true,
-        body: Screenshot(
-            controller: controller,
-            child: Container(
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                image: AssetImage(TerminalAssets.BACKGROUND_IMAGE),
-                fit: BoxFit.cover,
-              )),
-              child: SafeArea(
-                  child: Indexer(
-                clipBehavior: Clip.none,
-                children: [
-                  Indexed(index: 0, child: Center(child: _buildCenter()))
-                ]..addAll(windows
-                    .asMap()
-                    .entries
-                    .map<Widget>((entry) => Indexed(
-                        index: windowIndex[entry.key],
-                        child: Positioned.fill(child: entry.value)))
-                    .toList()),
-              )),
-            )));
+        body: Container(
+          decoration: BoxDecoration(
+              image: DecorationImage(
+            image: AssetImage(TerminalAssets.BACKGROUND_IMAGE),
+            fit: BoxFit.cover,
+          )),
+          child: SafeArea(
+              child: Indexer(
+            clipBehavior: Clip.none,
+            children: [Indexed(index: 0, child: Center(child: _buildCenter()))]
+              ..addAll(windows
+                  .asMap()
+                  .entries
+                  .map<Widget>((entry) => Indexed(
+                      index: windowIndex[entry.key],
+                      child: Positioned.fill(child: entry.value)))
+                  .toList()),
+          )),
+        ));
   }
 }

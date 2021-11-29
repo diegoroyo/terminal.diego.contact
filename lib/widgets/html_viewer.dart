@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:terminal/include/assets.dart';
 import 'package:terminal/include/style.dart';
 import 'package:terminal/util/html.dart';
 import 'package:terminal/util/window_callbacks.dart';
@@ -9,18 +10,18 @@ import 'package:terminal/widgets/images/caption_image.dart';
 import 'package:terminal/widgets/images/cover_image.dart';
 import 'package:terminal/widgets/images/screenshot_image.dart';
 import 'package:terminal/widgets/text/elevated_text.dart';
+import 'package:terminal/widgets/text/jump_link.dart';
 
 class HtmlViewer extends StatefulWidget {
   final Color color;
-  final String data;
+  final Future<String> data;
   final WindowCallbacks windowCallbacks;
 
   const HtmlViewer(
       {Key? key,
       required this.data,
       required this.windowCallbacks,
-      this.color = Colors.transparent})
-      : super(key: key);
+      this.color = Colors.transparent});
 
   @override
   _HtmlViewerState createState() => _HtmlViewerState();
@@ -28,6 +29,7 @@ class HtmlViewer extends StatefulWidget {
 
 class _HtmlViewerState extends State<HtmlViewer> {
   Map<String, Widget Function(RenderContext, Widget)>? customRender;
+  String? htmlData;
 
   String? getAttr(RenderContext context, String name) =>
       context.tree.element!.attributes[name];
@@ -54,6 +56,8 @@ class _HtmlViewerState extends State<HtmlViewer> {
   @override
   void initState() {
     super.initState();
+
+    widget.data.then((data) => setState(() => htmlData = data));
 
     customRender = {
       'selectable': (context, _) => SelectableText(context.tree.element!.text,
@@ -82,6 +86,7 @@ class _HtmlViewerState extends State<HtmlViewer> {
           download: parseBool(getAttr(context, 'download')),
           text: getAttr(context, 'text')!,
           link: getAttr(context, 'link')!),
+      'jumplink': (context, _) => JumpLink.fromContext(context: context),
       'project': (context, _) => ProjectButton.fromContext(
           context: context, windowCallbacks: widget.windowCallbacks),
       'elevated': (context, _) => ElevatedText.fromContext(context: context),
@@ -94,17 +99,19 @@ class _HtmlViewerState extends State<HtmlViewer> {
   }
 
   @override
-  Widget build(BuildContext context) => Container(
-      color: widget.color,
-      child: Html(
-        customRender: customRender!,
-        style: TerminalStyle.HTML_MONOSPACED,
-        data: widget.data,
-        tagsList: Html.tags..addAll(customRender!.keys),
-        onLinkTap: (url, context, attributes, element) {
-          if (url != null) {
-            openUrl(url);
-          }
-        },
-      ));
+  Widget build(BuildContext context) => htmlData == null
+      ? Container()
+      : Container(
+          color: widget.color,
+          child: Html(
+            customRender: customRender!,
+            style: TerminalStyle.HTML_MONOSPACED,
+            data: htmlData!,
+            tagsList: Html.tags..addAll(customRender!.keys),
+            onLinkTap: (url, context, attributes, element) {
+              if (url != null) {
+                openUrl(url);
+              }
+            },
+          ));
 }

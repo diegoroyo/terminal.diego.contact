@@ -1,6 +1,6 @@
 <cover title="View my satellites" image="view-my-satellites.png"></cover>
 <div style="padding: 0px 20px 20px 20px">
-<h1>View my satellites</h1>
+<jumplink href="/projects/view-my-satellites" text="View my satellites"></jumplink>
 <hr>
 <p>View the satellites that orbit around Earth in a simple and interactive way, and learn more details about them. It uses your phone's gyroscope along with satellite tracking data so that you can point your phone at the sky and see exactly where the satellites are. Science at the palm of your hand!<br><br>
 View my satellites was made for NASA's Space Apps 2019 competition. My team of uni friends, Need Another Seven Astronauts (NA7A), won the competition in Zaragoza and was one of the 36 world finalists.</p>

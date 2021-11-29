@@ -1,6 +1,6 @@
 <cover title="Cookie Clicker clone" image="cookie-clicker.png"></cover>
 <div style="padding: 0px 20px 20px 20px">
-<h1>Cookie Clicker clone</h1>
+<jumplink href="/projects/cookie-clicker-clone" text="Cookie Clicker clone"></jumplink>
 <hr>
 <p>Cookie Clicker is an idle game about making an absurd amount of cookies. It was created by Julien Thiennot "Orteil" in 2013.<br><br>
 I recreated (part of) this game in ROBLOX, adding multiplayer functionality. You could bake cookies with up to 7 friends and compete for the leaderboard. The game is not playable anymore as ROBLOX's API changes have broken it over time.<br></p>
@@ -12,9 +12,9 @@ I recreated (part of) this game in ROBLOX, adding multiplayer functionality. You
 <icaption width-x="2" caption="Second version, leaderboard" image="cookie-clicker/new-1.png"></icaption>
 </wrap>
 
-<p><br>Check out the original game:</p>
+<p><br>Check out the original Cookie Clicker game:</p>
 <ul>
-<p><span>* Cookie Clicker:</span> <link download="false" text="Web" link="https://orteil.dashnet.org/cookieclicker/"></link> <link download="false" text="Steam" link="https://store.steampowered.com/app/1454400/Cookie_Clicker/"></link></p>
+<p><span>* Game:</span> <link download="false" text="Web" link="https://orteil.dashnet.org/cookieclicker/"></link> <link download="false" text="Steam" link="https://store.steampowered.com/app/1454400/Cookie_Clicker/"></link></p>
 <p><span>* Orteil:</span> <twitter link="https://twitter.com/Orteil42"></twitter></p>
 </ul>
 </div>

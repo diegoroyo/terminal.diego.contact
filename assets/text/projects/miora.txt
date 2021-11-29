@@ -1,6 +1,6 @@
 <cover title="Miora - reserva donde quieras" image="miora.png"></cover>
 <div style="padding: 0px 20px 20px 20px">
-<h1>Miora - reserva donde quieras</h1>
+<jumplink href="/projects/miora" text="Miora - reserva donde quieras"></jumplink>
 <hr>
 <p>Miora is a booking management app available for Android & iOS. My friend Mario Domínguez (<a href="https://www.youtube.com/channel/UC9AdMdNX3nBVn6eHYR701zA">YouTube</a>, <a href="https://dogaprodbydoga.com/">website</a>) is in charge of design and marketing, and I'm in charge of all the tech stuff.<br><br>
 If you run a business, you can register in Miora to manage all your clients in a friendly interface, with more features than just pen and paper. Miora manages your free and occupied slots, and notifies you of your upcoming clients so you do not have to worry. Works for most businesses: restaurants, hairdressers, doctor appointments, and more.<br></p>

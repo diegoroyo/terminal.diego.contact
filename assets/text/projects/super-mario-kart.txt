@@ -1,8 +1,8 @@
 <cover title="Süper Mario Kart" image="super-mario-kart.png"></cover>
 <div style="padding: 0px 20px 20px 20px">
-<h1>Süper Mario Kart</h1>
+<jumplink href="/projects/super-mario-kart" text="Süper Mario Kart"></jumplink>
 <hr>
-<p>Süper Mario Kart is an C++ implementation of Super Mario Kart, a kart racing video game developed and published by Nintendo for the Super Nintendo Entertainment System in 1992.<br><br>
+<p>Süper Mario Kart is a C++ implementation of Super Mario Kart, a kart racing video game developed and published by Nintendo for the Super Nintendo Entertainment System in 1992.<br><br>
 Authors: <a href="https://github.com/diegoroyo">Diego Royo</a>, <a href="https://github.com/vmbatlle">Víctor Martínez</a> and <a href="https://github.com/JaviBite">Javier Giménez</a>.<br></p>
 
 <wrap>

@@ -56,7 +56,6 @@ class TerminalStyle {
     'body': Style(margin: EdgeInsets.zero, padding: EdgeInsets.zero),
     'table': Style(display: Display.INLINE),
     'td': Style(display: Display.INLINE_BLOCK),
-    'h1': htmlMonospaced(fontSize: 20.0, fontWeight: FontWeight.bold),
     'li': htmlMonospaced(),
     'hr': Style(
         backgroundColor: Colors.white, margin: EdgeInsets.only(bottom: 12.0)),
