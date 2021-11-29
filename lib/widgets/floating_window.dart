@@ -3,7 +3,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:terminal/include/assets.dart';
-import 'package:terminal/include/style.dart';
+import 'package:terminal/util/window_callbacks.dart';
 import 'package:vector_math/vector_math_64.dart' show Vector3;
 import 'package:hovering/hovering.dart';
 
@@ -13,7 +13,7 @@ class FloatingWindow extends StatefulWidget {
   final Point<double> Function(Point<double>?) getPosition;
   final bool movable;
   final Widget child;
-  final void Function(FloatingWindow) onClosed, requestFocus;
+  final WindowCallbacks windowCallbacks;
 
   FloatingWindow(
       {Key? key,
@@ -22,8 +22,7 @@ class FloatingWindow extends StatefulWidget {
       required this.getSize,
       required this.getPosition,
       required this.movable,
-      required this.requestFocus,
-      required this.onClosed})
+      required this.windowCallbacks})
       : super(key: key);
 
   @override
@@ -116,9 +115,13 @@ class _FloatingWindowState extends State<FloatingWindow>
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Spacer(),
-                    Text(widget.title),
-                    Spacer(),
+                    Expanded(
+                        child: Text(
+                      widget.title,
+                      textAlign: TextAlign.center,
+                      maxLines: 1,
+                      overflow: TextOverflow.clip,
+                    )),
                     _buildTopBarIcon(
                         image: TerminalAssets.ICON_MIMINIZE,
                         padding: EdgeInsets.fromLTRB(0.0, 5.0, 4.0, 5.0),
@@ -150,7 +153,7 @@ class _FloatingWindowState extends State<FloatingWindow>
             transform: Matrix4.translationValues(position.x, position.y, 0.0),
             child: GestureDetector(
                 behavior: HitTestBehavior.translucent,
-                onPanDown: (_) => widget.requestFocus(widget),
+                onPanDown: (_) => widget.windowCallbacks.requestFocus(widget),
                 child: Container(
                     transform: deformMatrix,
                     decoration: BoxDecoration(
@@ -197,7 +200,8 @@ class _FloatingWindowState extends State<FloatingWindow>
                                       curve: Curves.easeInOut,
                                       onEnd: () {
                                         if (closed) {
-                                          widget.onClosed(widget);
+                                          widget.windowCallbacks
+                                              .closeWindow(widget);
                                         }
                                       },
                                       width: closed ? 0 : size.width,

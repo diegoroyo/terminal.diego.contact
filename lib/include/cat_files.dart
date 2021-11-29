@@ -1,4 +1,3 @@
-import 'package:flutter/services.dart' show rootBundle;
 import 'package:terminal/include/assets.dart';
 import 'package:terminal/include/style.dart';
 import 'package:terminal/widgets/terminal/terminal.dart' show Terminal;
@@ -7,9 +6,9 @@ class CatFiles {
   static final textDir = TerminalAssets.TEXT_ROOT;
   // ignore: non_constant_identifier_names
   static final Map<String, Future<String> Function()> FILENAME_MAP = {
-    'neofetch.txt': () => _neofetch(),
-    'mewo.txt': () => _mewo(),
-    'help.txt': () => _help(),
+    'neofetch.txt': _neofetch,
+    'mewo.txt': _mewo,
+    'help.txt': _help,
     'credits.txt': () => _assetFile('$textDir/credits.txt'),
     'news.txt': () => _assetFile('$textDir/news.txt'),
     'projects.txt': () => _assetFile('$textDir/projects.txt'),
@@ -41,7 +40,7 @@ class CatFiles {
   }
 
   static Future<String> _assetFile(String filename) async {
-    return rootBundle.loadString(filename);
+    return TerminalAssets.readText(filename);
   }
 
   static Future<String> _help() {

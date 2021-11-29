@@ -17,38 +17,54 @@ class TerminalStyle {
   static const DEFAULT_FONTSIZE = 16.0;
   static const DEFAULT_FONTCOLOR = Colors.white;
   static const DEFAULT_FONTWEIGHT = FontWeight.normal;
+  static const DEFAULT_FONTSTYLE = FontStyle.normal;
   static const MONOSPACED_FONT = 'JuliaMono';
 
   static TextStyle monospaced(
       {double fontSize = DEFAULT_FONTSIZE,
       Color color = DEFAULT_FONTCOLOR,
-      FontWeight fontWeight = DEFAULT_FONTWEIGHT}) {
+      FontWeight fontWeight = DEFAULT_FONTWEIGHT,
+      FontStyle fontStyle = DEFAULT_FONTSTYLE}) {
     return TextStyle(
       fontFamily: MONOSPACED_FONT,
       fontSize: fontSize,
       color: color,
       fontWeight: fontWeight,
+      fontStyle: fontStyle,
     );
   }
 
   static Style htmlMonospaced(
           {double fontSize = DEFAULT_FONTSIZE,
           Color color = DEFAULT_FONTCOLOR,
+          EdgeInsets margin = EdgeInsets.zero,
+          Color backgroundColor = Colors.transparent,
+          VerticalAlign verticalAlign = VerticalAlign.BASELINE,
           FontWeight fontWeight = DEFAULT_FONTWEIGHT}) =>
       Style(
-          margin: EdgeInsets.zero,
+          margin: margin,
           padding: EdgeInsets.zero,
           fontSize: FontSize(fontSize),
+          backgroundColor: backgroundColor,
           color: color,
+          verticalAlign: verticalAlign,
           fontFamily: MONOSPACED_FONT,
           fontWeight: fontWeight);
 
   // ignore: non_constant_identifier_names
   static final Map<String, Style> HTML_MONOSPACED = {
     'body': Style(margin: EdgeInsets.zero, padding: EdgeInsets.zero),
+    'table': Style(display: Display.INLINE),
+    'td': Style(display: Display.INLINE_BLOCK),
+    'h1': htmlMonospaced(fontSize: 20.0, fontWeight: FontWeight.bold),
+    'li': htmlMonospaced(),
+    'hr': Style(
+        backgroundColor: Colors.white, margin: EdgeInsets.only(bottom: 12.0)),
     'p': htmlMonospaced(),
     'a': htmlMonospaced(color: Colors.lightBlue[100]!),
     'pre': htmlMonospaced(),
-    'span': htmlMonospaced(color: Color(0xFFFD3762))
+    'span': htmlMonospaced(color: Color(0xFFFD3762)),
+    'ul > p': htmlMonospaced(margin: EdgeInsets.only(bottom: 10.0)),
+    'ul > p > span': htmlMonospaced(verticalAlign: VerticalAlign.SUPER),
   };
 }

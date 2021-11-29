@@ -1,28 +1,34 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:terminal/include/cat_files.dart';
 import 'package:terminal/include/style.dart';
-import 'package:terminal/util/scroll_behavior_no_glow.dart';
+import 'package:terminal/util/terminal_scroll_view.dart';
+import 'package:terminal/util/window_callbacks.dart';
 import 'package:terminal/widgets/terminal/command_prompt.dart';
 import 'package:terminal/widgets/terminal/commands.dart';
 import 'dart:collection' show Queue;
 
+typedef CommandCreateFunc = Command Function(List<String>, WindowCallbacks);
+
 class Terminal extends StatefulWidget {
   // ignore: non_constant_identifier_names
-  static final Map<String, Command Function(List<String>)> COMMAND_MAP = {
-    'ls': (args) {
+  static final Map<String, CommandCreateFunc> COMMAND_MAP = {
+    'ls': (args, _) {
       List<String> filenames = CatFiles.FILENAME_MAP.keys.toList();
       filenames.sort();
       return TextCommand.create(args, text: filenames.join('  '));
     },
-    'cat': (args) => CatCommand.create(args),
-    'neofetch': (args) => CatCommand.create(['cat', 'neofetch.txt']),
-    'head': (args) => CatCommand.create(args),
-    'help': (args) => CatCommand.create(['cat', 'help.txt']),
+    'cat': (args, callbacks) => CatCommand.create(args, callbacks),
+    'neofetch': (args, callbacks) =>
+        CatCommand.create(['cat', 'neofetch.txt'], callbacks),
+    'head': (args, callbacks) => CatCommand.create(args, callbacks),
+    'help': (args, callbacks) =>
+        CatCommand.create(['cat', 'help.txt'], callbacks),
   };
+  final WindowCallbacks windowCallbacks;
   final List<String>? initialCommands;
 
-  const Terminal({Key? key, this.initialCommands}) : super(key: key);
+  Terminal({Key? key, required this.windowCallbacks, this.initialCommands})
+      : super(key: key);
 
   @override
   _TerminalState createState() => _TerminalState();
@@ -77,7 +83,7 @@ class _TerminalState extends State<Terminal> with WidgetsBindingObserver {
     var firstArg = arguments.first;
     if (arguments.length > 0 && Terminal.COMMAND_MAP.containsKey(firstArg)) {
       var commandCreate = Terminal.COMMAND_MAP[firstArg]!;
-      _addWidget(commandCreate(arguments));
+      _addWidget(commandCreate(arguments, widget.windowCallbacks));
     } else if (firstArg.isNotEmpty) {
       setState(() => _widgets!.add(Text(
           'terminal: $firstArg: command not found, type \'help\' to see available commands',
@@ -133,30 +139,16 @@ class _TerminalState extends State<Terminal> with WidgetsBindingObserver {
         child: Container(
             margin: EdgeInsets.only(right: 3.0, top: 5.0, bottom: 5.0),
             clipBehavior: Clip.none,
-            child: RawScrollbar(
-                thumbColor: Colors.white12,
+            child: TerminalScrollView(
                 controller: _scrollController,
-                isAlwaysShown: true,
-                thickness: 7.0,
-                radius: Radius.circular(20.0),
-                child: ScrollConfiguration(
-                    behavior: ScrollConfiguration.of(context)
-                        .copyWith(scrollbars: false),
-                    child: ScrollConfiguration(
-                        behavior: ScrollBehaviorNoGlow(),
-                        child: SingleChildScrollView(
-                          clipBehavior: Clip.none,
-                          // reverse: true,
-                          padding: EdgeInsets.only(left: 5.0, right: 15.0),
-                          controller: _scrollController,
-                          dragStartBehavior: DragStartBehavior.down,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: (_widgets ?? [])
-                                .map((e) =>
-                                    SizedBox(width: double.infinity, child: e))
-                                .toList(),
-                          ),
-                        ))))));
+                child: Container(
+                  padding: EdgeInsets.only(left: 5.0, right: 15.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: (_widgets ?? [])
+                        .map((e) => SizedBox(width: double.infinity, child: e))
+                        .toList(),
+                  ),
+                ))));
   }
 }

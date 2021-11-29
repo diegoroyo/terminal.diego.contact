@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_feather_icons/flutter_feather_icons.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:terminal/include/cat_files.dart';
 import 'package:terminal/include/style.dart';
-import 'package:terminal/util/html.dart';
-import 'package:terminal/widgets/buttons/social_button.dart';
+import 'package:terminal/util/window_callbacks.dart';
+import 'package:terminal/widgets/html_viewer.dart';
 
 dynamic _getPositionalArg(
     {required List<String> args,
@@ -74,25 +72,21 @@ class _TextCommandState extends State<TextCommand> {
 }
 
 class CatCommand extends Command {
-  const CatCommand._({Key? key, required List<String> args})
+  final WindowCallbacks windowCallbacks;
+
+  const CatCommand._(
+      {Key? key, required List<String> args, required this.windowCallbacks})
       : super._(key: key, args: args);
 
-  static CatCommand create(List<String> args) => CatCommand._(args: args);
+  static CatCommand create(
+          List<String> args, WindowCallbacks windowCallbacks) =>
+      CatCommand._(args: args, windowCallbacks: windowCallbacks);
 
   @override
   _CatCommandState createState() => _CatCommandState(args);
 }
 
 class _CatCommandState extends State<CatCommand> {
-  final Map<String, Widget Function(RenderContext, Widget)> customRender = {
-    'selectable': (context, widget) => SelectableText(
-        context.tree.element!.text,
-        style: TerminalStyle.monospaced()),
-    'twitter': (content, widget) => SocialButton.twitter(),
-    'linkedin': (content, widget) => SocialButton.linkedin(),
-    'github': (content, widget) => SocialButton.github(),
-  };
-
   final String? command, filename;
   final int numLines;
   String htmlData = '';
@@ -115,17 +109,6 @@ class _CatCommandState extends State<CatCommand> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Html(
-      customRender: customRender,
-      style: TerminalStyle.HTML_MONOSPACED,
-      data: htmlData,
-      tagsList: Html.tags..addAll(customRender.keys),
-      onLinkTap: (url, context, attributes, element) {
-        if (url != null) {
-          openUrl(url);
-        }
-      },
-    );
-  }
+  Widget build(BuildContext context) =>
+      HtmlViewer(data: htmlData, windowCallbacks: widget.windowCallbacks);
 }

@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:indexed/indexed.dart';
 import 'package:intl/intl.dart';
+import 'package:screenshot/screenshot.dart';
 import 'package:terminal/include/assets.dart';
 import 'package:terminal/include/style.dart';
+import 'package:terminal/util/window_callbacks.dart';
 import 'package:terminal/widgets/floating_window.dart';
 import 'package:terminal/widgets/terminal/terminal.dart';
 import 'dart:math';
@@ -18,6 +20,7 @@ class LandingScreen extends StatefulWidget {
 class _LandingScreenState extends State<LandingScreen>
     with WidgetsBindingObserver {
   static const HOME_COLOR = Color(0xFF1D1F28);
+  WindowCallbacks? windowCallbacks;
 
   Random random = Random();
 
@@ -27,6 +30,13 @@ class _LandingScreenState extends State<LandingScreen>
   @override
   void initState() {
     super.initState();
+
+    windowCallbacks = WindowCallbacks(
+      requestFocus: requestFocus,
+      openWindow: openWindow,
+      closeWindow: closeWindow,
+      buildWindow: floatingWindow,
+    );
 
     WidgetsBinding.instance!.addObserver(this);
     WidgetsBinding.instance!.addPostFrameCallback((_) {
@@ -64,14 +74,18 @@ class _LandingScreenState extends State<LandingScreen>
         2 * VERTICAL_PADDING; // a bit of spacing
   }
 
+  /// Called when terminal is created or window is resized
   Size getTerminalSize() {
     double width = TerminalStyle.IS_VERTICAL ? 350.0 : 600.0;
     double height = TerminalStyle.IS_MOBILE ? getTerminalSizeYMobile() : 500.0;
     return Size(width, height);
   }
 
+  /// Called when terminal is created or window is resized
   Point<double> getTerminalPosition([Point<double>? original]) {
-    if (original != null) {
+    if (original != null &&
+        !TerminalStyle.IS_MOBILE &&
+        !TerminalStyle.IS_VERTICAL) {
       return original;
     }
     double posX = TerminalStyle.IS_VERTICAL || TerminalStyle.IS_MOBILE
@@ -85,18 +99,23 @@ class _LandingScreenState extends State<LandingScreen>
 
   bool getMovable() => !TerminalStyle.IS_MOBILE;
 
-  FloatingWindow terminal(
-      {required String title, required List<String> initialCommands}) {
-    return FloatingWindow(
+  FloatingWindow floatingWindow(String title, Widget child) => FloatingWindow(
         key: GlobalKey(),
         title: title,
         getSize: getTerminalSize,
         getPosition: getTerminalPosition,
         movable: getMovable(),
-        child: Terminal(initialCommands: initialCommands),
-        requestFocus: requestFocus,
-        onClosed: closeWindow);
-  }
+        child: child,
+        windowCallbacks: windowCallbacks!,
+      );
+
+  FloatingWindow terminal(
+          {required String title, required List<String> initialCommands}) =>
+      floatingWindow(
+          title,
+          Terminal(
+              initialCommands: initialCommands,
+              windowCallbacks: windowCallbacks!));
 
   void requestFocus(FloatingWindow window) {
     var index = windows.indexOf(window);
@@ -207,28 +226,33 @@ class _LandingScreenState extends State<LandingScreen>
             ],
           )));
 
+  ScreenshotController controller = ScreenshotController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomInset: true,
-        body: Container(
-          decoration: BoxDecoration(
-              image: DecorationImage(
-            image: AssetImage(TerminalAssets.BACKGROUND_IMAGE),
-            fit: BoxFit.cover,
-          )),
-          child: SafeArea(
-              child: Indexer(
-            clipBehavior: Clip.none,
-            children: [Indexed(index: 0, child: Center(child: _buildCenter()))]
-              ..addAll(windows
-                  .asMap()
-                  .entries
-                  .map<Widget>((entry) => Indexed(
-                      index: windowIndex[entry.key],
-                      child: Positioned.fill(child: entry.value)))
-                  .toList()),
-          )),
-        ));
+        body: Screenshot(
+            controller: controller,
+            child: Container(
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                image: AssetImage(TerminalAssets.BACKGROUND_IMAGE),
+                fit: BoxFit.cover,
+              )),
+              child: SafeArea(
+                  child: Indexer(
+                clipBehavior: Clip.none,
+                children: [
+                  Indexed(index: 0, child: Center(child: _buildCenter()))
+                ]..addAll(windows
+                    .asMap()
+                    .entries
+                    .map<Widget>((entry) => Indexed(
+                        index: windowIndex[entry.key],
+                        child: Positioned.fill(child: entry.value)))
+                    .toList()),
+              )),
+            )));
   }
 }
