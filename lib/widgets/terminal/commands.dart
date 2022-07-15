@@ -78,7 +78,7 @@ class CatCommand extends Command {
   CatCommand._(
       {Key? key,
       required String command,
-      required String filename,
+      required String? filename,
       required int numLines,
       required List<String> args,
       required this.windowCallbacks})
