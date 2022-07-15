@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:terminal/include/assets.dart';
 import 'package:terminal/include/style.dart';
 import 'package:terminal/util/html.dart';
 import 'package:terminal/util/window_callbacks.dart';

@@ -30,7 +30,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_feather_icons: ^2.0.0+1
   hovering: ^1.0.4
-  flutter_html: ^2.1.5
+  flutter_html: ^2.2.1
   intl: ^0.17.0
   flutter_svg: ^0.23.0+1
   indexed: ^0.0.6
