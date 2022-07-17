@@ -91,12 +91,22 @@ class _LandingScreenState extends State<LandingScreen>
         !TerminalStyle.IS_VERTICAL) {
       return original;
     }
-    double posX = TerminalStyle.IS_VERTICAL || TerminalStyle.IS_MOBILE
-        ? 0.0
-        : random.nextInt(300) - 150;
-    double posY = TerminalStyle.IS_VERTICAL || TerminalStyle.IS_MOBILE
-        ? 0.0
-        : random.nextInt(300) - 150;
+    double maxPosX = 0.0, maxPosY = 0.0;
+    if (!TerminalStyle.IS_VERTICAL && !TerminalStyle.IS_MOBILE) {
+      Size size = getTerminalSize();
+      const MAX_POS = 150.0;
+      const PADDING = 20.0;
+
+      maxPosX = ((MediaQuery.of(context).size.width - size.width) / 2 - PADDING)
+          .clamp(0.0, MAX_POS);
+      maxPosY =
+          ((MediaQuery.of(context).size.height - size.height) / 2 - PADDING)
+              .clamp(0.0, MAX_POS);
+    }
+    double posX =
+        maxPosX == 0 ? 0.0 : random.nextInt(maxPosX.round() * 2) - maxPosX;
+    double posY =
+        maxPosY == 0 ? 0.0 : random.nextInt(maxPosY.round() * 2) - maxPosY;
     return Point(posX, posY);
   }
 
