@@ -74,6 +74,10 @@ class TerminalAssets {
     }
   }
 
+  // note: note how it needs a trailing slash
+  static const _PUBLIC_ROOT = '/public';
+  static const PDF_CV = '$_PUBLIC_ROOT/CV_Diego_Royo_Meneses.pdf';
+
   static Future<String> readText(String filename) async =>
       rootBundle.loadString(filename);
 

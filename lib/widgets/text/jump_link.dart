@@ -4,6 +4,7 @@ import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:terminal/include/style.dart';
 import 'package:popover/popover.dart';
+import 'package:terminal/util/html.dart';
 
 class JumpLink extends StatelessWidget {
   final String text, link;
@@ -13,9 +14,7 @@ class JumpLink extends StatelessWidget {
     assert(link.startsWith('/')); // local link
     if (link.startsWith('/')) {
       // relative
-      String base =
-          Uri.base.toString().replaceFirst(RegExp('${Uri.base.path}\$'), '');
-      return '$base$link';
+      return addBaseUrl(link);
     } else {
       // absolute (i hope)
       return link;

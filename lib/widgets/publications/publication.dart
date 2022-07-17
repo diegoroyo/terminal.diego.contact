@@ -220,9 +220,7 @@ class _PublicationState extends State<Publication> {
       openUrl(content);
     } else if (action == 'pdf') {
       assert(content.startsWith('/'));
-      String base =
-          Uri.base.toString().replaceFirst(RegExp('${Uri.base.path}\$'), '');
-      openUrl('$base$content');
+      openUrl(addBaseUrl(content));
     } else if (action == 'bibtex') {
       Clipboard.setData(ClipboardData(text: content));
       animatePopover(

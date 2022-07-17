@@ -4,6 +4,7 @@ import 'package:indexed/indexed.dart';
 import 'package:intl/intl.dart';
 import 'package:terminal/include/assets.dart';
 import 'package:terminal/include/style.dart';
+import 'package:terminal/util/html.dart';
 import 'package:terminal/util/terminal_scroll_view.dart';
 import 'package:terminal/util/window_callbacks.dart';
 import 'package:terminal/widgets/floating_window.dart';
@@ -230,12 +231,10 @@ class _LandingScreenState extends State<LandingScreen>
                       onTap: () => setState(() => openWindow(terminal(
                           title: 'Projects',
                           initialCommands: ['cat projects.txt'])))),
-                  // _buildLaunchButton(
-                  //     image: TerminalAssets.ICON_CV,
-                  //     label: 'Curriculum Vitae',
-                  //     onTap: () => setState(() => openWindow(terminal(
-                  //         title: 'Curriculum Vitae',
-                  //         initialCommands: ['cat cv.pdf'])))), // TODO
+                  _buildLaunchButton(
+                      image: TerminalAssets.ICON_CV,
+                      label: 'Curriculum Vitae',
+                      onTap: () => openUrl(addBaseUrl(TerminalAssets.PDF_CV))),
                   _buildLaunchButton(
                       image: TerminalAssets.ICON_PUBLICATIONS,
                       label: 'Publications',

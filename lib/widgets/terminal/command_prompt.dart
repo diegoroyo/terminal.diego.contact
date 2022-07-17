@@ -111,7 +111,7 @@ class _CommandPromptState extends State<CommandPrompt> {
                     TabIntent: CallbackAction<TabIntent>(onInvoke: (_) {
                       String text = textController.text;
                       if (text.isEmpty) {
-                        return;
+                        return null;
                       }
                       int pos = textController.selection.start;
                       bool recommendCommands =
@@ -128,7 +128,7 @@ class _CommandPromptState extends State<CommandPrompt> {
                           print('Terminal autocompletion assertion error: '
                               'trying to autocomplete a text file when the cursor '
                               'is on the start on the line (a command should be recommended instead?)');
-                          return;
+                          return null;
                         }
                         partial = text.substring(lastSpace + 1, pos);
                         autocompletes = CatFiles.FILENAME_MAP.keys.toList();
@@ -136,7 +136,7 @@ class _CommandPromptState extends State<CommandPrompt> {
                       List<String> filteredAutocompletes = autocomplete(
                           partial: partial, autocompletes: autocompletes);
                       if (filteredAutocompletes.isEmpty) {
-                        return;
+                        return null;
                       } else if (filteredAutocompletes.length == 1) {
                         String result =
                             filteredAutocompletes[0].substring(partial.length);
@@ -153,6 +153,7 @@ class _CommandPromptState extends State<CommandPrompt> {
                         widget.onShowAutocompleteResults(
                             text, pos, filteredAutocompletes);
                       }
+                      return null;
                     }),
                     ArrowUpIntent: CallbackAction<ArrowUpIntent>(onInvoke: (_) {
                       int idToRequest = lastCommandsQueue.length;
@@ -160,7 +161,7 @@ class _CommandPromptState extends State<CommandPrompt> {
                           widget.requestCommandHistory(idToRequest);
                       if (replaceCommand == null) {
                         // we have reached the history limit, no more commands
-                        return;
+                        return null;
                       }
                       if (idToRequest > 0) {
                         // we need to request an old command already inputted
@@ -178,6 +179,7 @@ class _CommandPromptState extends State<CommandPrompt> {
                         textController.selection = TextSelection.fromPosition(
                             TextPosition(offset: textController.text.length));
                       });
+                      return null;
                     }),
                     ArrowDownIntent:
                         CallbackAction<ArrowDownIntent>(onInvoke: (_) {
@@ -189,6 +191,7 @@ class _CommandPromptState extends State<CommandPrompt> {
                               TextPosition(offset: textController.text.length));
                         });
                       }
+                      return null;
                     }),
                   },
                   child: TextField(

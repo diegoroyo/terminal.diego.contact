@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:terminal/routes.dart';
 import 'package:url_strategy/url_strategy.dart';
