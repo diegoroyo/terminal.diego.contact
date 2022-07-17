@@ -24,13 +24,15 @@ class TerminalStyle {
       {double fontSize = DEFAULT_FONTSIZE,
       Color color = DEFAULT_FONTCOLOR,
       FontWeight fontWeight = DEFAULT_FONTWEIGHT,
-      FontStyle fontStyle = DEFAULT_FONTSTYLE}) {
+      FontStyle fontStyle = DEFAULT_FONTSTYLE,
+      TextDecoration? decoration}) {
     return TextStyle(
       fontFamily: MONOSPACED_FONT,
       fontSize: fontSize,
       color: color,
       fontWeight: fontWeight,
       fontStyle: fontStyle,
+      decoration: decoration,
     );
   }
 

@@ -175,32 +175,35 @@ class _LandingScreenState extends State<LandingScreen>
           {required String image,
           required String label,
           required void Function() onTap}) =>
-      TextButton(
-        onPressed: onTap,
-        style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(Colors.black12),
-          overlayColor: MaterialStateProperty.all(Colors.black12),
-          foregroundColor: MaterialStateProperty.all(Colors.black12),
-          padding: MaterialStateProperty.all(EdgeInsets.all(15.0)),
-          shape: MaterialStateProperty.all(RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0))),
-        ),
-        child: Column(children: [
-          SvgPicture.asset(image, height: 60.0, width: 60.0),
-          Container(width: 0.0, height: 5.0),
-          Text(label,
-              style: TerminalStyle.monospaced(
-                  fontSize: 16.0, fontWeight: FontWeight.bold))
-        ]),
-      );
+      Container(
+          width: 150.0,
+          child: TextButton(
+            onPressed: onTap,
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(Colors.black26),
+              overlayColor: MaterialStateProperty.all(Colors.black26),
+              foregroundColor: MaterialStateProperty.all(Colors.black26),
+              padding: MaterialStateProperty.all(EdgeInsets.all(15.0)),
+              shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0))),
+            ),
+            child: Column(children: [
+              SvgPicture.asset(image, height: 60.0, width: 60.0),
+              Container(width: 0.0, height: 5.0),
+              Text(label,
+                  textAlign: TextAlign.center,
+                  style: TerminalStyle.monospaced(
+                      fontSize: 16.0, fontWeight: FontWeight.bold))
+            ]),
+          ));
 
   Widget _buildCenter() => Material(
       color: Colors.transparent,
       elevation: 15.0,
       borderRadius: BorderRadius.circular(20.0),
       child: Container(
-          width: TerminalStyle.IS_VERTICAL ? 330 : 550,
-          height: TerminalStyle.IS_VERTICAL ? 420 : 300,
+          width: TerminalStyle.IS_VERTICAL ? 360 : 550,
+          height: TerminalStyle.IS_VERTICAL ? 570 : 440,
           padding: EdgeInsets.all(20.0),
           decoration: BoxDecoration(
               color: HOME_COLOR, borderRadius: BorderRadius.circular(20.0)),
@@ -223,13 +226,25 @@ class _LandingScreenState extends State<LandingScreen>
                 children: [
                   _buildLaunchButton(
                       image: TerminalAssets.ICON_PROJECTS,
-                      label: 'Projects',
+                      label: 'Personal projects',
                       onTap: () => setState(() => openWindow(terminal(
                           title: 'Projects',
                           initialCommands: ['cat projects.txt'])))),
+                  // _buildLaunchButton(
+                  //     image: TerminalAssets.ICON_CV,
+                  //     label: 'Curriculum Vitae',
+                  //     onTap: () => setState(() => openWindow(terminal(
+                  //         title: 'Curriculum Vitae',
+                  //         initialCommands: ['cat cv.pdf'])))), // TODO
+                  _buildLaunchButton(
+                      image: TerminalAssets.ICON_PUBLICATIONS,
+                      label: 'Publications',
+                      onTap: () => setState(() => openWindow(terminal(
+                          title: 'Publications',
+                          initialCommands: ['cat publications.txt'])))),
                   _buildLaunchButton(
                       image: TerminalAssets.ICON_NEWS,
-                      label: 'News',
+                      label: 'Recent news',
                       onTap: () => setState(() => openWindow(terminal(
                           title: 'News', initialCommands: ['cat news.txt'])))),
                   _buildLaunchButton(

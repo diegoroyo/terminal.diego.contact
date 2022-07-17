@@ -8,6 +8,7 @@ import 'package:terminal/widgets/buttons/social_button.dart';
 import 'package:terminal/widgets/images/caption_image.dart';
 import 'package:terminal/widgets/images/cover_image.dart';
 import 'package:terminal/widgets/images/screenshot_image.dart';
+import 'package:terminal/widgets/publications/publication.dart';
 import 'package:terminal/widgets/text/elevated_text.dart';
 import 'package:terminal/widgets/text/jump_link.dart';
 
@@ -94,6 +95,7 @@ class _HtmlViewerState extends State<HtmlViewer> {
       'screenshot': (context, _) =>
           ScreenshotImage.fromContext(context: context),
       'wrap': (context, widget) => wrap(context, widget),
+      'publication': (context, _) => Publication.fromContext(context: context),
     };
   }
 

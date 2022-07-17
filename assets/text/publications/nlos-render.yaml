@@ -1,0 +1,37 @@
+title: Non-line-of-sight transient rendering
+image: nlos-render.png
+authors:
+  - diego-royo
+  - jorge-garcia
+  - adolfo-munoz
+  - adrian-jarabo
+author-remarks:
+  - diego-royo:
+      text: Corresponding author
+      icon: mail
+published:
+  name: Computers & Graphics (CEIG)
+  year: 2022
+  type: Journal (JCR Q2)
+mention: Best Full Paper Award (CEIG 2022)
+buttons:
+  # - text: PDF
+  #   action: pdf
+  #   content: /public/2022_Non-line-of-sight_transient_rendering.pdf
+  - text: Project page
+    action: redirect
+    content: https://github.com/diegoroyo/mitsuba2-transient-nlos
+  - text: BibTeX
+    action: bibtex
+    content: >
+      @article{royo2022non,
+          title = {Non-line-of-sight transient rendering},
+          journal = {Computers & Graphics},
+          year = {2022},
+          issn = {0097-8493},
+          doi = {https://doi.org/10.1016/j.cag.2022.07.003},
+          url = {https://www.sciencedirect.com/science/article/pii/S0097849322001200},
+          author = {Diego Royo and Jorge García and Adolfo Muñoz and Adrian Jarabo},
+          keywords = {Transient rendering, Light transport, Non-line-of-sight imaging},
+          abstract = {The capture and analysis of light in flight, or light in transient state, has enabled applications such as range imaging, reflectance estimation and especially non-line-of-sight (NLOS) imaging. For this last case, hidden geometry can be reconstructed using time-resolved measurements of indirect diffuse light emitted by a laser. Transient rendering is a key tool for developing such new applications, significantly more challenging than its steady-state counterpart. In this work, we introduce a set of simple yet effective subpath sampling techniques targeting transient light transport simulation in occluded scenes. We analyze the usual capture setups of NLOS scenes, where both the camera and light sources are focused on particular points in the scene. Also, the hidden geometry can be difficult to sample using conventional techniques. We leverage that configuration to reduce the integration path space. We implement our techniques in a modified version of Mitsuba 2 adapted for transient light transport, allowing us to support parallelization, polarization, and differentiable rendering.}
+      }

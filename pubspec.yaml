@@ -40,6 +40,7 @@ dependencies:
   tuple: ^2.0.0
   url_strategy: ^0.2.0
   popover: ^0.2.6+3
+  yaml: ^3.1.1
 
 dev_dependencies:
   flutter_test:
@@ -71,8 +72,11 @@ flutter:
     - assets/images/projects/view-my-satellites/
     - assets/images/projects/cookie-clicker/
     - assets/images/projects/terminal/
+    - assets/images/publications/
     - assets/text/
     - assets/text/projects/
+    - assets/text/publications/
+    - assets/public/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -1,5 +1,7 @@
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:terminal/util/yaml.dart';
 import 'package:tuple/tuple.dart';
+import 'package:yaml/yaml.dart';
 
 class TerminalAssets {
   static const ASSETS_ROOT = 'assets';
@@ -7,6 +9,9 @@ class TerminalAssets {
   static const BACKGROUND_IMAGE = '$_IMAGES_ROOT/sweet-space-background.png';
   static const _PROJECT_IMAGES_ROOT = '$_IMAGES_ROOT/projects';
   static projectImage(String filename) => '$_PROJECT_IMAGES_ROOT/$filename';
+  static const _PUBLICATION_IMAGES_ROOT = '$_IMAGES_ROOT/publications';
+  static publicationImage(String filename) =>
+      '$_PUBLICATION_IMAGES_ROOT/$filename';
 
   static const _ICONS_ROOT = '$ASSETS_ROOT/icons';
   static const ICON_MIMINIZE = '$_ICONS_ROOT/minimize.png';
@@ -18,10 +23,14 @@ class TerminalAssets {
   static const ICON_PUBLICATIONS = '$_ICONS_ROOT/publications.svg';
   static const ICON_TERMINAL = '$_ICONS_ROOT/terminal.svg';
   static const ICON_CONTACT = '$_ICONS_ROOT/contact.svg';
+  static const ICON_CV = '$_ICONS_ROOT/cv.svg';
 
   static const TEXT_ROOT = '$ASSETS_ROOT/text';
   static const _PROJECT_TEXT_ROOT = '$TEXT_ROOT/projects';
   static projectText(String filename) => '$_PROJECT_TEXT_ROOT/$filename';
+  static const _PUBLICATION_TEXT_ROOT = '$TEXT_ROOT/publications';
+  static publicationText(String filename) =>
+      '$_PUBLICATION_TEXT_ROOT/$filename';
 
   // ignore: non_constant_identifier_names
   static final Map<String, Tuple2<String, String>> PROJECT_MAP = {
@@ -47,6 +56,23 @@ class TerminalAssets {
   };
   static Tuple2<String, String>? projectFromRoute(String route) =>
       PROJECT_MAP[route];
+
+  // ignore: non_constant_identifier_names
+  static final Map<String, String> PUBLICATION_MAP = {
+    'nlos-render': publicationText('nlos-render.yaml'),
+  };
+
+  static YamlMap? _authors;
+  static Future<YamlMap?> readAuthor(String id) async {
+    if (_authors == null) {
+      _authors = await parseYaml(readText(publicationText('authors.yaml')));
+    }
+    if (_authors!.containsKey(id)) {
+      return _authors![id];
+    } else {
+      return null;
+    }
+  }
 
   static Future<String> readText(String filename) async =>
       rootBundle.loadString(filename);

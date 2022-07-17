@@ -1,4 +1,6 @@
-<pre><br>  * 2021/11/29 -> Update projects.txt<br>
+<pre><br>  * 2022/07/16 -> Add publications.txt<br>
+ * 2022/07/08 -> Our paper Non-line-of-sight transient rendering has received the CEIG22 Best Full Paper Award!<br>
+ * 2021/11/29 -> Update projects.txt<br>
  * 2021/11/13 -> I made this website!<br></pre>
 <!--
 First entry: <br> at the start + at the end + 2 spaces after first <br>

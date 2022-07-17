@@ -1,5 +1,2 @@
-<p>Nothing to see here... yet</p>
-<!--
-Tip para el diego del futuro: customRender y un tag <article> o así
-Importante: un unico <article> por linea que así funciona el head también
--->
+<elevated text="2022"></elevated>
+<publication id="nlos-render"></publication>

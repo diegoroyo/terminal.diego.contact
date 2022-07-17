@@ -1,5 +1,5 @@
 <elevated text="University"></elevated>
-<project id="super-mario-kart" color="168,248,128" image="super-mario-kart.png" desc="C++ implementation of the original SNES game, download and play!"><p>hola</p></project>
+<project id="super-mario-kart" color="168,248,128" image="super-mario-kart.png" desc="C++ implementation of the original SNES game, download and play!"></project>
 <project id="flowvid" color="43,39,55" image="flowvid.png" desc="Python library to generate customized visualizations related to optical flow"></project>
 <project id="path-tracing-and-photon-mapping" color="62,66,78" image="graphics-course.png" desc="Both algorithms implemented in C++ with no external libraries"></project>
 <elevated text="Personal"></elevated>
