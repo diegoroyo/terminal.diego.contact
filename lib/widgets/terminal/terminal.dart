@@ -17,12 +17,13 @@ class Terminal extends StatefulWidget {
       filenames.sort();
       return TextCommand.create(args, text: filenames.join('  '));
     },
-    'cat': (args, callbacks) => CatCommand.create(args, callbacks),
+    'cat': (args, callbacks) => ReadFileCommand.cat(args, callbacks),
     'neofetch': (args, callbacks) =>
-        CatCommand.create(['cat', 'neofetch.txt'], callbacks),
-    'head': (args, callbacks) => CatCommand.create(args, callbacks),
+        ReadFileCommand.cat(['cat', 'neofetch.txt'], callbacks),
+    'head': (args, callbacks) => ReadFileCommand.head(args, callbacks),
+    'grep': (args, callbacks) => ReadFileCommand.grep(args, callbacks),
     'help': (args, callbacks) =>
-        CatCommand.create(['cat', 'help.txt'], callbacks),
+        ReadFileCommand.cat(['cat', 'help.txt'], callbacks),
   };
   final WindowCallbacks windowCallbacks;
   final List<String>? initialCommands;

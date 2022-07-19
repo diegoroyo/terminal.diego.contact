@@ -1,2 +1,2 @@
 <elevated text="2022"></elevated>
-<publication id="nlos-render"></publication>
+<hidden>2022 Non-line-of-sight transient rendering</hidden><publication id="nlos-render"></publication>

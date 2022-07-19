@@ -18,8 +18,10 @@ class CatFiles {
   static Future<String> read(
       {required String? command,
       required String? filename,
-      int numLines = -1}) async {
+      String? grep,
+      int? numLines}) async {
     Future<String> readString;
+    bool correctRead = false;
     if (filename == null) {
       if (command == 'cat') {
         readString = _mewo();
@@ -28,13 +30,36 @@ class CatFiles {
       }
     } else if (FILENAME_MAP.containsKey(filename)) {
       readString = FILENAME_MAP[filename]!();
+      correctRead = true;
     } else {
       readString = Future.value(
           '''<p>$command: $filename: no such file or directory</p>''');
     }
     String result = await readString;
-    if (numLines >= 1) {
+    if (correctRead && numLines != null && numLines >= 1) {
       result = result.split('\n').take(numLines).join('\n');
+    }
+    if (correctRead && grep != null) {
+      result = result
+          // remove comments
+          .replaceAll(RegExp(r'<!--(?:(?!-->).)*-->', dotAll: true), '')
+          // remove content (not html tags) on lines that do not match grep
+          .split('\n')
+          .map((line) => line.toLowerCase().contains(grep.toLowerCase())
+              ? line
+              : RegExp(r'</?[^>]*>')
+                  .allMatches(line)
+                  .map((match) => TerminalStyle.HTML_MONOSPACED.keys.any(
+                          (style) =>
+                              match[0] == '<$style>' || match[0] == '</$style>')
+                      ? match[0]
+                      : '')
+                  .join())
+          // only add newline on lines that have an alphanumeric/_ character
+          // that is not inside < > tags
+          .map((line) =>
+              RegExp(r'\w(?![^<]*>)').hasMatch(line) ? '$line\n' : line)
+          .join();
     }
     return result;
   }

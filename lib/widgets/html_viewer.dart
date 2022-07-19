@@ -96,6 +96,7 @@ class _HtmlViewerState extends State<HtmlViewer> {
           ScreenshotImage.fromContext(context: context),
       'wrap': (context, widget) => wrap(context, widget),
       'publication': (context, _) => Publication.fromContext(context: context),
+      'hidden': (_, __) => Container(),
     };
   }
 

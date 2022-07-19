@@ -28,15 +28,25 @@ class Routes {
         ]);
       }
     },
+    '/publications': (route) {
+      if (route.trim().isNotEmpty &&
+          TerminalAssets.PUBLICATION_MAP.keys.contains(route)) {
+        return Tuple2('/', [
+          WindowData.terminal(
+              title: 'Publications', commands: ['grep $route publications.txt'])
+        ]);
+      } else {
+        return Tuple2('/', [
+          WindowData.terminal(
+              title: 'Publications', commands: ['cat publications.txt'])
+        ]);
+      }
+    },
     '/news': (route) => Tuple2('/', [
           WindowData.terminal(title: 'News', commands: ['cat news.txt'])
         ]),
     '/credits': (route) => Tuple2('/', [
           WindowData.terminal(title: 'Credits', commands: ['cat credits.txt'])
-        ]),
-    '/publications': (route) => Tuple2('/', [
-          WindowData.terminal(
-              title: 'Publications', commands: ['cat publications.txt'])
         ]),
     '/terminal': (route) => Tuple2('/', [
           WindowData.terminal(title: 'Terminal', commands: ['help'])

@@ -71,22 +71,35 @@ class _TextCommandState extends State<TextCommand> {
   }
 }
 
-class CatCommand extends Command {
+class ReadFileCommand extends Command {
   final WindowCallbacks windowCallbacks;
   final Future<String> htmlData;
 
-  CatCommand._(
+  ReadFileCommand._(
       {Key? key,
       required String command,
       required String? filename,
-      required int numLines,
+      String? grep,
+      int? numLines,
       required List<String> args,
       required this.windowCallbacks})
       : htmlData = CatFiles.read(
-            command: command, filename: filename, numLines: numLines),
+            command: command,
+            filename: filename,
+            grep: grep,
+            numLines: numLines),
         super._(key: key, args: args);
 
-  CatCommand.create(List<String> args, WindowCallbacks windowCallbacks)
+  ReadFileCommand.cat(List<String> args, WindowCallbacks windowCallbacks)
+      : this._(
+            command: _getPositionalArg(
+                args: args, pos: 0, parse: (e) => e, defaultValue: null),
+            filename: _getPositionalArg(
+                args: args, pos: 1, parse: (e) => e, defaultValue: null),
+            args: args,
+            windowCallbacks: windowCallbacks);
+
+  ReadFileCommand.head(List<String> args, WindowCallbacks windowCallbacks)
       : this._(
             command: _getPositionalArg(
                 args: args, pos: 0, parse: (e) => e, defaultValue: null),
@@ -97,11 +110,22 @@ class CatCommand extends Command {
             args: args,
             windowCallbacks: windowCallbacks);
 
+  ReadFileCommand.grep(List<String> args, WindowCallbacks windowCallbacks)
+      : this._(
+            command: _getPositionalArg(
+                args: args, pos: 0, parse: (e) => e, defaultValue: null),
+            grep: _getPositionalArg(
+                args: args, pos: 1, parse: (e) => e, defaultValue: null),
+            filename: _getPositionalArg(
+                args: args, pos: 2, parse: (e) => e, defaultValue: null),
+            args: args,
+            windowCallbacks: windowCallbacks);
+
   @override
-  _CatCommandState createState() => _CatCommandState();
+  _ReadFileCommandState createState() => _ReadFileCommandState();
 }
 
-class _CatCommandState extends State<CatCommand> {
+class _ReadFileCommandState extends State<ReadFileCommand> {
   @override
   Widget build(BuildContext context) => HtmlViewer(
       data: widget.htmlData, windowCallbacks: widget.windowCallbacks);
