@@ -60,6 +60,7 @@ class TerminalAssets {
   // ignore: non_constant_identifier_names
   static final Map<String, String> PUBLICATION_MAP = {
     'nlos-render': publicationText('nlos-render.yaml'),
+    'emgmm': publicationText('emgmm.yaml'),
   };
 
   static YamlMap? _authors;

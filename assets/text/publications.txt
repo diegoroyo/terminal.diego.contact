@@ -1,2 +1,3 @@
 <elevated text="2022"></elevated>
-<hidden>2022 Non-line-of-sight transient rendering</hidden><publication id="nlos-render"></publication>
+<hidden>2022 Structure-Aware Parametric Representations for Time-Resolved Light Transport</hidden><publication id="emgmm"></publication>
+<hidden>2022 Non-Line-of-Sight Transient Rendering</hidden><publication id="nlos-render"></publication>
