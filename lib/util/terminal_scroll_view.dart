@@ -15,7 +15,7 @@ class TerminalScrollView extends StatelessWidget {
   Widget build(BuildContext context) => RawScrollbar(
       thumbColor: Colors.white12,
       controller: controller,
-      isAlwaysShown: true,
+      thumbVisibility: true,
       thickness: 7.0,
       radius: Radius.circular(20.0),
       child: ScrollConfiguration(

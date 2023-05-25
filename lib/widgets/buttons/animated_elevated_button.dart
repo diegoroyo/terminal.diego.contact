@@ -31,7 +31,7 @@ class _AnimatedElevatedButtonState extends State<AnimatedElevatedButton> {
   _AnimatedElevatedButtonState(this.currentElevation);
 
   void setElevation(double newElevation) {
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       setState(() => currentElevation = newElevation);
     });
   }

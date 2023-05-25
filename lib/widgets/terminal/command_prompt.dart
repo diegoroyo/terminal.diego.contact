@@ -66,7 +66,7 @@ class _CommandPromptState extends State<CommandPrompt> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       FocusScope.of(context).requestFocus(widget._textFocusNode);
       setState(() {
         textController.selection =

@@ -78,7 +78,7 @@ class _ProjectButtonState extends State<ProjectButton> {
           style: ElevatedButton.styleFrom(
               visualDensity: VisualDensity.compact,
               side: BorderSide(color: Colors.white24, width: 2.0),
-              primary: Colors.black12,
+              backgroundColor: Colors.black12,
               padding: EdgeInsets.zero),
           maxElevation: 8.0,
           duration: Duration(milliseconds: 300),

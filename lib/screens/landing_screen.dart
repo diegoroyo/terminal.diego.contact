@@ -42,8 +42,8 @@ class _LandingScreenState extends State<LandingScreen>
       buildWindow: buildWindowData,
     );
 
-    WidgetsBinding.instance!.addObserver(this);
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       if (widget.initialWindows.isNotEmpty) {
         widget.initialWindows
             .forEach((data) => openWindow(buildWindowData(data)));
@@ -53,7 +53,7 @@ class _LandingScreenState extends State<LandingScreen>
 
   @override
   void dispose() {
-    WidgetsBinding.instance!.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
@@ -68,8 +68,8 @@ class _LandingScreenState extends State<LandingScreen>
 
   double getTerminalSizeYMobile() {
     final viewInsets = EdgeInsets.fromWindowPadding(
-        WidgetsBinding.instance!.window.viewInsets,
-        WidgetsBinding.instance!.window.devicePixelRatio);
+        WidgetsBinding.instance.window.viewInsets,
+        WidgetsBinding.instance.window.devicePixelRatio);
     return MediaQuery.of(context).size.height - // full height
         MediaQuery.of(context).padding.top - // top navigator bar
         MediaQuery.of(context).padding.bottom - // bottom navigator bar

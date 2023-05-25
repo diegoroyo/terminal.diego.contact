@@ -1,4 +1,4 @@
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 String addBaseUrl(String url) {
   String base =
@@ -7,9 +7,9 @@ String addBaseUrl(String url) {
 }
 
 void openUrl(String url) async {
-  canLaunch(url).then((valid) {
+  canLaunchUrlString(url).then((valid) {
     if (valid) {
-      launch(url);
+      launchUrlString(url);
     }
   });
 }

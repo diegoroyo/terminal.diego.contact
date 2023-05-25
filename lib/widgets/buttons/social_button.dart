@@ -96,7 +96,7 @@ class SocialButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
           visualDensity: VisualDensity.compact,
           side: BorderSide(color: Colors.white24, width: 2.0),
-          primary: color,
+          backgroundColor: color,
           padding: EdgeInsets.symmetric(horizontal: 8.0)),
       maxElevation: 5.0,
       onPressed: onPressed,

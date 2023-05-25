@@ -52,15 +52,15 @@ class _FloatingWindowState extends State<FloatingWindow>
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance!.addObserver(this);
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       setState(() => closed = false);
     });
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance!.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 

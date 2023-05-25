@@ -14,7 +14,7 @@ class _RedirectState extends State<Redirect> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback(doRedirect);
+    WidgetsBinding.instance.addPostFrameCallback(doRedirect);
   }
 
   @override
