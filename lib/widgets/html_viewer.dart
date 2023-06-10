@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:terminal/include/style.dart';
+import 'package:terminal/routes.dart';
 import 'package:terminal/util/html.dart';
 import 'package:terminal/util/window_callbacks.dart';
 import 'package:terminal/widgets/buttons/project_button.dart';
@@ -11,6 +12,7 @@ import 'package:terminal/widgets/images/screenshot_image.dart';
 import 'package:terminal/widgets/publications/publication.dart';
 import 'package:terminal/widgets/text/elevated_text.dart';
 import 'package:terminal/widgets/text/jump_link.dart';
+import 'package:tuple/tuple.dart';
 
 class HtmlViewer extends StatefulWidget {
   final Color color;
@@ -96,7 +98,7 @@ class _HtmlViewerState extends State<HtmlViewer> {
           ScreenshotImage.fromContext(context: context),
       'wrap': (context, widget) => wrap(context, widget),
       'publication': (context, _) => Publication.fromContext(context: context),
-      'hidden': (_, __) => Container(),
+      'hidden': (_, __) => SizedBox.shrink(),
     };
   }
 
@@ -111,7 +113,22 @@ class _HtmlViewerState extends State<HtmlViewer> {
             data: htmlData!,
             tagsList: Html.tags..addAll(customRender!.keys),
             onLinkTap: (url, context, attributes, element) {
-              if (url != null) {
+              if (url == null) {
+                return;
+              }
+              if (url.startsWith('/')) {
+                // Open URLs inside our web as a new terminal
+                Tuple2? result = Routes.getWindowDataFromRoute(url);
+                if (result == null) {
+                  return;
+                }
+                var windows = result.item2 as List<WindowData>;
+                for (var windowData in windows) {
+                  widget.windowCallbacks.openWindow(
+                      widget.windowCallbacks.buildWindow(windowData));
+                }
+              } else {
+                // Open URLs outside our web
                 openUrl(url);
               }
             },

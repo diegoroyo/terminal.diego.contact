@@ -56,6 +56,20 @@ class Routes {
         ]),
   };
 
+  static Tuple2? getWindowDataFromRoute(String route) {
+    Tuple2? result;
+    for (var entry in subroutes.entries) {
+      if (route.startsWith(entry.key)) {
+        var subsubroute = route
+            .replaceFirst(RegExp('^${entry.key}/?'), '')
+            .replaceFirst(RegExp(r'/$'), '');
+        result = entry.value(subsubroute);
+        break;
+      }
+    }
+    return result;
+  }
+
   static Route<dynamic> getRoute(RouteSettings settings) {
     // default data
     String route = settings.name ?? '/';
@@ -64,16 +78,10 @@ class Routes {
           title: 'About me', commands: ['neofetch', 'head news.txt -n 2']),
     ];
     // check if its a subroute
-    for (var entry in subroutes.entries) {
-      if (route.startsWith(entry.key)) {
-        var subsubroute = route
-            .replaceFirst(RegExp('^${entry.key}/?'), '')
-            .replaceFirst(RegExp(r'/$'), '');
-        var result = entry.value(subsubroute);
-        route = result.item1;
-        windows = result.item2;
-        break;
-      }
+    Tuple2? result = getWindowDataFromRoute(route);
+    if (result != null) {
+      route = result.item1;
+      windows = result.item2;
     }
     if (routes.containsKey(route)) {
       return routes[route]!(settings, windows);
