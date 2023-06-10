@@ -10,7 +10,7 @@ If you run a business, you can register in Miora to manage all your clients in a
 <icaption height-x="1.5" caption="Book in three clicks" image="miora/negocios-2.jpg"></icaption>
 </wrap>
 
-<p><br>For now Miora is available in Zaragoza. If you live there and want to give it a try, you can register. Its free!</p>
+<p><br>For now Miora is available in Zaragoza. If you live there and want to give it a try, you can register. Its free!<br></p>
 <ul>
 <p><span>* Google Play:</span> <gplay link="https://play.google.com/store/apps/details?id=com.miora.reservas"></gplay></p>
 <p><span>* Apple Store:</span> <apple link="https://apps.apple.com/es/app/miora-reserva-donde-quieras/id1552382743"></apple></p>

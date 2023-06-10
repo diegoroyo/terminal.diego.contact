@@ -1,3 +1,5 @@
+<elevated text="2023"></elevated>
+<hidden>2023 Virtual Mirrors: Non-Line-of-Sight Imaging Beyond the Third Bounce</hidden><publication id="virtual-mirrors"></publication>
 <elevated text="2022"></elevated>
 <hidden>2022 Structure-Aware Parametric Representations for Time-Resolved Light Transport</hidden><publication id="emgmm"></publication>
 <hidden>2022 Non-Line-of-Sight Transient Rendering</hidden><publication id="nlos-render"></publication>

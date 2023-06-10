@@ -8,5 +8,6 @@
 <hidden>Personal</hidden><project id="cookie-clicker-clone" color="255,255,255" image="cookie-clicker.png" desc="A clone of the famous idle game I made on ROBLOX during 2013-2015 that was played over 700.000 times"></project>
 <hidden>Personal</hidden><project id="terminal" color="29,31,40" image="terminal.png" desc="The website you're looking at :-)"></project>
 <elevated text="Hackathons"></elevated>
+<hidden>Hackathons</hidden><project id="predictfire" color="1,3,2" image="predictfire.png" desc="Wildfire spread prediction algorithm that made us world finalists for NASA's Space Apps 2022 (again!)"></project>
 <hidden>Hackathons</hidden><project id="view-my-satellites" color="1,3,2" image="view-my-satellites.png" desc="Satellite tracking app that made us world finalists for NASA's Space Apps 2019"></project>
 <hidden>Hackathons</hidden><project id="move-my-banana" color="255,255,255" image="move-my-banana.png" desc="Optimized management of a fruit warehouse with voice commands made for UNIZAR's ImagineCode 2019"></project>

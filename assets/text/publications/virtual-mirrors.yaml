@@ -1,0 +1,38 @@
+title: "Virtual Mirrors: Non-line-of-sight imaging beyond the third bounce"
+image: virtual-mirrors.png
+authors:
+  - diego-royo
+  - talha-sultan
+  - adolfo-munoz
+  - khadijeh-masumnia-bisheh
+  - eric-brandt
+  - diego-gutierrez
+  - andreas-velten
+  - julio-marco
+author-remarks:
+  - diego-royo:
+      text: Corresponding author
+      icon: mail
+published:
+  name: Transactions on Graphics (SIGGRAPH)
+  year: 2023
+  type: Journal (JCR Q1)
+buttons:
+  - text: PDF
+    action: pdf
+    content: /public/2023_Virtual_Mirrors_Non-line-of-sight_imaging_beyond_the_third_bounce.pdf
+  - text: Project page
+    action: redirect
+    content: https://graphics.unizar.es/projects/VirtualMirrors_2023/
+  - text: BibTeX
+    action: bibtex
+    content: >
+      @article{royo2023virtual,
+        title   = {Virtual Mirrors: Non-Line-of-Sight Imaging Beyond the Third Bounce}, 
+        author  = {Royo, Diego and Sultan, Talha and Mu{\~n}oz, Adolfo and Masumnia-Bisheh, Khadijeh and Brandt, Eric and Gutierrez, Diego and Velten, Andreas and Marco, Julio},
+        journal = {ACM Transactions on Graphics}, 
+        volume  = {42},
+        number  = {4},
+        year    = {2023},
+        doi     = {10.1145/3592429}
+      }

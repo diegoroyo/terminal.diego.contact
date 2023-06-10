@@ -49,6 +49,8 @@ class TerminalAssets {
         Tuple2('Cookie Clicker clone', projectText('cookie-clicker.txt')),
     'terminal': //
         Tuple2('terminal.diego.contact', projectText('terminal.txt')),
+    'predictfire': //
+        Tuple2('PredictFire', projectText('predictfire.txt')),
     'view-my-satellites': //
         Tuple2('View my satellites', projectText('view-my-satellites.txt')),
     'move-my-banana': //
@@ -61,6 +63,7 @@ class TerminalAssets {
   static final Map<String, String> PUBLICATION_MAP = {
     'nlos-render': publicationText('nlos-render.yaml'),
     'emgmm': publicationText('emgmm.yaml'),
+    'virtual-mirrors': publicationText('virtual-mirrors.yaml'),
   };
 
   static YamlMap? _authors;

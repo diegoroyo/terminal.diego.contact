@@ -38,7 +38,7 @@ Every part was implemented in C++11 only making use of the standard library, inc
 <icaption width-x="2" caption="Render contest entry" image="graphics-course.png"></icaption>
 </wrap>
 
-<p><br>The code is open-source, available under GPLv3 license. Below you can find the models used for the final render.</p>
+<p><br>The code is open-source, available under GPLv3 license. Below you can find the models used for the final render.<br></p>
 <ul>
 <p><span>* Source code:</span> <github link="https://github.com/diegoroyo/graphics-course"></github></p>
 <p><span>* Portal 2:</span> <link download="false" text="Game" link="https://store.steampowered.com/app/620/Portal_2/"></link></p>

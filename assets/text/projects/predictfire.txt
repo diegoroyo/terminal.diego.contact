@@ -1,0 +1,31 @@
+<cover title="PredictFire" image="predictfire.png"></cover>
+<div style="padding: 0px 20px 20px 20px">
+<jumplink href="/projects/predictfire" text="PredictFire"></jumplink>
+<hr>
+<p>PredictFire is our wildfire spread prediction algorithm developed for NASA's Space Apps 2023 competition. Our simulation provides the user with an aerial view of the Moncayo region in Spain. The user is able to ignite a single point on the map, and PredictFire computes a simulation of where the fire is likely going to spread, which fire prevention units can then use. Also, in an effort to raise awareness about climate change, we also model multiple hypothetical scenarios where we increas the terrain dryness, and show how climate change can have deadly consequences.<br><br>
+PredictFire was made for NASA's Space Apps 2023 competition. My team of uni friends, Sin Rocket no hay Paraíso, won the competition in Zaragoza and was one of the 35 world finalists selected by NASA.<br></p>
+
+<wrap>
+<icaption caption="Wildfire simulation" image="predictfire/moncayo-simulation1.gif"></icaption>
+<icaption caption="Different scenario" image="predictfire/moncayo-simulation2.gif"></icaption>
+</wrap>
+
+<p><br>You can check our project here:<br>
+<ul>
+<p><span>* Project info:</span> <link download="false" text="SpaceApps" link="https://2022.spaceappschallenge.org/challenges/2022-challenges/earth-data-analysis-developers-wanted/teams/sin-rocket-no-hay-paraiso-1/project"></link></p>
+<p><span>* Source code:</span> <github link="https://github.com/diegoroyo/spaceapps22-predictfire"></github></p>
+<p><span>* News articles:</span> <link download="false" text="heraldo.es (World finalists)" link="https://www.heraldo.es/noticias/aragon/2022/11/16/un-simulador-de-incendios-forestales-made-in-zaragoza-finalista-en-el-concurso-nasa-space-apps-challenge-1612683.html"></link> <link download="false" text="twitter.com (Local government)" link="https://twitter.com/CsZaragoza_/status/1598374726707167233"></link> <link download="false" text="elperiodicodearagon.com (Interview w/ David)" link="https://www.elperiodicodearagon.com/aragon/2022/10/28/david-ubide-modelo-tomarian-mejores-77808415.html"></link> <link download="false" text="facebook.com (Local reading group)" link="https://www.facebook.com/photo/?fbid=714801660020246&set=a.208563317310752"></link> <link download="false" text="elpais.com (Interview w/ David & me)" link="https://elpais.com/economia/formacion/2023-01-05/de-zaragoza-a-las-puertas-de-la-nasa-en-24-horas.html"></link> <link download="false" text="cope.es (Interview w/ Lorenzo, Andrés & me)" link="https://www.cope.es/emisoras/aragon/zaragoza-provincia/zaragoza/noticias/nasa-interesa-por-una-app-disenada-zaragoza-para-predecir-los-incendios-20230105_2481044"></link></p>
+</ul></p>
+
+<p><br>PredictFire is a cell-based fire spread simulation algorithm developed during the 24-hour period of the hackathon. One cell is ignited at the start by the user. The algorithm models the spread to other cells based on random events, with probabilities dictated by <a href="https://www.fs.usda.gov/research/treesearch/55928">Rothermel's "simple" fire spread model</a>. The Rothermel model is one of the few public studies for fire spread, dating back to 1972, and is regarded as a good standard. We use public data provided by NASA to obtain the data required by the Rothermel model: terrain height, fuel load, <a href="https://github.com/diegoroyo/spaceapps22-predictfire/blob/master/parse_data.ipynb">and more</a>. The code is open-source, available under GPLv3 license.<br></p>
+
+<wrap>
+<icaption caption="Satellite (Moncayo region)" image="predictfire/moncayo-satellite.png"></icaption>
+<icaption caption="Terrain slope" image="predictfire/moncayo-slope.png"></icaption>
+<icaption caption="Fuel load" image="predictfire/moncayo-fuel-load.png"></icaption>
+<icaption caption="Fire spread rate (Rothermel output)" image="predictfire/moncayo-fire-spread.png"></icaption>
+</wra
+
+p>
+
+</div>

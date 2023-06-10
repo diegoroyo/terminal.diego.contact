@@ -11,7 +11,7 @@ Authors: <a href="https://github.com/diegoroyo">Diego Royo</a>, <a href="https:/
 </wrap>
 
 <p><br>This game has been built from scratch using the SFML and OpenAL libraries for graphics and audio support. Features a Grand Prix with five tracks (with level editing support) with three difficulties: 50cc, 100cc and 150cc.<br><br>
-The purpose of this project is to understand the basic components of a real videogame. The authors do not aim at any commercial profit and release the source code for the general public under GPLv3 license. If anyone from Nintendo reads this, no you didn't.</p>
+The purpose of this project is to understand the basic components of a real videogame. The authors do not aim at any commercial profit and release the source code for the general public under GPLv3 license. If anyone from Nintendo reads this, no you didn't.<br></p>
 <ul>
 <p><span>* Download:</span> <windows download="true" link="https://github.com/vmbatlle/super-mario-kart/releases/download/v1.0/smk_v1.0_windows_x86.zip"></windows></p>
 <p><span>* Build:</span> <linux download="false" link="https://github.com/vmbatlle/super-mario-kart#1-game-download"></linux></p>

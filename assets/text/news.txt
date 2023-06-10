@@ -1,7 +1,9 @@
-<pre><br>  * 2022/09/08 -> Our paper "Structure-Aware Parametric Representations for Time-Resolved Light Transport" has been accepted at Optics Letters!<br>
- * 2022/07/16 -> Add publications.txt<br>
- * 2022/07/08 -> Our paper "Non-Line-of-Sight Transient Rendering" has received the CEIG22 Best Full Paper Award!<br>
- * 2021/11/29 -> Update projects.txt<br>
+<pre><br>  * 2023/05/08 -> Our paper <a href="/publications/virtual-mirrors">"Virtual Mirrors: Non-Line-of-Sight Imaging Beyond the Third Bounce"</a> has been accepted to SIGGRAPH 2023! We leverage fourth- and fifth-bounce illumination to address fundamental challenges in NLOS imaging, including imaging objects hidden behind two corners.<br>
+ * 2023/02/06 -> I've received the Outstanding Achievement award granted by the School of Engineering and Architecture for my Master studies!<br>
+ * 2022/10/02 -> Our team <a href="https://2022.spaceappschallenge.org/challenges/2022-challenges/earth-data-analysis-developers-wanted/teams/sin-rocket-no-hay-paraiso-1/project">"Sin Rocket no hay Paraíso"</a> has won the Space Apps Challenge in Zaragoza, and has been selected by NASA as one of the 35 global finalists.<br>
+ * 2022/09/08 -> Our paper <a href="/publications/emgmm">"Structure-Aware Parametric Representations for Time-Resolved Light Transport"</a> has been accepted to Optics Letters!<br>
+ * 2022/07/08 -> Our paper <a href="/publications/nlos-render">"Non-Line-of-Sight Transient Rendering"</a> has received the CEIG 2022 Best Full Paper Award!<br>
+ * 2022/02/08 -> I've defended my Master Thesis <a href="https://zaguan.unizar.es/record/112203"/>"Optical flow estimation in systems with co-located light and camera for monocular endoscopy"</a>!<br>
  * 2021/11/13 -> I made this website!<br></pre>
 <!--
 First entry: <br> at the start + at the end + 2 spaces after first <br>

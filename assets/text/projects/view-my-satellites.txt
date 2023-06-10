@@ -3,11 +3,12 @@
 <jumplink href="/projects/view-my-satellites" text="View my satellites"></jumplink>
 <hr>
 <p>View the satellites that orbit around Earth in a simple and interactive way, and learn more details about them. It uses your phone's gyroscope along with satellite tracking data so that you can point your phone at the sky and see exactly where the satellites are. Science at the palm of your hand!<br><br>
-View my satellites was made for NASA's Space Apps 2019 competition. My team of uni friends, Need Another Seven Astronauts (NA7A), won the competition in Zaragoza and was one of the 36 world finalists.</p>
+View my satellites was made for NASA's Space Apps 2019 competition. My team of uni friends, Need Another Seven Astronauts (NA7A), won the competition in Zaragoza and was one of the 36 world finalists.<br></p>
 <ul>
 <p><span>* Finalist video:</span> <youtube link="https://www.youtube.com/watch?v=jE_1CHw9-rc"></youtube></p>
 <p><span>* Project info:</span> <link download="false" text="SpaceApps" link="https://2019.spaceappschallenge.org/challenges/living-our-world/set-your-sights-high/teams/need-another-seven-astronauts/project"></link></p>
 <p><span>* Source code:</span> <github link="https://github.com/enrique-torres/NeedAnotherSevenAstronauts-ViewMySatellites"></github></p>
+<p><span>* Local news article:</span> <link download="false" text="heraldo.es" link="https://www.heraldo.es/noticias/aragon/2019/12/22/un-equipo-aragones-elegido-por-la-nasa-gracias-a-una-aplicacion-para-ver-satelites-espaciales-1350072.html"></link></p>
 </ul>
 
 <p><br>We use NASA's open data for <a href="https://en.wikipedia.org/wiki/Two-line_element_set">satellite tracking</a>. After some data parsing and <a href="https://en.wikipedia.org/wiki/Earth-centered,_Earth-fixed_coordinate_system">making peace with all of the coordinate frames that exist for the universe</a>, position data is exposed through a Django server. Our Unity app reads this and renders the satellites at the correct position. The code is open-source, available under GPLv3 license.<br></p>

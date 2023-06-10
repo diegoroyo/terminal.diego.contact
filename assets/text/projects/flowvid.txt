@@ -10,7 +10,7 @@ I built flowvid is a toolkit for common operations that deal with optical flow d
 <icaption width-x="2" caption="Point motion between frames" image="flowvid/track-points.png"></icaption>
 </wrap>
 
-<p><br>It has been built with Python, and is available for download on the Python Package Index (PyPI). The code is open-source, available under GPLv3 license.</p>
+<p><br>It has been built with Python, and is available for download on the Python Package Index (PyPI). The code is open-source, available under GPLv3 license.<br></p>
 <ul>
 <p><span>* Download:</span> <pypi download="false" link="https://pypi.org/project/flowvid/"></pypi></p>
 <p><span>* Documentation:</span> <github link="https://github.com/diegoroyo/flowvid/tree/master/examples"></github></p>

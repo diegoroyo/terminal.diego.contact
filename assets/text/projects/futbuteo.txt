@@ -2,7 +2,7 @@
 <div style="padding: 0px 20px 20px 20px">
 <jumplink href="/projects/futbuteo" text="Futbuteo"></jumplink>
 <hr>
-<p>Futbuteo is a penny football (fútbol chapas) game made in Unity for PC. You can play against a friend or against one of the three AI difficulties (Windows only).</p>
+<p>Futbuteo is a penny football (fútbol chapas) game made in Unity for PC. You can play against a friend or against one of the three AI difficulties (Windows only).<br></p>
 <ul>
 <p><span>* Download:</span> <link download="true" text="Game" link="https://mega.nz/file/y9BVEIBY#yg5EsZV_0mOEVu8rJuVfK-TJPh_NwY30PNxHbCKTTyk"></link></p>
 </ul>

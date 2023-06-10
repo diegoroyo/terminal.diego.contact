@@ -1,4 +1,4 @@
-title: Structure-Aware Parametric Representations for Time-Resolved Light Transport
+title: Structure-aware parametric representations for time-resolved light transport
 image: emgmm.png
 authors:
   - diego-royo
@@ -19,7 +19,24 @@ author-remarks:
       text: Corresponding author
       icon: mail
 published:
-  name: Optics Letters (to appear)
+  name: Optics Letters Vol. 47 Iss. 19
   year: 2022
   type: Journal (JCR Q1)
-buttons: []
+buttons:
+  - text: PDF
+    action: pdf
+    content: /public/2022_Structure-aware_parametric_representations_for_time-resolved_light_transport.pdf
+  - text: BibTeX
+    action: bibtex
+    content: >
+      @article{royo2022structure,
+        title     = {Structure-Aware parametric representations for time-resolved light transport}
+        author    = {Royo, Diego and Huang, Zesheng and Liang, Yun and Song, Boyan and Mu\~{n}oz, Adolfo and Gutierrez, Diego and Marco, Julio},
+        journal   = {Optics Letters},
+        volume    = {47},
+        number    = {19},
+        pages     = {5212--5215},
+        year      = {2022},
+        month     = {Oct},
+        publisher = {Optica Publishing Group}
+      }
