@@ -240,19 +240,17 @@ class _PublicationState extends State<Publication> {
       padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 5.0),
       child: Column(children: [
         Wrap(
-          alignment: TerminalStyle.IS_VERTICAL
+          alignment: TerminalStyle.TERMINAL_WIDTH == TerminalWidth.SMALL
               ? WrapAlignment.center
               : WrapAlignment.start,
           runSpacing: 12.0,
           children: [
             ExpandableImage(
-                size: TerminalStyle.IS_VERTICAL
-                    ? Size(240.0, 160.0)
-                    : Size(150.0, 100.0),
+                size: Size(240.0, 160.0),
                 image: AssetImage(
                     TerminalAssets.publicationImage(data!['image']))),
             Container(
-                width: 400.0,
+                width: 480.0,
                 child: IntrinsicHeight(
                     child: Row(children: [
                   Container(

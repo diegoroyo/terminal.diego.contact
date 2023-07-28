@@ -75,7 +75,9 @@ class Routes {
     String route = settings.name ?? '/';
     List<WindowData> windows = [
       WindowData.terminal(
-          title: 'About me', commands: ['neofetch', 'head news.txt -n 2']),
+          title: 'About me', commands: ['neofetch', 'head news.txt -n 5']),
+      WindowData.terminal(
+          title: 'Publications', commands: ['cat publications.txt']),
     ];
     // check if its a subroute
     Tuple2? result = getWindowDataFromRoute(route);

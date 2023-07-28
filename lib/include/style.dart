@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter/foundation.dart';
 
+enum TerminalWidth { LARGE_2X, LARGE, SMALL }
+
+enum TerminalHeight { LARGE, SMALL }
+
 class TerminalStyle {
   /// different from IS_VERTICAL, is is needed for different behaviours
   /// (mostly: mobile devices have on-screen keyboard which takes up space)
@@ -13,6 +17,12 @@ class TerminalStyle {
   /// initial value, can be updated by main thread
   // ignore: non_constant_identifier_names
   static var IS_VERTICAL = IS_MOBILE;
+  // ignore: non_constant_identifier_names
+  static var IS_WIDE = !IS_MOBILE; // for top menu
+  // ignore: non_constant_identifier_names
+  static TerminalWidth TERMINAL_WIDTH = TerminalWidth.LARGE_2X;
+  // ignore: non_constant_identifier_names
+  static TerminalHeight TERMINAL_HEIGHT = TerminalHeight.LARGE;
 
   static const DEFAULT_FONTSIZE = 16.0;
   static const DEFAULT_FONTCOLOR = Colors.white;

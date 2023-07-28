@@ -4,7 +4,7 @@ import 'package:terminal/include/assets.dart';
 import 'package:terminal/include/style.dart';
 
 class CaptionImage extends StatelessWidget {
-  static const SIZE = 250.0;
+  static const SIZE = 350.0;
   final String? caption;
   final AssetImage image;
   final double widthX, heightX;

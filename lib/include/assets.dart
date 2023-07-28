@@ -6,6 +6,7 @@ import 'package:yaml/yaml.dart';
 class TerminalAssets {
   static const ASSETS_ROOT = 'assets';
   static const _IMAGES_ROOT = '$ASSETS_ROOT/images';
+  static const PROFILE_IMAGE = '$_IMAGES_ROOT/diego-profile.png';
   static const BACKGROUND_IMAGE = '$_IMAGES_ROOT/sweet-space-background.png';
   static const _PROJECT_IMAGES_ROOT = '$_IMAGES_ROOT/projects';
   static projectImage(String filename) => '$_PROJECT_IMAGES_ROOT/$filename';
