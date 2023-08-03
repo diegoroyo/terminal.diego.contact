@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:indexed/indexed.dart';
 import 'package:terminal/include/assets.dart';
 import 'package:terminal/include/style.dart';
 import 'package:terminal/util/html.dart';
@@ -12,8 +11,14 @@ import 'package:terminal/widgets/terminal/terminal.dart';
 import 'package:defer_pointer/defer_pointer.dart';
 import 'dart:math';
 
+enum TopBarSize {
+  BUTTONS_FULL,
+  BUTTONS_SHORT,
+  HAMBURGER,
+}
+
 class LandingScreen extends StatefulWidget {
-  final List<WindowData> initialWindows;
+  final List<WindowData>? initialWindows;
 
   LandingScreen({required this.initialWindows});
 
@@ -45,14 +50,33 @@ class _LandingScreenState extends State<LandingScreen>
     WidgetsBinding.instance.addObserver(this);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       didChangeMetrics();
-      if (widget.initialWindows.isNotEmpty) {
+      List<WindowData>? initialWindows = widget.initialWindows;
+      if (initialWindows == null) {
+        if (TerminalStyle.TERMINAL_WIDTH != TerminalWidth.LARGE_2X) {
+          initialWindows = [
+            WindowData.terminal(title: 'About me', commands: [
+              'neofetch',
+              'head news.txt -n 2',
+              'cat publications.txt'
+            ]),
+          ];
+        } else {
+          initialWindows = [
+            WindowData.terminal(
+                title: 'About me',
+                commands: ['neofetch', 'head news.txt -n 5']),
+            WindowData.terminal(
+                title: 'Publications', commands: ['cat publications.txt']),
+          ];
+        }
+      }
+      if (initialWindows.isNotEmpty) {
         if (TerminalStyle.TERMINAL_WIDTH != TerminalWidth.LARGE_2X) {
           // if only one window fits, only open the first terminal
-          openWindow(buildWindowData(widget.initialWindows[0]));
+          openWindow(buildWindowData(initialWindows[0]));
         } else {
           // if more than one window fits, open all
-          widget.initialWindows
-              .forEach((data) => openWindow(buildWindowData(data)));
+          initialWindows.forEach((data) => openWindow(buildWindowData(data)));
         }
       }
     });
@@ -64,13 +88,23 @@ class _LandingScreenState extends State<LandingScreen>
     super.dispose();
   }
 
+  /// From top of screen: pagePadding, topBarHeight, terminalPadding,
+  /// <space for terminals>, terminalPadding, (no pagePadding)
+  double topBarHeight = 100.0, pagePadding = 15.0, terminalPadding = 40.0;
+  TopBarSize topBarSize = TopBarSize.HAMBURGER;
+
   @override
   void didChangeMetrics() {
     Size screenSize = MediaQuery.of(context).size;
     setState(() {
       // Ad-hoc for top menu
-      TerminalStyle.IS_WIDE = MediaQuery.of(context).size.width < 1700;
-      TerminalStyle.IS_VERTICAL = MediaQuery.of(context).size.aspectRatio < 1;
+      if (screenSize.width > 1650) {
+        topBarSize = TopBarSize.BUTTONS_FULL;
+      } else if (screenSize.width > 1200) {
+        topBarSize = TopBarSize.BUTTONS_SHORT;
+      } else {
+        topBarSize = TopBarSize.HAMBURGER;
+      }
       if (screenSize.width > 1640) {
         TerminalStyle.TERMINAL_WIDTH = TerminalWidth.LARGE_2X;
       } else if (screenSize.width > 820) {
@@ -80,14 +114,17 @@ class _LandingScreenState extends State<LandingScreen>
       }
       if (screenSize.height > 900) {
         TerminalStyle.TERMINAL_HEIGHT = TerminalHeight.LARGE;
+        topBarHeight = 80.0;
+        pagePadding = 15.0;
+        terminalPadding = 40.0;
       } else {
         TerminalStyle.TERMINAL_HEIGHT = TerminalHeight.SMALL;
+        topBarHeight = 70.0;
+        pagePadding = 10.0;
+        terminalPadding = 10.0;
       }
     });
   }
-
-  static const TOP_BAR_HEIGHT = 100.0;
-  static const VERTICAL_PADDING = 40.0;
 
   double getTerminalSizeYMobile() {
     final viewInsets = EdgeInsets.fromWindowPadding(
@@ -97,8 +134,9 @@ class _LandingScreenState extends State<LandingScreen>
         MediaQuery.of(context).padding.top - // top navigator bar
         MediaQuery.of(context).padding.bottom - // bottom navigator bar
         viewInsets.bottom - // keyboard height
-        TOP_BAR_HEIGHT - // top bar
-        2 * VERTICAL_PADDING; // a bit of spacing
+        pagePadding -
+        topBarHeight - // top bar
+        2 * terminalPadding; // a bit of spacing
   }
 
   /// Called when terminal is created or window is resized
@@ -116,17 +154,21 @@ class _LandingScreenState extends State<LandingScreen>
 
   /// Called when terminal is created or window is resized
   Point<double> getTerminalPosition([Point<double>? original]) {
-    double posX = 0.0;
-    double posY = TOP_BAR_HEIGHT / 2;
+    Size screenSize = MediaQuery.of(context).size;
+    double posX = screenSize.width / 2;
+    double topHeight = pagePadding + topBarHeight + terminalPadding;
+    double posY =
+        topHeight + (screenSize.height - topHeight - terminalPadding) / 2;
     if (original == null &&
         TerminalStyle.TERMINAL_WIDTH == TerminalWidth.LARGE_2X) {
-      Size size = getTerminalSize();
-      posX = size.width / 2 +
-          (MediaQuery.of(context).size.width - 2 * size.width) / 6;
+      Size terminalSize = getTerminalSize();
+      double deltaX = terminalSize.width / 2 +
+          (screenSize.width - 2 * terminalSize.width) / 6;
       if (_isFirstOpenedWindow) {
         _isFirstOpenedWindow = false;
-        posX = -posX;
+        deltaX = -deltaX;
       }
+      posX += deltaX;
     }
     return Point(posX, posY);
   }
@@ -206,6 +248,7 @@ class _LandingScreenState extends State<LandingScreen>
   static final launchButtonStyle = ButtonStyle(
     backgroundColor: MaterialStateProperty.all(Colors.grey[850]),
     overlayColor: MaterialStateProperty.all(Colors.white12),
+    visualDensity: VisualDensity.compact,
     padding:
         MaterialStateProperty.all(EdgeInsets.fromLTRB(15.0, 17.0, 15.0, 17.0)),
     shape: MaterialStateProperty.all(RoundedRectangleBorder(
@@ -261,13 +304,17 @@ class _LandingScreenState extends State<LandingScreen>
   List<Widget> _buildTopBarButtons() => [
         _buildLaunchButton(
             image: TerminalAssets.ICON_PROJECTS,
-            label: 'Personal projects',
+            label: topBarSize == TopBarSize.BUTTONS_SHORT
+                ? 'Projects'
+                : 'Personal projects',
             onTap: () => _closeMenu(() => setState(() => openWindow(terminal(
                 title: 'Projects', initialCommands: ['cat projects.txt']))))),
         Container(width: 22.0),
         _buildLaunchButton(
             image: TerminalAssets.ICON_CV,
-            label: 'Curriculum Vitae',
+            label: topBarSize == TopBarSize.BUTTONS_SHORT
+                ? 'CV'
+                : 'Curriculum Vitae',
             onTap: () =>
                 _closeMenu(() => openUrl(addBaseUrl(TerminalAssets.PDF_CV)))),
         Container(width: 22.0),
@@ -280,15 +327,17 @@ class _LandingScreenState extends State<LandingScreen>
         Container(width: 22.0),
         _buildLaunchButton(
             image: TerminalAssets.ICON_NEWS,
-            label: 'Recent news',
+            label:
+                topBarSize == TopBarSize.BUTTONS_SHORT ? 'News' : 'Recent news',
             onTap: () => _closeMenu(() => setState(() => openWindow(
                 terminal(title: 'News', initialCommands: ['cat news.txt']))))),
-        Container(width: 22.0),
-        _buildLaunchButton(
-            image: TerminalAssets.ICON_TERMINAL,
-            label: 'Terminal',
-            onTap: () => _closeMenu(() => setState(() => openWindow(
-                terminal(title: 'Terminal', initialCommands: ['help']))))),
+        if (topBarSize != TopBarSize.BUTTONS_SHORT) Container(width: 22.0),
+        if (topBarSize != TopBarSize.BUTTONS_SHORT)
+          _buildLaunchButton(
+              image: TerminalAssets.ICON_TERMINAL,
+              label: 'Terminal',
+              onTap: () => _closeMenu(() => setState(() => openWindow(
+                  terminal(title: 'Terminal', initialCommands: ['help']))))),
         Container(width: 22.0),
         _buildLaunchButton(
             image: TerminalAssets.ICON_CONTACT,
@@ -314,13 +363,13 @@ class _LandingScreenState extends State<LandingScreen>
         ),
         Positioned(
           right: 0,
-          top: 45,
-          child: (isMenuOpen && TerminalStyle.IS_WIDE)
+          top: 50,
+          child: (isMenuOpen && topBarSize == TopBarSize.HAMBURGER)
               ? Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: _buildTopBarButtons()
                       .map((e) => Container(
-                          margin: EdgeInsets.only(top: 6.0),
+                          margin: EdgeInsets.only(top: 3.0),
                           child: DeferPointer(paintOnTop: true, child: e)))
                       .toList(),
                 )
@@ -328,44 +377,43 @@ class _LandingScreenState extends State<LandingScreen>
         )
       ]);
 
-  Widget _buildTopBar() => Align(
-      alignment: Alignment.topCenter,
-      child: SizedBox(
-          width: double.infinity,
-          height: TOP_BAR_HEIGHT,
-          child: Container(
-              margin: EdgeInsets.all(15.0),
+  Widget _buildTopBar() => Container(
+      margin: EdgeInsets.all(pagePadding),
+      child: Align(
+          alignment: Alignment.topCenter,
+          child: SizedBox(
+              width: double.infinity,
+              height: topBarHeight,
               child: Material(
                   color: Colors.transparent,
                   elevation: 15.0,
                   borderRadius: BorderRadius.circular(5.0),
                   child: Container(
-                      width: TerminalStyle.IS_WIDE ? 360 : 550,
-                      height: TerminalStyle.IS_WIDE ? 570 : 440,
-                      padding: EdgeInsets.only(left: 20.0, right: 20.0),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
                       decoration: BoxDecoration(
                           color: HOME_COLOR,
                           borderRadius: BorderRadius.circular(5.0)),
                       child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           _buildTopBarProfile(),
                           Expanded(child: SizedBox.shrink()),
-                          TerminalStyle.IS_WIDE
+                          topBarSize == TopBarSize.HAMBURGER
                               ? _buildTopBarButtonsSmall()
                               : _buildTopBarButtonsWide(),
                         ],
                       ))))));
 
-  Widget _buildDesktopContents() => Indexer(
-        clipBehavior: Clip.none,
-        children: [Indexed(index: 0, child: _buildTopBar())]..addAll(windows
-            .asMap()
-            .entries
-            .map<Widget>((entry) => Indexed(
-                index: windowIndex[entry.key],
-                child: Positioned.fill(child: entry.value)))
-            .toList()),
-      );
+  Widget _buildDesktopContents() {
+    List sortedWindows = windows.asMap().entries.toList()
+      ..sort((a, b) => windowIndex[a.key].compareTo(windowIndex[b.key]));
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [_buildTopBar()]
+        ..addAll(sortedWindows.map<Widget>((e) => e.value).toList()),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {

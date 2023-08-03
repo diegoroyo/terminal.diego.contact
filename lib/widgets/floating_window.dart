@@ -110,7 +110,7 @@ class _FloatingWindowState extends State<FloatingWindow>
             padding: EdgeInsets.symmetric(
                 horizontal: topBarHorizontalPadding, vertical: 6.0),
             child: SizedBox(
-                width: closed ? 0 : size.width - 2 * topBarHorizontalPadding,
+                width: double.infinity,
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -141,6 +141,37 @@ class _FloatingWindowState extends State<FloatingWindow>
                 ))));
   }
 
+  Widget _buildWindowContents() => Column(children: [
+        GestureDetector(
+            onPanUpdate: (dragDetails) {
+              if (!widget.movable) {
+                return;
+              }
+              setState(() {
+                var delta =
+                    Vector3(dragDetails.delta.dx, dragDetails.delta.dy, 0.0);
+                position =
+                    Point<double>(position.x + delta.x, position.y + delta.y);
+                speed += delta * 0.4;
+                speed.clamp(
+                    Vector3(-15.0, -15.0, 0.0), Vector3(15.0, 15.0, 0.0));
+                speed *= 0.9;
+              });
+            },
+            onPanEnd: (dragDetails) => setState(() {
+                  speed = Vector3(0.0, 0.0, 0.0);
+                }),
+            child: _buildTopBar()),
+        Expanded(
+            child: ClipRRect(
+                child: BackdropFilter(
+                    filter: ImageFilter.blur(
+                        sigmaX: 10.0,
+                        sigmaY: 10.0,
+                        tileMode: TileMode.repeated),
+                    child: widget.child))),
+      ]);
+
   @override
   Widget build(BuildContext context) {
     const borderRadius = 8.0;
@@ -148,65 +179,40 @@ class _FloatingWindowState extends State<FloatingWindow>
       ..multiply(Matrix4.skewY(speed.y / 30.0))
       ..translate(-size.width / 2.0)
       ..multiply(Matrix4.skewX(speed.x / 50.0));
-    return UnconstrainedBox(
-        child: Container(
-            transform: Matrix4.translationValues(position.x, position.y, 0.0),
-            child: GestureDetector(
-                behavior: HitTestBehavior.translucent,
-                onPanDown: (_) => widget.windowCallbacks.requestFocus(widget),
-                child: Container(
-                    transform: deformMatrix,
-                    decoration: BoxDecoration(
-                        color: BACKGROUND_COLOR.withAlpha(120),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withAlpha(50),
-                            blurRadius: 8.0,
-                            spreadRadius: 5.0,
-                          )
-                        ],
-                        borderRadius: BorderRadius.circular(borderRadius)),
-                    child: ClipRRect(
-                        borderRadius: BorderRadius.circular(borderRadius),
-                        child: Column(children: [
-                          GestureDetector(
-                              onPanUpdate: (dragDetails) {
-                                if (!widget.movable) {
-                                  return;
-                                }
-                                setState(() {
-                                  var delta = Vector3(dragDetails.delta.dx,
-                                      dragDetails.delta.dy, 0.0);
-                                  position = Point<double>(position.x + delta.x,
-                                      position.y + delta.y);
-                                  speed += delta * 0.4;
-                                  speed.clamp(Vector3(-15.0, -15.0, 0.0),
-                                      Vector3(15.0, 15.0, 0.0));
-                                  speed *= 0.9;
-                                });
-                              },
-                              onPanEnd: (dragDetails) => setState(() {
-                                    speed = Vector3(0.0, 0.0, 0.0);
-                                  }),
-                              child: _buildTopBar()),
-                          ClipRRect(
-                              child: BackdropFilter(
-                                  filter: ImageFilter.blur(
-                                      sigmaX: 10.0,
-                                      sigmaY: 10.0,
-                                      tileMode: TileMode.repeated),
-                                  child: AnimatedContainer(
-                                      duration: Duration(milliseconds: 200),
-                                      curve: Curves.easeInOut,
-                                      onEnd: () {
-                                        if (closed) {
-                                          widget.windowCallbacks
-                                              .closeWindow(widget);
-                                        }
-                                      },
-                                      width: closed ? 0 : size.width,
-                                      height: closed ? 0 : size.height,
-                                      child: widget.child))),
-                        ]))))));
+    return Positioned(
+        left: position.x - size.width / 2,
+        top: position.y - size.height / 2,
+        width: size.width,
+        height: size.height,
+        child: GestureDetector(
+            behavior: HitTestBehavior.translucent,
+            onPanDown: (_) => widget.windowCallbacks.requestFocus(widget),
+            child: Align(
+                alignment: Alignment.center,
+                child: AnimatedContainer(
+                    duration: Duration(milliseconds: 700),
+                    curve: Curves.easeInOut,
+                    onEnd: () {
+                      if (closed) {
+                        widget.windowCallbacks.closeWindow(widget);
+                      }
+                    },
+                    width: closed ? 0 : size.width,
+                    height: closed ? 0 : size.height,
+                    child: Container(
+                        transform: deformMatrix,
+                        decoration: BoxDecoration(
+                            color: BACKGROUND_COLOR.withAlpha(120),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withAlpha(50),
+                                blurRadius: 8.0,
+                                spreadRadius: 5.0,
+                              )
+                            ],
+                            borderRadius: BorderRadius.circular(borderRadius)),
+                        child: ClipRRect(
+                            borderRadius: BorderRadius.circular(borderRadius),
+                            child: _buildWindowContents()))))));
   }
 }

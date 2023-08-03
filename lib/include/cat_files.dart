@@ -78,7 +78,7 @@ available commands: ${commands.join("  ")}</p>
   }
 
   static Future<String> _mewo() {
-    if (TerminalStyle.IS_VERTICAL) {
+    if (TerminalStyle.TERMINAL_WIDTH == TerminalWidth.SMALL) {
       // smol cat
       return Future.value('''<pre>
 
@@ -129,16 +129,18 @@ available commands: ${commands.join("  ")}</p>
         .inDays;
     // just in case so it does not say -1 days on my birthday
     lifeDays = lifeDays < 0 ? 0 : lifeDays;
-    var photoWidth = TerminalStyle.IS_VERTICAL ? 100 : 160;
+    var photo = '''
+<td>
+  <img src="asset:assets/images/diego-neofetch.png" width="160"/>
+</td>
+<td>
+  <pre>  </pre>
+</td>
+''';
     return Future.value('''
 <table>
   <tr>
-    <td>
-      <img src="asset:assets/images/diego-neofetch.png" width="$photoWidth"/>
-    </td>
-    <td>
-      <pre>  </pre>
-    </td>
+    ${TerminalStyle.TERMINAL_WIDTH == TerminalWidth.SMALL ? "" : photo}
     <td>
       <p><span>guest</span>@<span>terminal</span><br>
       --------------<br>
@@ -151,7 +153,7 @@ available commands: ${commands.join("  ")}</p>
       <span>Location</span>: Universidad de Zaragoza<br>
       <span>Location</span>: Zaragoza, España</p>
       <br>
-      <pre><linkedin></linkedin> <github></github> <twitter></twitter></pre>
+      <pre>${TerminalStyle.TERMINAL_WIDTH == TerminalWidth.SMALL ? "" : "<linkedin></linkedin> "}<github></github> <twitter></twitter></pre>
     </td>
   </tr>
 </table>''');

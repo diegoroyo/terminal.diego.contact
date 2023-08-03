@@ -33,9 +33,10 @@ class _ScreenshotImageState extends State<ScreenshotImage> {
   void setDefaultImage() {
     // idk why screenshot does not work on mobile, lets just put a
     // placeholder there for now
-    setState(() => image = AssetImage(TerminalStyle.IS_VERTICAL
-        ? TerminalAssets.projectImage('terminal/backup-vertical.png')
-        : TerminalAssets.projectImage('terminal/backup-horizontal.png')));
+    setState(() => image = AssetImage(
+        TerminalStyle.TERMINAL_WIDTH == TerminalWidth.SMALL
+            ? TerminalAssets.projectImage('terminal/backup-vertical.png')
+            : TerminalAssets.projectImage('terminal/backup-horizontal.png')));
   }
 
   @override

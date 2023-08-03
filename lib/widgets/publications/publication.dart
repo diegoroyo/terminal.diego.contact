@@ -314,7 +314,7 @@ class _PublicationState extends State<Publication> {
                         _doButtonAction(button['action'], button['content'])))
                 .toList(),
           )),
-          TerminalStyle.IS_VERTICAL
+          TerminalStyle.TERMINAL_WIDTH == TerminalWidth.SMALL
               ? Container()
               : Container(
                   margin: EdgeInsets.only(left: 20.0, right: 3.0, bottom: 8.0),

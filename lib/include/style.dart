@@ -7,7 +7,7 @@ enum TerminalWidth { LARGE_2X, LARGE, SMALL }
 enum TerminalHeight { LARGE, SMALL }
 
 class TerminalStyle {
-  /// different from IS_VERTICAL, is is needed for different behaviours
+  /// Needed for different behaviours
   /// (mostly: mobile devices have on-screen keyboard which takes up space)
   // ignore: non_constant_identifier_names
   static final IS_MOBILE = kIsWeb &&
@@ -15,10 +15,6 @@ class TerminalStyle {
           defaultTargetPlatform == TargetPlatform.android);
 
   /// initial value, can be updated by main thread
-  // ignore: non_constant_identifier_names
-  static var IS_VERTICAL = IS_MOBILE;
-  // ignore: non_constant_identifier_names
-  static var IS_WIDE = !IS_MOBILE; // for top menu
   // ignore: non_constant_identifier_names
   static TerminalWidth TERMINAL_WIDTH = TerminalWidth.LARGE_2X;
   // ignore: non_constant_identifier_names

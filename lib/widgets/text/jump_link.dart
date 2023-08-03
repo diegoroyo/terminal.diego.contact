@@ -48,7 +48,7 @@ class JumpLink extends StatelessWidget {
                 bodyBuilder: (context) => Center(
                     child: Text('Copied link!',
                         style: TerminalStyle.monospaced())),
-                direction: TerminalStyle.IS_VERTICAL
+                direction: TerminalStyle.TERMINAL_WIDTH == TerminalWidth.SMALL
                     ? PopoverDirection.top
                     : PopoverDirection.left,
                 backgroundColor: Colors.green[700]!,

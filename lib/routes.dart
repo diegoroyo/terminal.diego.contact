@@ -6,7 +6,7 @@ import 'package:terminal/util/redirect_to.dart';
 import 'package:terminal/util/window_callbacks.dart';
 import 'package:tuple/tuple.dart';
 
-typedef RouteFunc = Route<dynamic> Function(RouteSettings, List<WindowData>);
+typedef RouteFunc = Route<dynamic> Function(RouteSettings, List<WindowData>?);
 typedef SubRouteFunc = Tuple2<String, List<WindowData>> Function(String);
 
 class Routes {
@@ -73,12 +73,7 @@ class Routes {
   static Route<dynamic> getRoute(RouteSettings settings) {
     // default data
     String route = settings.name ?? '/';
-    List<WindowData> windows = [
-      WindowData.terminal(
-          title: 'About me', commands: ['neofetch', 'head news.txt -n 5']),
-      WindowData.terminal(
-          title: 'Publications', commands: ['cat publications.txt']),
-    ];
+    List<WindowData>? windows;
     // check if its a subroute
     Tuple2? result = getWindowDataFromRoute(route);
     if (result != null) {
