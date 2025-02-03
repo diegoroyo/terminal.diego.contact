@@ -1,0 +1,17 @@
+<cover title="y-tal: (Your)-Transient Auxiliary Library" image="tal.png"></cover>
+<div style="padding: 0px 20px 20px 20px">
+<jumplink href="/projects/y-tal" text="y-tal: (Your)-Transient Auxiliary Library"></jumplink>
+<hr>
+<p>y-tal (or just tal) is a Python library with many utilities for people who work in the development of non-line-of-sight imaging techniques, which attempt to <a href="https://www.youtube.com/watch?v=JWDocXPy-iQ">reconstruct objects outside the line of sight</a>. This library provides different tools to generate and analyze data and implementations of different non-line-of-sight reconstruction algorithms. I typically use this library for my research: if you are interested you can also check my post on <a href="/projects/mitransient"><i>mitransient</i></a>.<br></p>
+
+<wrap>
+<icaption height-x="0.75" caption="Scene" image="y-tal/officescene-gt.png"></icaption>
+<icaption height-x="0.75" caption="NLOS imaging reconstruction" image="y-tal/officescene-est.png"></icaption>
+</wrap>
+
+<p><br>y-tal is available through these links:<br></p>
+<ul>
+<p><span>* PyPI:</span> <pypi link="https://pypi.org/project/y-tal/"></pypi></p>
+<p><span>* GitHub:</span> <github link="https://github.com/diegoroyo/tal"></github></p>
+</ul>
+</div>

@@ -1,8 +1,11 @@
 <elevated text="University"></elevated>
+<hidden>University</hidden><project id="mitransient" color="147,0,1" image="mitransient.png" desc="An extension to the Mitsuba 3 rendering software with many features for transient imaging tasks, used by multiple universities worldwide"></project>
+<hidden>University</hidden><project id="y-tal" color="116,143,100" image="tal.png" desc="Python library for simulating non-line-of-sight setup captures, used by our lab and by multiple other universities worldwide"></project>
 <hidden>University</hidden><project id="super-mario-kart" color="168,248,128" image="super-mario-kart.png" desc="C++ implementation of the original SNES game, download and play!"></project>
 <hidden>University</hidden><project id="flowvid" color="43,39,55" image="flowvid.png" desc="Python library to generate customized visualizations related to optical flow"></project>
 <hidden>University</hidden><project id="path-tracing-and-photon-mapping" color="62,66,78" image="graphics-course.png" desc="Both algorithms implemented in C++ with no external libraries"></project>
 <elevated text="Personal"></elevated>
+<hidden>Personal</hidden><project id="autodiff" color="14,54,156" image="autodiff.png" desc="Automatic differentiation engine built from scratch in C++, using my own tensor library"></project>
 <hidden>Personal</hidden><project id="miora" color="24,44,76" image="miora.png" desc="Bookings/appointments management app made for any business, book at any place in just three clicks!"></project>
 <hidden>Personal</hidden><project id="futbuteo" color="80,141,65" image="futbuteo.png" desc="Penny football game made in Unity with a focus on strategic AI opponents"></project>
 <hidden>Personal</hidden><project id="cookie-clicker-clone" color="255,255,255" image="cookie-clicker.png" desc="A clone of the famous idle game I made on ROBLOX during 2013-2015 that was played over 700.000 times"></project>

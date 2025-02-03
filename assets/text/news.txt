@@ -1,10 +1,14 @@
-<pre><br>  * 2023/05/08 -> Our paper <a href="/publications/virtual-mirrors">"Virtual Mirrors: Non-Line-of-Sight Imaging Beyond the Third Bounce"</a> has been accepted to SIGGRAPH 2023! We leverage fourth- and fifth-bounce illumination to address fundamental challenges in NLOS imaging, including imaging objects hidden behind two corners.<br>
- * 2023/02/06 -> I've received the Outstanding Achievement award granted by the School of Engineering and Architecture for my Master studies!<br>
- * 2022/10/02 -> Our team <a href="https://2022.spaceappschallenge.org/challenges/2022-challenges/earth-data-analysis-developers-wanted/teams/sin-rocket-no-hay-paraiso-1/project">"Sin Rocket no hay Paraíso"</a> has won the Space Apps Challenge in Zaragoza, and has been selected by NASA as one of the 35 global finalists.<br>
- * 2022/09/08 -> Our paper <a href="/publications/emgmm">"Structure-Aware Parametric Representations for Time-Resolved Light Transport"</a> has been accepted to Optics Letters!<br>
- * 2022/07/08 -> Our paper <a href="/publications/nlos-render">"Non-Line-of-Sight Transient Rendering"</a> has received the CEIG 2022 Best Full Paper Award!<br>
- * 2022/02/08 -> I've defended my Master Thesis <a href="https://zaguan.unizar.es/record/112203"/>"Optical flow estimation in systems with co-located light and camera for monocular endoscopy"</a>!<br>
- * 2021/11/13 -> I made this website!<br></pre>
+<pre><br>  * 2025/02 -> Website updates! Check out my projects <a href="/projects/mitransient">mitransient</a>, <a href="/projects/y-tal">y-tal</a> or <a href="/projects/autodiff">autodiff</a>.<br>
+ * 2024/09 -> I'm visiting Caltech for three months for a research stay <a href="https://computationalcameras.org/">under the supervision of Prof. Katie Bouman</a>. We will be working on reconstructing galaxy clusters using strong and weak gravitational lensing!<br>
+ * 2024/07 -> Our light transport tool <a href="https://mitransient.readthedocs.io/en/latest/">mitransient</a> has earned the Best Poster Award at this year's International Conference on Computational Photography (ICCP) on Lausanne, Switzerland! :)<br>
+ * 2024/04 -> We have released <a href="https://mitransient.readthedocs.io/en/latest/">mitransient</a>, our transient rendering software. Hope that you find it useful!<br>
+ * 2023/08 -> Our work <a href="/publications/virtual-mirrors">"Virtual Mirrors: Non-Line-of-Sight Imaging Beyond the Third Bounce"</a> has been published at Transactions on Graphics, and we will be presenting it at SIGGRAPH 2023! We leverage fourth- and fifth-bounce illumination to address fundamental challenges in NLOS imaging, including imaging objects hidden behind two corners.<br>
+ * 2023/02 -> I've received the Outstanding Achievement award granted by the School of Engineering and Architecture for my Master studies!<br>
+ * 2022/10 -> Our team <a href="https://2022.spaceappschallenge.org/challenges/2022-challenges/earth-data-analysis-developers-wanted/teams/sin-rocket-no-hay-paraiso-1/project">"Sin Rocket no hay Paraíso"</a> has won the Space Apps Challenge in Zaragoza, and has been selected by NASA as one of the 35 global finalists.<br>
+ * 2022/09 -> Our paper <a href="/publications/emgmm">"Structure-Aware Parametric Representations for Time-Resolved Light Transport"</a> has been accepted to Optics Letters!<br>
+ * 2022/07 -> Our paper <a href="/publications/nlos-render">"Non-Line-of-Sight Transient Rendering"</a> has received the CEIG 2022 Best Full Paper Award!<br>
+ * 2022/02 -> I've defended my Master Thesis <a href="https://zaguan.unizar.es/record/112203"/>"Optical flow estimation in systems with co-located light and camera for monocular endoscopy"</a>!<br>
+ * 2021/11 -> I made this website!<br></pre>
 <!--
 First entry: <br> at the start + at the end + 2 spaces after first <br>
 Other entries: <br> only at the end of the sentence

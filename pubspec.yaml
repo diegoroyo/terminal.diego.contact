@@ -63,6 +63,9 @@ flutter:
     - assets/images/projects/
     - assets/images/projects/super-mario-kart/
     - assets/images/projects/flowvid/
+    - assets/images/projects/mitransient/
+    - assets/images/projects/autodiff/
+    - assets/images/projects/y-tal/
     - assets/images/projects/graphics-course/
     - assets/images/projects/miora/
     - assets/images/projects/futbuteo/

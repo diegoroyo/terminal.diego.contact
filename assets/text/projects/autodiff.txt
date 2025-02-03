@@ -1,0 +1,18 @@
+<cover title="Autodiff" image="autodiff.png"></cover>
+<div style="padding: 0px 20px 20px 20px">
+<jumplink href="/projects/autodiff" text="Autodiff"></jumplink>
+<hr>
+<p>My implementation of an autodiff library that supports scalar and tensor-like (vector, matrix, and higher dimension) data types. Everything was done from scratch. This project was made just for fun.<br><br>
+The examples folder in the GitHub repository shows code snippets, including the implementation of a coordinate-based neural network that learns to predict the colors of an image using its X, Y pixel coordinates as input.<br></p>
+
+<wrap>
+<icaption caption="Learning process (slowed down)" image="autodiff/sunflower_nerf.gif"></icaption>
+<icaption caption="Final learned image" image="autodiff/sunflower_nerf.png"></icaption>
+</wrap>
+
+<p><br>Check out the code:<br></p>
+<ul>
+<p><span>* GitHub:</span> <github link="https://github.com/diegoroyo/autodiff"></github></p>
+<p><span>* Inspiration tweet:</span> <twitter link="https://twitter.com/karpathy/status/1803963383018066272"></twitter></p>
+</ul>
+</div>

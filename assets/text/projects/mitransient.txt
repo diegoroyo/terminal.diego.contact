@@ -1,0 +1,30 @@
+<cover title="mitransient: Transient light transport in Mitsuba 3" image="mitransient.png"></cover>
+<div style="padding: 0px 20px 20px 20px">
+<jumplink href="/projects/miora" text="mitransient: Transient light transport in Mitsuba 3"></jumplink>
+<hr>
+<p><i>mitransient</i> is a library for transient light transport simulation. Think of a standard rendering sofware, like Mitsuba 3, which is able to generate realistic images by computing how the light interacts with every element. Our extension <i>mitransient</i> adds the time dimension to the mix, being able to track the time of flight of each photon with ultra-high resolution. As as a result, <i>mitransient</i> can show how light propagates through the scene, from being emitted by the light source to interacting with the materials and finally reaching the camera.<br><br>
+
+In the following video we show an image of a scene. On the right we show the result of our simulation. You can see how the light in the ceiling illuminates the different wall. Photons that take longer paths also take a longer time to reach the camera and thus appear later in the video.<br></p>
+
+<wrap>
+<icaption caption="Image of the scene" image="mitransient/cornell-box.png"></icaption>
+<icaption caption="Transient video" image="mitransient/cornell-box.gif"></icaption>
+</wrap>
+
+<p><br>I use <i>mitransient</i> for my non-line-of-sight imaging research, which uses this simulated data to reconstruct objects outside the line of sight. If you are interested in NLOS imaging feel free to check out our other tool <a href="/projects/y-tal"><i>y-tal</i></a> too.<br></p>
+
+<wrap>
+<icaption caption="Scene" image="mitransient/nlos-Z.png"></icaption>
+<icaption caption="Transient video" image="mitransient/nlos-Z.gif"></icaption>
+</wrap>
+
+<p><br>If you are interested in our work you can check these links:<br></p>
+<ul>
+<p><span>* Documentation/website:</span> <link download="false" text="readthedocs" link="https://mitransient.readthedocs.io"></link></p>
+<p><span>* PyPI:</span> <pypi link="https://pypi.org/project/mitransient/"></pypi></p>
+<p><span>* GitHub:</span> <github link="https://github.com/diegoroyo/mitransient"></github></p>
+<p><span>* Cool simulation video:</span> <youtube link="https://www.youtube.com/watch?v=wZfS19i6qkA"></youtube></p>
+<p><span>* Conference video (ICCP 2024):</span> <youtube link="https://www.youtube.com/watch?v=hNAoX2dmkwU"></youtube></p>
+</ul>
+
+</div>

@@ -1,0 +1,40 @@
+title: "mitransient: Transient light transport in Mitsuba 3"
+image: mitransient.png
+authors:
+  - diego-royo
+  - miguel-crespo
+  - jorge-garcia
+author-remarks:
+  - diego-royo:
+      text: Joint first authors
+      icon: asterisk
+  - miguel-crespo:
+      text: Joint first authors
+      icon: asterisk
+  - diego-royo:
+      text: Corresponding author
+      icon: mail
+published:
+  name: International Conference on Computational Photography (ICCP)
+  year: 2024
+  type: Poster
+mention: Best Poster Award (ICCP 2024)
+buttons:
+  - text: Project page
+    action: redirect
+    content: https://mitransient.readthedocs.io
+  - text: PDF
+    action: pdf
+    content: /public/2024_mitransient_Transient_light_transport_in_Mitsuba_3.pdf
+  - text: BibTeX
+    action: bibtex
+    content: >
+      @misc{mitransient,
+        title        = {mitransient},
+        author       = {Royo, Diego and Crespo, Miguel and Garcia-Pueyo, Jorge},
+        year         = 2023,
+        journal      = {GitHub repository},
+        doi          = {https://doi.org/10.5281/zenodo.11032518},
+        publisher    = {GitHub},
+        howpublished = {\url{https://github.com/diegoroyo/mitransient}}
+      }

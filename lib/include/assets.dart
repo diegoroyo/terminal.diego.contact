@@ -35,6 +35,10 @@ class TerminalAssets {
 
   // ignore: non_constant_identifier_names
   static final Map<String, Tuple2<String, String>> PROJECT_MAP = {
+    'mitransient': //
+        Tuple2('mitransient', projectText('mitransient.txt')),
+    'y-tal': //
+        Tuple2('y-tal', projectText('y-tal.txt')),
     'super-mario-kart': //
         Tuple2('Süper Mario Kart', projectText('super-mario-kart.txt')),
     'flowvid': //
@@ -42,6 +46,8 @@ class TerminalAssets {
     'path-tracing-and-photon-mapping': //
         Tuple2('Path tracing & photon mapping',
             projectText('graphics-course.txt')),
+    'autodiff': //
+        Tuple2('autodiff', projectText('autodiff.txt')),
     'miora': //
         Tuple2('Miora - reserva donde quieras', projectText('miora.txt')),
     'futbuteo': //
@@ -62,6 +68,7 @@ class TerminalAssets {
 
   // ignore: non_constant_identifier_names
   static final Map<String, String> PUBLICATION_MAP = {
+    'mitransient': publicationText('mitransient.yaml'),
     'nlos-render': publicationText('nlos-render.yaml'),
     'emgmm': publicationText('emgmm.yaml'),
     'virtual-mirrors': publicationText('virtual-mirrors.yaml'),

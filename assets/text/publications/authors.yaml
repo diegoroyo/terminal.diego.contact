@@ -3,7 +3,8 @@ diego-royo:
   name: Diego Royo
   url: https://diego.contact
 jorge-garcia:
-  name: Jorge García
+  name: Jorge García-Pueyo
+  url: https://jgarciapueyo.github.io/
 adolfo-munoz:
   name: Adolfo Muñoz
   url: http://adolfo-munoz.com
@@ -16,6 +17,9 @@ diego-gutierrez:
 julio-marco:
   name: Julio Marco
   url: https://webdiis.unizar.es/~juliom/
+miguel-crespo:
+  name: Miguel Crespo
+  url: https://mcrespo.me
 # south china agricultural university
 zesheng-huang:
   name: Zesheng Huang
